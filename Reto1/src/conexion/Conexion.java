@@ -13,7 +13,7 @@ public class Conexion {
 	
 	
 	private static String nombreJSON = "contactos.json";
-	private static String projectID = "contactos-1a895";
+	private static String projectID = "reto-1grupo1";
 	
 	public static Firestore conectar() throws IOException {
 		FileInputStream serviceAccount;

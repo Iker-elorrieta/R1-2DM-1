@@ -12,7 +12,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 
-import modelo.Contacto;
+import modelo.Usuario;
 import vista.PanelEliminar;
 import vista.PanelIngresar;
 import vista.PanelModificar;
@@ -154,10 +154,10 @@ public class ControladorContacto implements ActionListener, ListSelectionListene
 
 	private void mCargarContactos(Principal.enumAcciones accion) {
 
-		Contacto contactos = new Contacto();
+		Usuario contactos = new Usuario();
 
 		mLimpiarTabla(accion);
-		ArrayList<Contacto> listaContactos = contactos.mObtenerContactos();
+		ArrayList<Usuario> listaContactos = contactos.mObtenerContactos();
 
 		String matrizInfo[][] = new String[listaContactos.size()][4];
 
@@ -200,7 +200,7 @@ public class ControladorContacto implements ActionListener, ListSelectionListene
 		if(!nombre.isEmpty() && !email.isEmpty() && esDouble(telString)) {
 			double tel =  Double.parseDouble(panelInsertar.getTextFieldTel().getText());
 
-			Contacto contacto = new Contacto(nombre,tel,email);
+			Usuario contacto = new Usuario(nombre,tel,email);
 			contacto.mIngresarContacto();
 			mCargarContactos(Principal.enumAcciones.CARGAR_PANEL_INSERTAR);
 
@@ -218,7 +218,7 @@ public class ControladorContacto implements ActionListener, ListSelectionListene
 
 	private void mEliminarContacto(Principal.enumAcciones accion) {
 		PanelEliminar panelEliminar = this.vistaPrincipal.getPanelEliminar();
-		Contacto contacto = new  Contacto();
+		Usuario contacto = new  Usuario();
 
 		JTable table = panelEliminar.getTablaContactos();
 		int posicion = table.getSelectedRow();
@@ -239,7 +239,7 @@ public class ControladorContacto implements ActionListener, ListSelectionListene
 
 	private void mModificarContacto (Principal.enumAcciones accion) {
 		PanelModificar panelModificar = this.vistaPrincipal.getPanelModificar();
-		Contacto contacto = null;
+		Usuario contacto = null;
 
 		JTable table = panelModificar.getTablaContactos();
 
@@ -252,7 +252,7 @@ public class ControladorContacto implements ActionListener, ListSelectionListene
 				if(!nombre.isEmpty() && !email.isEmpty() && esDouble(telString)) {
 					double tel =  Double.parseDouble(panelModificar.getTextFieldTel().getText());
 
-					contacto = new Contacto(nombre,tel,email);
+					contacto = new Usuario(nombre,tel,email);
 					contacto.setIdContacto(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
 					System.out.println("Clase controlador.contacto mModificar valor id "+ table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
 					contacto.mModificar();
