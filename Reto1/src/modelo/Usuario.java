@@ -39,7 +39,6 @@ public class Usuario {
 
 	//Email sera el campo de inicio de sesion
 
-	private String idUsuario;
 	private String nombre;
 	private String apellidos;
 	private String email; //Campo Unico al ser unico podria ser el ID
@@ -54,10 +53,8 @@ public class Usuario {
 
 
 	private static final String COLLECTION_NAME = "usuarios";
-	private static final String FIELD_ID_USUARIO = "idUsuario";
 	private static final String FIELD_NOMBRE = "nombre";
 	private static final String FIELD_APELLIDOS = "apellidos";
-	private static final String FIELD_EMAIL = "email";
 	private static final String FIELD_PASS = "pass";
 	private static final String FIELD_FECHA_NACIMIENTO = "fechaNacimiento";
 	private static final String FIELD_FECHA_REGISTRO = "fechaRegistro";
@@ -72,10 +69,9 @@ public class Usuario {
 	}
 
 	//nivel inicial 0
-	public Usuario(String idUsuario, String nombre, String apellidos, String email, String pass, Date fechaNacimiento,
+	public Usuario( String nombre, String apellidos, String email, String pass, Date fechaNacimiento,
 			Date fechaRegistro, enumTipoUsuario tipoUsuario) {
 		super();
-		this.idUsuario = idUsuario;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.email = email;
@@ -87,10 +83,9 @@ public class Usuario {
 	}
 
 
-	public Usuario(String idUsuario, String nombre, String apellidos, String email, String pass, Date fechaNacimiento,
+	public Usuario( String nombre, String apellidos, String email, String pass, Date fechaNacimiento,
 			Date fechaRegistro, double nivel, enumTipoUsuario tipoUsuario) {
 		super();
-		this.idUsuario = idUsuario;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.email = email;
@@ -106,15 +101,6 @@ public class Usuario {
 
 
 	//*** M�todos get-set ***
-
-
-	public String getIdUsuario() {
-		return idUsuario;
-	}
-
-	public void setIdUsuario(String idUsuario) {
-		this.idUsuario = idUsuario;
-	}
 
 
 
@@ -198,18 +184,18 @@ public class Usuario {
 		try {			
 			co= Conexion.conectar();
 
-			DocumentSnapshot contacto = co.collection(COLLECTION_NAME).document(idIntroducido).get().get();
-			if(contacto.exists()) {
+			if(co.collection(COLLECTION_NAME).document(idIntroducido).get().get().exists()) {
+				DocumentSnapshot contacto = co.collection(COLLECTION_NAME).document(idIntroducido).get().get();
+
 				if(contacto.getString(FIELD_PASS).equals(passIntroducida)) {
-				
-				setIdUsuario(contacto.getId());
-				setNombre(contacto.getString(FIELD_NOMBRE));
-				setApellidos(contacto.getString(FIELD_APELLIDOS));
-				setEmail(contacto.getString(FIELD_APELLIDOS));
-				setPass(contacto.getString(FIELD_PASS));
-				setFechaRegistro(obtenerFechaDate(contacto, FIELD_FECHA_REGISTRO));
-				setFechaNacimiento(obtenerFechaDate(contacto, FIELD_FECHA_NACIMIENTO));
-				setNivel(contacto.getDouble(FIELD_NIVEL));
+					setEmail(contacto.getId());
+					setNombre(contacto.getString(FIELD_NOMBRE));
+					setApellidos(contacto.getString(FIELD_APELLIDOS));
+					setPass(contacto.getString(FIELD_PASS));
+					setFechaRegistro(obtenerFechaDate(contacto, FIELD_FECHA_REGISTRO));
+					setFechaNacimiento(obtenerFechaDate(contacto, FIELD_FECHA_NACIMIENTO));
+					setNivel(contacto.getDouble(FIELD_NIVEL));
+					System.out.println("Correcto");
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Usuario o contraseña incorecctos","ERROR", JOptionPane.ERROR_MESSAGE);

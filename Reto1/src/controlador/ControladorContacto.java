@@ -15,11 +15,12 @@ import javax.swing.event.ListSelectionListener;
 import modelo.Usuario;
 import vista.PanelEliminar;
 import vista.PanelIngresar;
-import vista.PanelModificar;
+import vista.PanelLogin;
 import vista.Principal;
+import vista.Principal.enumAcciones;
 
 
-public class ControladorContacto implements ActionListener, ListSelectionListener {
+public class ControladorContacto implements ActionListener {
 
 	private vista.Principal vistaPrincipal;
 
@@ -45,43 +46,19 @@ public class ControladorContacto implements ActionListener, ListSelectionListene
 
 
 		// Acciones del men� izquierdo
-		this.vistaPrincipal.getBtnConsultarContactos().addActionListener(this);
+		/*	this.vistaPrincipal.getBtnConsultarContactos().addActionListener(this);
 		this.vistaPrincipal.getBtnConsultarContactos()
 		.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_CONSULTA.toString());
-
-		this.vistaPrincipal.getBtnInsertarContacto().addActionListener(this);
-		this.vistaPrincipal.getBtnInsertarContacto()
-		.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_INSERTAR.toString());
-
-		this.vistaPrincipal.getBtnModificarContacto().addActionListener(this);
-		this.vistaPrincipal.getBtnModificarContacto()
-		.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_MODIFICAR.toString());
-
-		this.vistaPrincipal.getBtnEliminarContacto().addActionListener(this);
-		this.vistaPrincipal.getBtnEliminarContacto()
-		.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_ELIMINAR.toString());
+		 */
 
 
-		// Acciones del panel Insertar
 
-		this.vistaPrincipal.getPanelIngrsar().getBtnInsertarContarctos().addActionListener(this);
-		this.vistaPrincipal.getPanelIngrsar().getBtnInsertarContarctos()
-		.setActionCommand(Principal.enumAcciones.INSERTAR_CONTACTO.toString()); 
+		// Acciones del panel LOGIN
 
-		// Acciones del panel Modificar
+		this.vistaPrincipal.getPanelLogin().getBtnLogin().addActionListener(this);
+		this.vistaPrincipal.getPanelLogin().getBtnLogin()
+		.setActionCommand(Principal.enumAcciones.LOGIN.toString()); 
 
-		this.vistaPrincipal.getPanelModificar().getBtnModificar().addActionListener(this);
-		this.vistaPrincipal.getPanelModificar().getBtnModificar()
-		.setActionCommand(Principal.enumAcciones.MODIFICAR_CONTACTO.toString()); 
-
-		this.vistaPrincipal.getPanelModificar().getTablaContactos().getSelectionModel().addListSelectionListener(this);
-		this.vistaPrincipal.getPanelModificar().getTablaContactos().getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-		//Acciones del panel Eliminar
-
-		this.vistaPrincipal.getPanelEliminar().getBtnEliminar().addActionListener(this);
-		this.vistaPrincipal.getPanelEliminar().getBtnEliminar()
-		.setActionCommand(Principal.enumAcciones.ELIMINAR_CONTACTO.toString()); 
 
 
 
@@ -102,33 +79,10 @@ public class ControladorContacto implements ActionListener, ListSelectionListene
 		Principal.enumAcciones accion = Principal.enumAcciones.valueOf(e.getActionCommand());
 
 		switch (accion) {
-		case CARGAR_PANEL_CONSULTA:
-			this.vistaPrincipal.mVisualizarPaneles(Principal.enumAcciones.CARGAR_PANEL_CONSULTA);
-			this.mCargarContactos(accion);
+		case LOGIN:
+			this.mConfirmarLogin(accion);
 			break;
-		case CARGAR_PANEL_INSERTAR:
-			this.vistaPrincipal.mVisualizarPaneles(Principal.enumAcciones.CARGAR_PANEL_INSERTAR);
-			this.mCargarContactos(accion);
-			break;
-		case CARGAR_PANEL_MODIFICAR:
-			this.vistaPrincipal.mVisualizarPaneles(Principal.enumAcciones.CARGAR_PANEL_MODIFICAR);
-			this.mCargarContactos(accion);
-			break;
-		case CARGAR_PANEL_ELIMINAR:
-			this.vistaPrincipal.mVisualizarPaneles(Principal.enumAcciones.CARGAR_PANEL_ELIMINAR);
-			this.mCargarContactos(accion);
-			break;
-		case INSERTAR_CONTACTO:
-			this.mInsertarContacto(accion);
-			break;
-		case ELIMINAR_CONTACTO:
-			this.mEliminarContacto(accion);
-			break;
-
-		case MODIFICAR_CONTACTO:
-			this.mModificarContacto(accion);
-			break;
-
+	
 
 		default:
 			break;
@@ -140,10 +94,29 @@ public class ControladorContacto implements ActionListener, ListSelectionListene
 
 
 
+	private void mConfirmarLogin(enumAcciones accion) {
+		PanelLogin panelLogin = this.vistaPrincipal.getPanelLogin();
+		String usuarioIntroducido = panelLogin.getTextFieldUser().getText().trim();
+		String passIntroducida =  panelLogin.getTextFieldPass().getText().trim();
+		if(!usuarioIntroducido.isEmpty() && !passIntroducida.isEmpty()) {
+			Usuario usuario1 = new Usuario();
+			usuario1.mObtenerUsuario(usuarioIntroducido, passIntroducida);
+			
+			
+		}else {
+			JOptionPane.showMessageDialog(null, "Algun Campo esta vacio");
+		}
+		
+		
+	}
+
+
+
+
 
 	/*** Llamados a m�todos CRUD ***/
 
-
+	
 
 
 	/*** Otros metodos ***/
@@ -151,45 +124,40 @@ public class ControladorContacto implements ActionListener, ListSelectionListene
 
 
 
+	/*
+	 * private void mCargarContactos(Principal.enumAcciones accion) {
+	 * 
+	 * Usuario contactos = new Usuario();
+	 * 
+	 * mLimpiarTabla(accion); ArrayList<Usuario> listaContactos =
+	 * contactos.mObtenerContactos();
+	 * 
+	 * String matrizInfo[][] = new String[listaContactos.size()][4];
+	 * 
+	 * for (int i = 0; i < listaContactos.size(); i++) { matrizInfo[i][0] =
+	 * listaContactos.get(i).getIdContacto(); matrizInfo[i][1] =
+	 * listaContactos.get(i).getNombre(); matrizInfo[i][2] =
+	 * String.valueOf(listaContactos.get(i).getTelefono()); matrizInfo[i][3] =
+	 * listaContactos.get(i).getEmail();
+	 * 
+	 * switch (accion) { case CARGAR_PANEL_CONSULTA:
+	 * this.vistaPrincipal.getPanelConsultar().getDefaultTableModel().addRow(
+	 * matrizInfo[i]); break; case CARGAR_PANEL_INSERTAR:
+	 * this.vistaPrincipal.getPanelIngrsar().getDefaultTableModel().addRow(
+	 * matrizInfo[i]); break; case CARGAR_PANEL_ELIMINAR:
+	 * this.vistaPrincipal.getPanelEliminar().getDefaultTableModel().addRow(
+	 * matrizInfo[i]); break; case CARGAR_PANEL_MODIFICAR:
+	 * this.vistaPrincipal.getPanelModificar().getDefaultTableModel().addRow(
+	 * matrizInfo[i]); break;
+	 * 
+	 * default: break;
+	 * 
+	 * } }
+	 * 
+	 * }
+	 */
 
-	private void mCargarContactos(Principal.enumAcciones accion) {
-
-		Usuario contactos = new Usuario();
-
-		mLimpiarTabla(accion);
-		ArrayList<Usuario> listaContactos = contactos.mObtenerContactos();
-
-		String matrizInfo[][] = new String[listaContactos.size()][4];
-
-		for (int i = 0; i < listaContactos.size(); i++) {
-			matrizInfo[i][0] = listaContactos.get(i).getIdContacto();
-			matrizInfo[i][1] = listaContactos.get(i).getNombre();
-			matrizInfo[i][2] = String.valueOf(listaContactos.get(i).getTelefono());
-			matrizInfo[i][3] = listaContactos.get(i).getEmail();
-
-			switch (accion) {
-			case CARGAR_PANEL_CONSULTA:
-				this.vistaPrincipal.getPanelConsultar().getDefaultTableModel().addRow(matrizInfo[i]);
-				break;
-			case CARGAR_PANEL_INSERTAR:
-				this.vistaPrincipal.getPanelIngrsar().getDefaultTableModel().addRow(matrizInfo[i]);
-				break;
-			case CARGAR_PANEL_ELIMINAR:
-				this.vistaPrincipal.getPanelEliminar().getDefaultTableModel().addRow(matrizInfo[i]);
-				break;
-			case CARGAR_PANEL_MODIFICAR:
-				this.vistaPrincipal.getPanelModificar().getDefaultTableModel().addRow(matrizInfo[i]);
-				break;
-
-			default:
-				break;
-
-			}
-		}
-
-	}
-
-
+	/*
 
 	private void mInsertarContacto(Principal.enumAcciones accion) {
 		PanelIngresar panelInsertar = this.vistaPrincipal.getPanelIngrsar();
@@ -270,7 +238,7 @@ public class ControladorContacto implements ActionListener, ListSelectionListene
 				JOptionPane.showMessageDialog(null, "No hay elemento seleccionado");
 
 			}
-		
+
 	}
 
 
@@ -283,61 +251,13 @@ public class ControladorContacto implements ActionListener, ListSelectionListene
 			return false;
 		}
 	}
+	 */
 
 
 
 
-
-	private void mLimpiarTabla(Principal.enumAcciones accion) {
-
-		switch (accion) {
-		case CARGAR_PANEL_CONSULTA:
-			if (this.vistaPrincipal.getPanelConsultar().getDefaultTableModel().getRowCount() > 0) {
-				this.vistaPrincipal.getPanelConsultar().getDefaultTableModel().setRowCount(0);
-			}
-			break;
-
-		case CARGAR_PANEL_INSERTAR:
-			if (this.vistaPrincipal.getPanelIngrsar().getDefaultTableModel().getRowCount() > 0) {
-				this.vistaPrincipal.getPanelIngrsar().getDefaultTableModel().setRowCount(0);
-			}
-			break;
-		case CARGAR_PANEL_ELIMINAR:
-			if (this.vistaPrincipal.getPanelEliminar().getDefaultTableModel().getRowCount() > 0) {
-				this.vistaPrincipal.getPanelEliminar().getDefaultTableModel().setRowCount(0);
-			}
-			break;
-
-		case CARGAR_PANEL_MODIFICAR:
-			if (this.vistaPrincipal.getPanelModificar().getDefaultTableModel().getRowCount() > 0) {
-				this.vistaPrincipal.getPanelModificar().getDefaultTableModel().setRowCount(0);
-			}
-			break;
-
-
-		default:
-			break;
-		}
-
-	}
-
-
-	@Override
-	public void valueChanged(ListSelectionEvent e ) {
-		PanelModificar panelModificar = vistaPrincipal.getPanelModificar();
-
-		JTable table = panelModificar.getTablaContactos();
-
-		int posicion = table.getSelectedRow();
-		System.out.println(posicion);
-		if (posicion != -1 ) {
-			panelModificar.getTextFieldNombre().setText(table.getModel().getValueAt(posicion, 1).toString());
-			panelModificar.getTextFieldEmail().setText(table.getModel().getValueAt(posicion, 3).toString());
-			panelModificar.getTextFieldTel().setText(table.getModel().getValueAt(posicion, 2).toString());
-
-		}
-	}
 }
+
 
 
 

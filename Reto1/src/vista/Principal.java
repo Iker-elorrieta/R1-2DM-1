@@ -24,14 +24,15 @@ public class Principal extends JFrame {
 
 	//Acciones
 	public static  enum enumAcciones{
-		CARGAR_PANEL_CONSULTA,
+		CARGAR_PANEL_LOGIN,
 		CARGAR_PANEL_INSERTAR,
 		CARGAR_PANEL_MODIFICAR,
 		CARGAR_PANEL_ELIMINAR,
 
 		INSERTAR_CONTACTO,
 		MODIFICAR_CONTACTO,
-		ELIMINAR_CONTACTO
+		ELIMINAR_CONTACTO,
+		LOGIN
 
 	}
 
@@ -40,7 +41,7 @@ public class Principal extends JFrame {
 	private PanelConsultar panelConsultar;
 	private PanelIngresar panelIngresar;
 	private PanelEliminar panelEliminar;
-	private PanelModificar panelModificar;
+	private PanelLogin panelLogin;
 
 
 	private JButton btnConsultarContactos; 
@@ -69,7 +70,7 @@ public class Principal extends JFrame {
 
 		mCrearPanelEliminar();
 
-		mCrearPanelModificar();
+		mCrearPanelLogin();
 
 
 
@@ -117,6 +118,10 @@ public class Principal extends JFrame {
 		btnEliminarContacto.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnEliminarContacto.setBounds(28, 363, 216, 35);
 		panelMenu.add(btnEliminarContacto);
+		
+		
+		panelMenu.setVisible(false);
+
 
 
 	}
@@ -147,10 +152,11 @@ public class Principal extends JFrame {
 
 	}
 
-	private void mCrearPanelModificar() {
-		panelModificar = new PanelModificar();
-		panelContenedor.add(panelModificar);
-		panelModificar.setVisible(false);
+	private void mCrearPanelLogin() {
+		panelLogin = new PanelLogin();
+		panelContenedor.add(panelLogin);
+		panelContenedor.setBounds(panelLogin.getBounds());
+		panelLogin.setVisible(true);
 
 
 	}
@@ -163,12 +169,12 @@ public class Principal extends JFrame {
 
 		panelConsultar.setVisible(false);
 		panelIngresar.setVisible(false);
-		panelModificar.setVisible(false);
+		panelLogin.setVisible(false);
 		panelEliminar.setVisible(false);
 
 
 		switch (panel) {
-		case CARGAR_PANEL_CONSULTA: 
+		case CARGAR_PANEL_LOGIN: 
 			panelConsultar.setVisible(true);
 			break;
 
@@ -182,7 +188,7 @@ public class Principal extends JFrame {
 			break;
 
 		case CARGAR_PANEL_MODIFICAR:
-			panelModificar.setVisible(true);
+			panelLogin.setVisible(true);
 			break;
 
 		default:
@@ -224,6 +230,14 @@ public class Principal extends JFrame {
 	}
 
 
+	public PanelLogin getPanelLogin() {
+		return panelLogin;
+	}
+
+
+	public void setPanelLogin(PanelLogin panelLogin) {
+		this.panelLogin = panelLogin;
+	}
 
 
 
@@ -241,14 +255,6 @@ public class Principal extends JFrame {
 
 
 
-	public PanelModificar getPanelModificar() {
-		return panelModificar;
-	}
-
-
-	public void setPanelModificar(PanelModificar panelModificar) {
-		this.panelModificar = panelModificar;
-	}
 
 
 	public JButton getBtnConsultarContactos() {
