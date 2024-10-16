@@ -1,16 +1,11 @@
 package vista;
 
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-
-
 import javax.swing.JButton;
 import java.awt.Font;
-
-
 
 import java.awt.Color;
 
@@ -21,64 +16,42 @@ public class Principal extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-
-	//Acciones
-	public static  enum enumAcciones{
-		CARGAR_PANEL_LOGIN,
-		CARGAR_PANEL_INSERTAR,
-		CARGAR_PANEL_MODIFICAR,
-		CARGAR_PANEL_ELIMINAR,
-
-		INSERTAR_CONTACTO,
-		MODIFICAR_CONTACTO,
-		ELIMINAR_CONTACTO,
-		LOGIN
-
+	// Acciones
+	public static enum enumAcciones {
+		CARGAR_PANEL_INSERTAR, CARGAR_PANEL_LOGIN, INSERTAR_CONTACTO, LOGIN
 	}
 
-
 	private JPanel panelContenedor;
-	private PanelConsultar panelConsultar;
+	private PanelRegistro panelRegistro;
 	private PanelIngresar panelIngresar;
 	private PanelEliminar panelEliminar;
 	private PanelLogin panelLogin;
 
-
-	private JButton btnConsultarContactos; 
+	private JButton btnConsultarContactos;
 	private JButton btnInsertarContacto;
 	private JButton btnModificarContacto;
 	private JButton btnEliminarContacto;
 
-
-
-
 	public Principal() {
 
-		//Panel que contiene todo el contenido de la ventana
-		mCrearPanelContenedor(); 
+		// Panel que contiene todo el contenido de la ventana
+		mCrearPanelContenedor();
 
-		//Panel izquierdo, contiene el men� del programa.
+		// Panel izquierdo, contiene el men� del programa.
 		mCrearPanelMenu();
 
-
-		//Panel que contiene el listado de contactos.
-		mCrearPanelConsulta();
-
+		// Panel que contiene el listado de contactos.
+		mCrearPanelRegistro();
 
 		mCrearPanelIngresar();
-
 
 		mCrearPanelEliminar();
 
 		mCrearPanelLogin();
 
-
-
-
 	}
 
-
-	//*** Creaci�n de paneles ***
+	// *** Creaci�n de paneles ***
 
 	private void mCrearPanelContenedor() {
 
@@ -118,19 +91,15 @@ public class Principal extends JFrame {
 		btnEliminarContacto.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnEliminarContacto.setBounds(28, 363, 216, 35);
 		panelMenu.add(btnEliminarContacto);
-		
-		
+
 		panelMenu.setVisible(false);
-
-
 
 	}
 
-	private void mCrearPanelConsulta() {
-		panelConsultar = new PanelConsultar();
-		panelContenedor.add(panelConsultar);
-		panelConsultar.setVisible(false);
-
+	private void mCrearPanelRegistro() {
+		panelRegistro = new PanelRegistro();
+		panelContenedor.add(panelRegistro);
+		panelRegistro.setVisible(false);
 
 	}
 
@@ -139,16 +108,12 @@ public class Principal extends JFrame {
 		panelContenedor.add(panelIngresar);
 		panelIngresar.setVisible(false);
 
-
 	}
-
-
 
 	private void mCrearPanelEliminar() {
 		panelEliminar = new PanelEliminar();
 		panelContenedor.add(panelEliminar);
 		panelEliminar.setVisible(false);
-
 
 	}
 
@@ -158,52 +123,29 @@ public class Principal extends JFrame {
 		panelContenedor.setBounds(panelLogin.getBounds());
 		panelLogin.setVisible(true);
 
-
 	}
 
-
-	//*** FIN creaci�n de paneles ***
-
+	// *** FIN creaci�n de paneles ***
 
 	public void mVisualizarPaneles(enumAcciones panel) {
 
-		panelConsultar.setVisible(false);
+		panelRegistro.setVisible(false);
 		panelIngresar.setVisible(false);
 		panelLogin.setVisible(false);
 		panelEliminar.setVisible(false);
 
-
 		switch (panel) {
-		case CARGAR_PANEL_LOGIN: 
-			panelConsultar.setVisible(true);
-			break;
-
-
-		case CARGAR_PANEL_INSERTAR:
-			panelIngresar.setVisible(true);
-			break;
-
-		case CARGAR_PANEL_ELIMINAR:
-			panelEliminar.setVisible(true);
-			break;
-
-		case CARGAR_PANEL_MODIFICAR:
+		case CARGAR_PANEL_LOGIN:
 			panelLogin.setVisible(true);
-			break;
+		case CARGAR_PANEL_INSERTAR:
+			panelRegistro.setVisible(true);
 
+			break;
 		default:
 			break;
 
-
 		}
 	}
-
-
-
-
-
-
-
 
 	public JPanel getPanelContenedor() {
 		return panelContenedor;
@@ -213,12 +155,12 @@ public class Principal extends JFrame {
 		this.panelContenedor = panelContenedor;
 	}
 
-	public PanelConsultar getPanelConsultar() {
-		return panelConsultar;
+	public PanelRegistro getPanelRegistro() {
+		return panelRegistro;
 	}
 
-	public void setPanelConsultar(PanelConsultar panelConsultar) {
-		this.panelConsultar = panelConsultar;
+	public void setPanelRegistro(PanelRegistro panelConsultar) {
+		this.panelRegistro = panelConsultar;
 	}
 
 	public PanelIngresar getPanelIngrsar() {
@@ -229,33 +171,21 @@ public class Principal extends JFrame {
 		this.panelIngresar = panelIngresar;
 	}
 
-
 	public PanelLogin getPanelLogin() {
 		return panelLogin;
 	}
-
 
 	public void setPanelLogin(PanelLogin panelLogin) {
 		this.panelLogin = panelLogin;
 	}
 
-
-
-
-
-
 	public PanelEliminar getPanelEliminar() {
 		return panelEliminar;
 	}
 
-
 	public void setPanelEliminar(PanelEliminar panelEliminar) {
 		this.panelEliminar = panelEliminar;
 	}
-
-
-
-
 
 	public JButton getBtnConsultarContactos() {
 		return btnConsultarContactos;
@@ -288,8 +218,6 @@ public class Principal extends JFrame {
 	public void setBtnEliminarContacto(JButton btnEliminarContacto) {
 		this.btnEliminarContacto = btnEliminarContacto;
 	}
-
-
 
 	public void setBtnInsertarContacto(JButton btnInsertarContacto) {
 		this.btnInsertarContacto = btnInsertarContacto;
