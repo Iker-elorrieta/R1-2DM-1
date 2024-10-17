@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import javax.swing.JOptionPane;
+
+import com.google.api.SystemParameterOrBuilder;
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
@@ -145,33 +147,31 @@ public class Usuario {
 			co = Conexion.conectar();
 
 			if (co.collection(COLLECTION_NAME).document(idIntroducido).get().get().exists()) {
-				DocumentSnapshot contacto = co.collection(COLLECTION_NAME).document(idIntroducido).get().get();
+				DocumentSnapshot dsUsuario = co.collection(COLLECTION_NAME).document(idIntroducido).get().get();
+				if (dsUsuario.getString(FIELD_PASS).equals(passIntroducida)) {
+					setEmail(dsUsuario.getId());
+					setNombre(dsUsuario.getString(FIELD_NOMBRE));
+					setApellidos(dsUsuario.getString(FIELD_APELLIDOS));
+					setPass(dsUsuario.getString(FIELD_PASS));
+					setFechaRegistro(obtenerFechaDate(dsUsuario, FIELD_FECHA_REGISTRO));
+					setFechaNacimiento(obtenerFechaDate(dsUsuario, FIELD_FECHA_NACIMIENTO));
+					setNivel(dsUsuario.getDouble(FIELD_NIVEL));
 
-				if (contacto.getString(FIELD_PASS).equals(passIntroducida)) {
-					setEmail(contacto.getId());
-					setNombre(contacto.getString(FIELD_NOMBRE));
-					setApellidos(contacto.getString(FIELD_APELLIDOS));
-					setPass(contacto.getString(FIELD_PASS));
-					setFechaRegistro(obtenerFechaDate(contacto, FIELD_FECHA_REGISTRO));
-					setFechaNacimiento(obtenerFechaDate(contacto, FIELD_FECHA_NACIMIENTO));
-					setNivel(contacto.getDouble(FIELD_NIVEL));
-					System.out.println("Correcto");
-				}else {
-					
+					JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
+					return this;
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Usuario o contraseña incorecctos", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Usuario o contraseña incorecctos", "ERROR",
 						JOptionPane.ERROR_MESSAGE);
 			}
-
-		} catch (InterruptedException | ExecutionException e) {
+		} catch (InterruptedException | ExecutionException | IOException e) {
 			System.out.println("Error: Clase Usuario, metodo mObtenerUsuario");
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-
 		return this;
 	}
 
@@ -181,26 +181,28 @@ public class Usuario {
 		return (timestamp != null) ? timestamp.toDate() : null;
 	}
 
-	public void mIngresarContacto() {
+	public void mRegistrarUsuario() {
 
 		Firestore co = null;
 		try {
 			co = Conexion.conectar();
 
 			CollectionReference root = co.collection(COLLECTION_NAME);
-
-			Map<String, Object> nuevoUsuario = new HashMap<>();
-			nuevoUsuario.put(FIELD_NOMBRE, this.nombre);
-			nuevoUsuario.put(FIELD_APELLIDOS, this.apellidos);
-			nuevoUsuario.put(FIELD_PASS, this.pass);
-			nuevoUsuario.put(FIELD_FECHA_NACIMIENTO, this.fechaNacimiento);
-			nuevoUsuario.put(FIELD_FECHA_REGISTRO, this.fechaRegistro);
-			nuevoUsuario.put(FIELD_NIVEL, this.nivel);
-			DocumentReference newCont = root.document(this.email);
-			newCont.set(nuevoUsuario);
-			System.out.println("Insertando");
-
-		} catch (IOException e) { // TODO Auto-generated catch block
+			if (!root.document(this.email).get().get().exists()) {
+				Map<String, Object> nuevoUsuario = new HashMap<>();
+				nuevoUsuario.put(FIELD_NOMBRE, this.nombre);
+				nuevoUsuario.put(FIELD_APELLIDOS, this.apellidos);
+				nuevoUsuario.put(FIELD_PASS, this.pass);
+				nuevoUsuario.put(FIELD_FECHA_NACIMIENTO, this.fechaNacimiento);
+				nuevoUsuario.put(FIELD_FECHA_REGISTRO, this.fechaRegistro);
+				nuevoUsuario.put(FIELD_NIVEL, this.nivel);
+				DocumentReference newCont = root.document(this.email);
+				newCont.set(nuevoUsuario);
+				JOptionPane.showMessageDialog(null, "Usuario creado con éxito");
+			} else {
+				JOptionPane.showMessageDialog(null, "Ya existe un usuario con ese email");
+			}
+		} catch (IOException | InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}
 

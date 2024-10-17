@@ -14,7 +14,7 @@ import com.toedter.calendar.JTextFieldDateEditor;
 
 import modelo.Usuario;
 
-public class PanelRegistro extends JPanel {
+public class PanelPerfil extends JPanel {
 	/**
 	 * 
 	 */
@@ -24,13 +24,15 @@ public class PanelRegistro extends JPanel {
 	private JTextField tfEmail;
 	private JPasswordField pfContrasena;
 	private JDateChooser fechaNacimientoCalendar;
-	private JButton btnRegistrarse;
-	private JButton btnVolverLogin;
+	private JButton btnEditar;
+	private JButton btnAceptar;
+	private Usuario usuarioLogeado;
+
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelRegistro() {
+	public PanelPerfil() {
 		Calendar ahoraMismo = Calendar.getInstance();
 		int ano = ahoraMismo.get(Calendar.YEAR);
 		int mes = ahoraMismo.get(Calendar.MONTH) + 1;
@@ -41,31 +43,31 @@ public class PanelRegistro extends JPanel {
 		setBounds(288, 11, 784, 541);
 		setLayout(null);
 
-		btnRegistrarse = new JButton("Registrarse");
-		btnRegistrarse.setBounds(294, 354, 89, 23);
-		add(btnRegistrarse);
-
-		btnVolverLogin = new JButton("Volver");
-		btnVolverLogin.setBounds(175, 354, 89, 23);
-		add(btnVolverLogin);
+		btnEditar = new JButton("Editar");
+		btnEditar.setBounds(216, 354, 89, 23);
+		add(btnEditar);
 
 		tfNombre = new JTextField();
+		tfNombre.setEditable(false);
 		tfNombre.setBounds(294, 182, 200, 20);
 		add(tfNombre);
 		tfNombre.setColumns(10);
 
 		tfApellidos = new JTextField();
+		tfApellidos.setEditable(false);
 		tfApellidos.setBounds(294, 213, 200, 20);
 		add(tfApellidos);
 		tfApellidos.setColumns(10);
 
 		tfEmail = new JTextField();
+		tfEmail.setEditable(false);
 		tfEmail.setBounds(294, 244, 200, 20);
 		add(tfEmail);
 		tfEmail.setColumns(10);
 
 		fechaNacimientoCalendar = new JDateChooser();
 		fechaNacimientoCalendar.setBounds(294, 306, 200, 20);
+		fechaNacimientoCalendar.setEnabled(false);
 		add(fechaNacimientoCalendar);
 
 		JTextFieldDateEditor editor = (JTextFieldDateEditor) fechaNacimientoCalendar.getDateEditor();
@@ -79,6 +81,7 @@ public class PanelRegistro extends JPanel {
 		}
 
 		pfContrasena = new JPasswordField();
+		pfContrasena.setEditable(false);
 		pfContrasena.setBounds(294, 275, 200, 20);
 		add(pfContrasena);
 
@@ -102,22 +105,31 @@ public class PanelRegistro extends JPanel {
 		lblFechaNacimiento.setBounds(129, 312, 155, 14);
 		add(lblFechaNacimiento);
 
+		btnAceptar = new JButton("Aceptar");
+		btnAceptar.setEnabled(false);
+		btnAceptar.setBounds(315, 354, 89, 23);
+		add(btnAceptar);
+
 	}
 
-	public JButton getBtnVolverLogin() {
-		return btnVolverLogin;
+	public void setUsuarioLogeado(Usuario usuarioLogeado) {
+		this.usuarioLogeado = usuarioLogeado;
+	}
+	
+	public JButton getBtnAceptar() {
+		return btnAceptar;
 	}
 
-	public void setBtnVolverLogin(JButton btnVolverLogin) {
-		this.btnVolverLogin = btnVolverLogin;
+	public void setBtnAceptar(JButton btnAceptar) {
+		this.btnAceptar = btnAceptar;
 	}
 
-	public JButton getBtnRegistrarse() {
-		return btnRegistrarse;
+	public JButton getBtnEditar() {
+		return btnEditar;
 	}
 
-	public void setBtnRegistrarse(JButton btnRegistrarse) {
-		this.btnRegistrarse = btnRegistrarse;
+	public void setBtnEditar(JButton btnEditar) {
+		this.btnEditar = btnEditar;
 	}
 
 	public JTextField getTfNombre() {

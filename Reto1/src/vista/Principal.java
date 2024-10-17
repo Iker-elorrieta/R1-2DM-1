@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import modelo.Usuario;
+
 import javax.swing.JButton;
 import java.awt.Font;
 
@@ -18,17 +20,16 @@ public class Principal extends JFrame {
 
 	// Acciones
 	public static enum enumAcciones {
-		CARGAR_PANEL_INSERTAR, CARGAR_PANEL_LOGIN, INSERTAR_CONTACTO, LOGIN, CARGAR_PANEL_WORKOUT
+		CARGAR_PANEL_LOGIN, CARGAR_PANEL_REGISTRO, CARGAR_PANEL_PERFIL, CARGAR_PANEL_WORKOUT, LOGIN, REGISTRAR_USUARIO, EDITAR_PERFIL
 	}
 
 	private JPanel panelContenedor;
+	private JPanel panelMenu;
 	private PanelRegistro panelRegistro;
-	private PanelIngresar panelIngresar;
-	private PanelEliminar panelEliminar;
 	private PanelLogin panelLogin;
 	private PanelWorkout2 panelWorkout;
-
-	private JButton btnConsultarContactos;
+	private PanelPerfil panelPerfil;
+	private JButton btnPerfil;
 	private JButton btnInsertarContacto;
 	private JButton btnModificarContacto;
 	private JButton btnEliminarContacto;
@@ -44,13 +45,10 @@ public class Principal extends JFrame {
 		// Panel que contiene el listado de contactos.
 		mCrearPanelRegistro();
 
-		mCrearPanelIngresar();
-
-		mCrearPanelEliminar();
-
 		mCrearPanelLogin();
 		mCrearPanelWorkOut();
 
+		mCrearPanelPerfil();
 	}
 
 	// *** Creaci�n de paneles ***
@@ -68,54 +66,18 @@ public class Principal extends JFrame {
 
 	private void mCrearPanelMenu() {
 
-		JPanel panelMenu = new JPanel();
+		panelMenu = new JPanel();
 		panelMenu.setBackground(Color.YELLOW);
 		panelMenu.setBounds(10, 11, 268, 541);
 		panelContenedor.add(panelMenu);
 		panelMenu.setLayout(null);
 
-		btnConsultarContactos = new JButton("Consultar contactos");
-		btnConsultarContactos.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnConsultarContactos.setBounds(30, 75, 216, 35);
-		panelMenu.add(btnConsultarContactos);
-
-		btnInsertarContacto = new JButton("Añadir contacto");
-		btnInsertarContacto.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnInsertarContacto.setBounds(30, 167, 216, 35);
-		panelMenu.add(btnInsertarContacto);
-
-		btnModificarContacto = new JButton("Modificar contacto");
-		btnModificarContacto.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnModificarContacto.setBounds(28, 271, 216, 35);
-		panelMenu.add(btnModificarContacto);
-
-		btnEliminarContacto = new JButton("Eliminar contacto");
-		btnEliminarContacto.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnEliminarContacto.setBounds(28, 363, 216, 35);
-		panelMenu.add(btnEliminarContacto);
+		btnPerfil = new JButton("Perfil");
+		btnPerfil.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnPerfil.setBounds(30, 75, 216, 35);
+		panelMenu.add(btnPerfil);
 
 		panelMenu.setVisible(false);
-
-	}
-
-	private void mCrearPanelRegistro() {
-		panelRegistro = new PanelRegistro();
-		panelContenedor.add(panelRegistro);
-		panelRegistro.setVisible(false);
-
-	}
-
-	private void mCrearPanelIngresar() {
-		panelIngresar = new PanelIngresar();
-		panelContenedor.add(panelIngresar);
-		panelIngresar.setVisible(false);
-
-	}
-
-	private void mCrearPanelEliminar() {
-		panelEliminar = new PanelEliminar();
-		panelContenedor.add(panelEliminar);
-		panelEliminar.setVisible(false);
 
 	}
 
@@ -134,33 +96,67 @@ public class Principal extends JFrame {
 		panelWorkout.setVisible(false);
 
 	}
-	
+
+	private void mCrearPanelRegistro() {
+		panelRegistro = new PanelRegistro();
+		panelContenedor.add(panelRegistro);
+		panelContenedor.setBounds(panelRegistro.getBounds());
+		panelRegistro.setVisible(false);
+	}
+
+	private void mCrearPanelPerfil() {
+		panelPerfil = new PanelPerfil();
+		panelContenedor.add(panelPerfil);
+		panelContenedor.setBounds(panelPerfil.getBounds());
+		panelPerfil.setVisible(false);
+
+	}
 
 	// *** FIN creaci�n de paneles ***
 
 	public void mVisualizarPaneles(enumAcciones panel) {
 
-		panelRegistro.setVisible(false);
-		panelIngresar.setVisible(false);
 		panelLogin.setVisible(false);
-		panelEliminar.setVisible(false);
 		panelWorkout.setVisible(false);
-
+		panelRegistro.setVisible(false);
+		panelPerfil.setVisible(false);
 
 		switch (panel) {
 		case CARGAR_PANEL_LOGIN:
 			panelLogin.setVisible(true);
 			break;
-		case CARGAR_PANEL_INSERTAR:
+		case CARGAR_PANEL_REGISTRO:
 			panelRegistro.setVisible(true);
+//			panelPerfil.getTfNombre().setText(usuario.getNombre());
+//			panelPerfil.getTfApellidos().setText(usuario.getApellidos());
+//			panelPerfil.getTfEmail().setText(usuario.getEmail());
+//			panelPerfil.getPfContrasena().setText(usuario.getEmail());
+//			panelPerfil.getFechaNacimientoCalendar().setDate(usuario.getFechaNacimiento());
+			break;
+		case CARGAR_PANEL_PERFIL:
+			panelPerfil.setVisible(true);
+//			panelPerfil.getTfNombre().setText(usuario.getNombre());
+//			panelPerfil.getTfApellidos().setText(usuario.getApellidos());
+//			panelPerfil.getTfEmail().setText(usuario.getEmail());
+//			panelPerfil.getPfContrasena().setText(usuario.getEmail());
+//			panelPerfil.getFechaNacimientoCalendar().setDate(usuario.getFechaNacimiento());
 			break;
 		case CARGAR_PANEL_WORKOUT:
 			panelWorkout.setVisible(true);
-			
+			panelMenu.setVisible(true);
+			break;
 		default:
 			break;
 
 		}
+	}
+
+	public JButton getBtnPerfil() {
+		return btnPerfil;
+	}
+
+	public void setBtnPerfil(JButton btnPerfil) {
+		this.btnPerfil = btnPerfil;
 	}
 
 	public JPanel getPanelContenedor() {
@@ -171,10 +167,6 @@ public class Principal extends JFrame {
 		this.panelContenedor = panelContenedor;
 	}
 
-	
-	
-	
-	
 	public PanelWorkout2 getPanelWorkout() {
 		return panelWorkout;
 	}
@@ -191,14 +183,6 @@ public class Principal extends JFrame {
 		this.panelRegistro = panelConsultar;
 	}
 
-	public PanelIngresar getPanelIngrsar() {
-		return panelIngresar;
-	}
-
-	public void setPanelIngresar(PanelIngresar panelIngresar) {
-		this.panelIngresar = panelIngresar;
-	}
-
 	public PanelLogin getPanelLogin() {
 		return panelLogin;
 	}
@@ -207,20 +191,20 @@ public class Principal extends JFrame {
 		this.panelLogin = panelLogin;
 	}
 
-	public PanelEliminar getPanelEliminar() {
-		return panelEliminar;
+	public PanelPerfil getPanelPerfil() {
+		return panelPerfil;
 	}
 
-	public void setPanelEliminar(PanelEliminar panelEliminar) {
-		this.panelEliminar = panelEliminar;
+	public void setPanelPerfil(PanelPerfil panelPerfil) {
+		this.panelPerfil = panelPerfil;
 	}
 
 	public JButton getBtnConsultarContactos() {
-		return btnConsultarContactos;
+		return btnPerfil;
 	}
 
 	public void setBtnConsultarContactos(JButton btnConsultarContactos) {
-		this.btnConsultarContactos = btnConsultarContactos;
+		this.btnPerfil = btnConsultarContactos;
 	}
 
 	public JButton getBtnInsertarContacto() {
@@ -250,5 +234,4 @@ public class Principal extends JFrame {
 	public void setBtnInsertarContacto(JButton btnInsertarContacto) {
 		this.btnInsertarContacto = btnInsertarContacto;
 	}
-
 }
