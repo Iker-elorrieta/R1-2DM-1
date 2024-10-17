@@ -92,6 +92,9 @@ public class Controlador implements ActionListener {
 			break;
 		case CARGAR_PANEL_PERFIL:
 			this.vistaPrincipal.getPanelPerfil().setUsuarioLogeado(usuarioLogeado);
+			this.vistaPrincipal.getPanelPerfil().getTfNombre().setText(usuarioLogeado.getNombre());	
+			this.vistaPrincipal.getPanelPerfil().getTfApellidos().setText(usuarioLogeado.getApellidos());		
+
 			this.vistaPrincipal.mVisualizarPaneles(accion);
 			System.out.println("hola");
 			break;

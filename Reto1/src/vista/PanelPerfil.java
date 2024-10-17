@@ -109,6 +109,7 @@ public class PanelPerfil extends JPanel {
 		btnAceptar.setEnabled(false);
 		btnAceptar.setBounds(315, 354, 89, 23);
 		add(btnAceptar);
+	
 
 	}
 

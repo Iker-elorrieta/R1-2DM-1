@@ -156,11 +156,7 @@ public class WorkOut {
 
 
 
-	@Override
-	public String toString() {
-		return "WorkOut [nombre=" + nombre + ", descripcion=" + descripcion + ", nivel=" + nivel + ", videoURL="
-				+ videoURL + "]";
-	}
+
 
 	// Método para obtener un workout por su nombre
 	public WorkOut mObtenerWorkout(String nombreWorkout) {
@@ -174,6 +170,7 @@ public class WorkOut {
 				this.descripcion = workoutSnapshot.getString(FIELD_DESCRIPCION);
 				this.nivel = workoutSnapshot.getLong(FIELD_NIVEL).intValue();
 				this.videoURL = workoutSnapshot.getString(FIELD_VIDEO_URL);
+				System.out.println("URL: " + workoutSnapshot.getString(FIELD_VIDEO_URL));
 				//this.tiempoEstimado = workoutSnapshot.getLong(FIELD_TIEMPO_ESTIMADO).intValue();
 				System.out.println("Workout encontrado: " + this.nombre);
 			} else {
@@ -203,7 +200,7 @@ public class WorkOut {
 				w.setNombre(workout.getId());
 				w.setDescripcion(workout.getString(FIELD_DESCRIPCION));
 				w.setNivel(workout.getDouble(FIELD_NIVEL));
-				w.setDescripcion(workout.getString(FIELD_DESCRIPCION));
+				w.setVideoURL(workout.getString(FIELD_VIDEO_URL));
 
 				listaWorkOuts.add(w);
 			}
