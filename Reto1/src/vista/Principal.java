@@ -18,7 +18,7 @@ public class Principal extends JFrame {
 
 	// Acciones
 	public static enum enumAcciones {
-		CARGAR_PANEL_INSERTAR, CARGAR_PANEL_LOGIN, INSERTAR_CONTACTO, LOGIN
+		CARGAR_PANEL_INSERTAR, CARGAR_PANEL_LOGIN, INSERTAR_CONTACTO, LOGIN, CARGAR_PANEL_WORKOUT
 	}
 
 	private JPanel panelContenedor;
@@ -26,6 +26,7 @@ public class Principal extends JFrame {
 	private PanelIngresar panelIngresar;
 	private PanelEliminar panelEliminar;
 	private PanelLogin panelLogin;
+	private PanelWorkout2 panelWorkout;
 
 	private JButton btnConsultarContactos;
 	private JButton btnInsertarContacto;
@@ -48,6 +49,7 @@ public class Principal extends JFrame {
 		mCrearPanelEliminar();
 
 		mCrearPanelLogin();
+		mCrearPanelWorkOut();
 
 	}
 
@@ -124,6 +126,15 @@ public class Principal extends JFrame {
 		panelLogin.setVisible(true);
 
 	}
+	
+	private void mCrearPanelWorkOut() {
+		panelWorkout = new PanelWorkout2();
+		panelContenedor.add(panelWorkout);
+		panelContenedor.setBounds(panelWorkout.getBounds());
+		panelWorkout.setVisible(false);
+
+	}
+	
 
 	// *** FIN creaci�n de paneles ***
 
@@ -133,14 +144,19 @@ public class Principal extends JFrame {
 		panelIngresar.setVisible(false);
 		panelLogin.setVisible(false);
 		panelEliminar.setVisible(false);
+		panelWorkout.setVisible(false);
+
 
 		switch (panel) {
 		case CARGAR_PANEL_LOGIN:
 			panelLogin.setVisible(true);
+			break;
 		case CARGAR_PANEL_INSERTAR:
 			panelRegistro.setVisible(true);
-
 			break;
+		case CARGAR_PANEL_WORKOUT:
+			panelWorkout.setVisible(true);
+			
 		default:
 			break;
 
@@ -153,6 +169,18 @@ public class Principal extends JFrame {
 
 	public void setPanelContenedor(JPanel panelContenedor) {
 		this.panelContenedor = panelContenedor;
+	}
+
+	
+	
+	
+	
+	public PanelWorkout2 getPanelWorkout() {
+		return panelWorkout;
+	}
+
+	public void setPanelWorkout(PanelWorkout2 panelWorkout) {
+		this.panelWorkout = panelWorkout;
 	}
 
 	public PanelRegistro getPanelRegistro() {

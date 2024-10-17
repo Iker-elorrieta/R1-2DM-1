@@ -156,6 +156,8 @@ public class Usuario {
 					setFechaNacimiento(obtenerFechaDate(contacto, FIELD_FECHA_NACIMIENTO));
 					setNivel(contacto.getDouble(FIELD_NIVEL));
 					System.out.println("Correcto");
+				}else {
+					
 				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Usuario o contraseña incorecctos", "ERROR",

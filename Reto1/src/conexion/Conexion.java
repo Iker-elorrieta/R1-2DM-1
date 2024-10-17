@@ -12,7 +12,7 @@ import com.google.cloud.firestore.FirestoreOptions;
 public class Conexion {
 	
 	
-	private static String nombreJSON = "contactos.json";
+	private static String nombreJSON = "reto1.json";
 	private static String projectID = "reto-1grupo1";
 	
 	public static Firestore conectar() throws IOException {

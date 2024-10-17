@@ -14,8 +14,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.util.Date;
-import modelo.Usuario;
-import modelo.Usuario.enumTipoUsuario;
+import modelo.*;
 import vista.PanelEliminar;
 import vista.PanelIngresar;
 import vista.PanelLogin;
@@ -26,6 +25,8 @@ import vista.Principal.enumAcciones;
 public class ControladorContacto implements ActionListener {
 
 	private vista.Principal vistaPrincipal;
+	Usuario usuarioLogeado;
+
 
 	/*
 	 * *** CONSTRUCTORES ***
@@ -55,7 +56,7 @@ public class ControladorContacto implements ActionListener {
 
 		this.vistaPrincipal.getPanelRegistro().getBtnRegistrarse().addActionListener(this);
 		this.vistaPrincipal.getPanelRegistro().getBtnRegistrarse()
-				.setActionCommand(Principal.enumAcciones.INSERTAR_CONTACTO.toString());
+		.setActionCommand(Principal.enumAcciones.INSERTAR_CONTACTO.toString());
 
 		this.vistaPrincipal.getPanelLogin().getBtnLogin().addActionListener(this);
 		this.vistaPrincipal.getPanelLogin().getBtnLogin().setActionCommand(Principal.enumAcciones.LOGIN.toString());
@@ -68,7 +69,6 @@ public class ControladorContacto implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		Principal.enumAcciones accion = Principal.enumAcciones.valueOf(e.getActionCommand());
-
 		switch (accion) {
 		case LOGIN:
 			this.mConfirmarLogin(accion);
@@ -76,11 +76,37 @@ public class ControladorContacto implements ActionListener {
 		case INSERTAR_CONTACTO:
 			this.mInsertarContacto(accion);
 			break;
+		case CARGAR_PANEL_WORKOUT:
+			ArrayList<WorkOut> listaWorkouts = new WorkOut().mObtenerWorkouts();
+			this.vistaPrincipal.getPanelWorkout().setWorkouts(listaWorkouts);
+			this.vistaPrincipal.getPanelWorkout().setUser(usuarioLogeado);
+
+			break;
 		default:
 			break;
 
 		}
 	}
+
+
+	public void mCargarVentanas (Principal.enumAcciones accion){
+
+		switch (accion) {
+		case CARGAR_PANEL_WORKOUT:
+			ArrayList<WorkOut> listaWorkouts = new WorkOut().mObtenerWorkouts();
+			this.vistaPrincipal.getPanelWorkout().setWorkouts(listaWorkouts);
+			this.vistaPrincipal.getPanelWorkout().setUser(usuarioLogeado);
+			this.vistaPrincipal.mVisualizarPaneles(Principal.enumAcciones.CARGAR_PANEL_WORKOUT);
+
+			break;
+
+		default:
+			break;
+
+		}
+	}
+
+
 
 	private void mConfirmarLogin(enumAcciones accion) {
 		PanelLogin panelLogin = this.vistaPrincipal.getPanelLogin();
@@ -88,7 +114,8 @@ public class ControladorContacto implements ActionListener {
 		String passIntroducida = panelLogin.getTextFieldPass().getText().trim();
 		if (!usuarioIntroducido.isEmpty() && !passIntroducida.isEmpty()) {
 			Usuario usuario1 = new Usuario();
-			usuario1.mObtenerUsuario(usuarioIntroducido, passIntroducida);
+			usuarioLogeado = usuario1.mObtenerUsuario(usuarioIntroducido, passIntroducida);
+			mCargarVentanas(enumAcciones.CARGAR_PANEL_WORKOUT);
 
 		} else {
 			JOptionPane.showMessageDialog(null, "Algun Campo esta vacio");
@@ -118,40 +145,40 @@ public class ControladorContacto implements ActionListener {
 		panelRegistro.getTfEmail().setText("");
 	}
 
-//	private void mModificarContacto(Principal.enumAcciones accion) {
-//		PanelModificar panelModificar = this.vistaPrincipal.getPanelModificar();
-//		Usuario contacto = null;
-//
-//		JTable table = panelModificar.getTablaContactos();
-//
-//		if (table.getSelectedRow() != -1) {
-//
-//			String nombre = panelModificar.getTextFieldNombre().getText();
-//			String email = panelModificar.getTextFieldEmail().getText();
-//			String telString = panelModificar.getTextFieldTel().getText();
-//
-//			if (!nombre.isEmpty() && !email.isEmpty() && esDouble(telString)) {
-//				double tel = Double.parseDouble(panelModificar.getTextFieldTel().getText());
-//
-//				contacto = new Usuario(nombre, tel, email);
-//				contacto.setIdContacto(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
-//				System.out.println("Clase controlador.contacto mModificar valor id "
-//						+ table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
-//				contacto.mModificar();
-//
-//				panelModificar.getTextFieldNombre().setText("");
-//				panelModificar.getTextFieldEmail().setText("");
-//				panelModificar.getTextFieldTel().setText("");
-//
-//				mCargarContactos(Principal.enumAcciones.CARGAR_PANEL_MODIFICAR);
-//			} else {
-//				JOptionPane.showMessageDialog(null, "Algun campo es invalido");
-//			}
-//
-//		} else {
-//			JOptionPane.showMessageDialog(null, "No hay elemento seleccionado");
-//
-//		}
-//
-//	}
+	//	private void mModificarContacto(Principal.enumAcciones accion) {
+	//		PanelModificar panelModificar = this.vistaPrincipal.getPanelModificar();
+	//		Usuario contacto = null;
+	//
+	//		JTable table = panelModificar.getTablaContactos();
+	//
+	//		if (table.getSelectedRow() != -1) {
+	//
+	//			String nombre = panelModificar.getTextFieldNombre().getText();
+	//			String email = panelModificar.getTextFieldEmail().getText();
+	//			String telString = panelModificar.getTextFieldTel().getText();
+	//
+	//			if (!nombre.isEmpty() && !email.isEmpty() && esDouble(telString)) {
+	//				double tel = Double.parseDouble(panelModificar.getTextFieldTel().getText());
+	//
+	//				contacto = new Usuario(nombre, tel, email);
+	//				contacto.setIdContacto(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
+	//				System.out.println("Clase controlador.contacto mModificar valor id "
+	//						+ table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
+	//				contacto.mModificar();
+	//
+	//				panelModificar.getTextFieldNombre().setText("");
+	//				panelModificar.getTextFieldEmail().setText("");
+	//				panelModificar.getTextFieldTel().setText("");
+	//
+	//				mCargarContactos(Principal.enumAcciones.CARGAR_PANEL_MODIFICAR);
+	//			} else {
+	//				JOptionPane.showMessageDialog(null, "Algun campo es invalido");
+	//			}
+	//
+	//		} else {
+	//			JOptionPane.showMessageDialog(null, "No hay elemento seleccionado");
+	//
+	//		}
+	//
+	//	}
 }
