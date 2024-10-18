@@ -18,10 +18,9 @@ public class GenerarWorkoutFireBase {
 		for (int nivel = 0; nivel <= 2; nivel++) {
 			for (int i = 1; i <= 3; i++) {
 				String nombreWorkout = generarNombreWorkout(nivel, i);
-				String descripcionWorkout = "Este es un entrenamiento para " + generarDescripcionNivel(nivel);
 				String videoURL = generarVideoURL(nivel, i);
 
-				WorkOut workout = new WorkOut(nombreWorkout, descripcionWorkout, nivel, videoURL);
+				WorkOut workout = new WorkOut(nombreWorkout, nivel, videoURL);
 				workouts.add(workout);
 			}
 		}
@@ -49,7 +48,7 @@ public class GenerarWorkoutFireBase {
 			case 3: return "https://www.youtube.com/watch?v=NBpsqBQceSU"; // Flexibilidad Avanzada
 			}
 		}
-		return "http://example.com/video_desconocido"; // URL por defecto si no se encuentra el nivel o número
+		return "https://www.youtube.com/watch?v=SgyUoY0IZ7A"; // URL por defecto si no se encuentra el nivel o número
 	}
 
 	private static String generarNombreWorkout(int nivel, int numero) {
@@ -65,12 +64,6 @@ public class GenerarWorkoutFireBase {
 		}
 	}
 
-	private static String generarDescripcionNivel(int nivel) {
-		switch (nivel) {
-		case 0: return "principiantes para mejorar la condición física general.";
-		case 1: return "intermedios para aumentar la fuerza y resistencia.";
-		case 2: return "avanzados para optimizar el rendimiento físico.";
-		default: return "todos los niveles.";
-		}
-	}
+
+	
 }

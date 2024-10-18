@@ -168,8 +168,13 @@ public class Usuario {
 				JOptionPane.showMessageDialog(null, "Usuario o contraseña incorecctos", "ERROR",
 						JOptionPane.ERROR_MESSAGE);
 			}
+			
+			co.close();
 		} catch (InterruptedException | ExecutionException | IOException e) {
 			System.out.println("Error: Clase Usuario, metodo mObtenerUsuario");
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return this;
@@ -202,7 +207,11 @@ public class Usuario {
 			} else {
 				JOptionPane.showMessageDialog(null, "Ya existe un usuario con ese email");
 			}
+			co.close();
 		} catch (IOException | InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

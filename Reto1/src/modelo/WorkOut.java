@@ -22,7 +22,6 @@ public class WorkOut {
 
 	// *** Atributos ***
 	private String nombre;
-	private String descripcion;
 	private double nivel;
 	private String videoURL;
 	private ArrayList<Ejercicio> ejercicios;
@@ -30,7 +29,6 @@ public class WorkOut {
 
 	private static final String COLLECTION_NAME = "workouts";
 	private static final String FIELD_NOMBRE = "nombre";
-	private static final String FIELD_DESCRIPCION = "descripcion";
 	private static final String FIELD_NIVEL = "nivel";
 	private static final String FIELD_VIDEO_URL = "videoURL";
 	private static final String FIELD_EJERCICIOS = "ejercicios";
@@ -43,16 +41,14 @@ public class WorkOut {
 	}
 
 	//Para poder crear los WorKouts de moemnto sin ejercicios
-	public WorkOut(String nombre, String descripcion, double nivel, String videoURL) {
+	public WorkOut(String nombre, double nivel, String videoURL) {
 		this.nombre = nombre;
-		this.descripcion = descripcion;
 		this.nivel = nivel;
 		this.videoURL = videoURL;
 	}
 
-	public WorkOut(String nombre, String descripcion, double nivel, String videoURL, ArrayList<Ejercicio> ejercicios) {
+	public WorkOut(String nombre, double nivel, String videoURL, ArrayList<Ejercicio> ejercicios) {
 		this.nombre = nombre;
-		this.descripcion = descripcion;
 		this.nivel = nivel;
 		this.videoURL = videoURL;
 		this.ejercicios = ejercicios;
@@ -68,15 +64,6 @@ public class WorkOut {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
 	public double getNivel() {
 		return nivel;
 	}
@@ -128,23 +115,25 @@ public class WorkOut {
 
 			if(!root.document(nombre).get().get().exists()) {
 				Map<String, Object> nuevoWorkout = new HashMap<>();
-				nuevoWorkout.put(FIELD_NOMBRE, this.nombre);
-				nuevoWorkout.put(FIELD_DESCRIPCION, this.descripcion);
 				nuevoWorkout.put(FIELD_NIVEL, this.nivel);
 				nuevoWorkout.put(FIELD_VIDEO_URL, this.videoURL);
 				// nuevoWorkout.put(FIELD_TIEMPO_ESTIMADO, this.tiempoEstimado);
 				root.document(this.nombre).set(nuevoWorkout);
-
+				
 				System.out.println("Workout insertado con éxito");
 			}else{
 				System.out.println("Ya introducido");
 			}
+			co.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -167,7 +156,6 @@ public class WorkOut {
 			DocumentSnapshot workoutSnapshot = co.collection(COLLECTION_NAME).document(nombreWorkout).get().get();
 			if (workoutSnapshot.exists()) {
 				this.nombre = workoutSnapshot.getString(FIELD_NOMBRE);
-				this.descripcion = workoutSnapshot.getString(FIELD_DESCRIPCION);
 				this.nivel = workoutSnapshot.getLong(FIELD_NIVEL).intValue();
 				this.videoURL = workoutSnapshot.getString(FIELD_VIDEO_URL);
 				System.out.println("URL: " + workoutSnapshot.getString(FIELD_VIDEO_URL));
@@ -198,17 +186,19 @@ public class WorkOut {
 			for (QueryDocumentSnapshot workout : workouts) {
 				WorkOut w =new WorkOut();
 				w.setNombre(workout.getId());
-				w.setDescripcion(workout.getString(FIELD_DESCRIPCION));
 				w.setNivel(workout.getDouble(FIELD_NIVEL));
 				w.setVideoURL(workout.getString(FIELD_VIDEO_URL));
-
 				listaWorkOuts.add(w);
 			}
+			co.close();
 
 		} catch ( InterruptedException | ExecutionException e) {
 			System.out.println("Error: Clase Contacto, metodo mObtenerContactos");
 			e.printStackTrace();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

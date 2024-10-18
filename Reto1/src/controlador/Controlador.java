@@ -1,7 +1,11 @@
 package controlador;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,6 +20,7 @@ import modelo.WorkOut;
 import vista.PanelLogin;
 import vista.PanelPerfil;
 import vista.PanelRegistro;
+import vista.PanelWorkout2;
 import vista.Principal;
 import vista.Principal.enumAcciones;
 
@@ -23,6 +28,7 @@ public class Controlador implements ActionListener {
 
 	private vista.Principal vistaPrincipal;
 	private Usuario usuarioLogeado;
+	private ArrayList<WorkOut> listaWorkouts;
 
 	/*
 	 * *** CONSTRUCTORES ***
@@ -50,27 +56,41 @@ public class Controlador implements ActionListener {
 		 * .setActionCommand(Principal.enumAcciones.CARGAR_PANEL_CONSULTA.toString());
 		 */
 
+
+		//VENTANA REGISTRO
+
 		this.vistaPrincipal.getPanelRegistro().getBtnRegistrarse().addActionListener(this);
 		this.vistaPrincipal.getPanelRegistro().getBtnRegistrarse()
-				.setActionCommand(Principal.enumAcciones.REGISTRAR_USUARIO.toString());
+		.setActionCommand(Principal.enumAcciones.REGISTRAR_USUARIO.toString());
 
 		this.vistaPrincipal.getPanelRegistro().getBtnVolverLogin().addActionListener(this);
 		this.vistaPrincipal.getPanelRegistro().getBtnVolverLogin()
-				.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_LOGIN.toString());
+		.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_LOGIN.toString());
 
+
+		//VENTANA LOGIN
 		this.vistaPrincipal.getPanelLogin().getBtnLogin().addActionListener(this);
 		this.vistaPrincipal.getPanelLogin().getBtnLogin().setActionCommand(Principal.enumAcciones.LOGIN.toString());
 
 		this.vistaPrincipal.getPanelLogin().getBtnRegistrarse().addActionListener(this);
 		this.vistaPrincipal.getPanelLogin().getBtnRegistrarse()
-				.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_REGISTRO.toString());
+		.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_REGISTRO.toString());
+		//VENTANA PERFIL
 
 		this.vistaPrincipal.getPanelPerfil().getBtnEditar().addActionListener(this);
 		this.vistaPrincipal.getPanelPerfil().getBtnEditar()
-				.setActionCommand(Principal.enumAcciones.EDITAR_PERFIL.toString());
+		.setActionCommand(Principal.enumAcciones.EDITAR_PERFIL.toString());
 
 		this.vistaPrincipal.getBtnPerfil().addActionListener(this);
 		this.vistaPrincipal.getBtnPerfil().setActionCommand(Principal.enumAcciones.CARGAR_PANEL_PERFIL.toString());
+
+
+		//VENTANA WORKOUT
+		this.vistaPrincipal.getPanelWorkout().getBtnIrAVideo().addActionListener(this);
+		this.vistaPrincipal.getPanelWorkout().getBtnIrAVideo().setActionCommand(Principal.enumAcciones.ABRIR_NAVEGADOR.toString());
+
+
+
 	}
 
 	/*** Tratamiento de las acciones ***/
@@ -104,6 +124,9 @@ public class Controlador implements ActionListener {
 		case EDITAR_PERFIL:
 			this.editarPerfil(accion);
 			break;
+		case ABRIR_NAVEGADOR:
+			this.abrirWebPagina();
+			break;
 		default:
 			break;
 
@@ -114,9 +137,10 @@ public class Controlador implements ActionListener {
 
 		switch (accion) {
 		case CARGAR_PANEL_WORKOUT:
-			ArrayList<WorkOut> listaWorkouts = new WorkOut().mObtenerWorkouts();
+			listaWorkouts = new WorkOut().mObtenerWorkouts();
 			this.vistaPrincipal.getPanelWorkout().setWorkouts(listaWorkouts);
 			this.vistaPrincipal.getPanelWorkout().setUser(usuarioLogeado);
+			this.vistaPrincipal.getPanelWorkout().getFiltroNivel().setSelectedIndex((int)usuarioLogeado.getNivel()+1);
 			this.vistaPrincipal.mVisualizarPaneles(Principal.enumAcciones.CARGAR_PANEL_WORKOUT);
 
 			break;
@@ -146,7 +170,7 @@ public class Controlador implements ActionListener {
 		String nombre = panelRegistro.getTfNombre().getText();
 		String apellidos = panelRegistro.getTfNombre().getText();
 		String email = panelRegistro.getTfEmail().getText();
-
+		
 		String contrasena = new String(panelRegistro.getPfContrasena().getPassword()).trim();
 
 		Date fechaNacimiento = panelRegistro.getFechaNacimientoCalendar().getDate();
@@ -197,6 +221,31 @@ public class Controlador implements ActionListener {
 		PanelPerfil panelPerfil = this.vistaPrincipal.getPanelPerfil();
 	}
 
+
+	private void abrirWebPagina() {
+		PanelWorkout2 panelWk = this.vistaPrincipal.getPanelWorkout();
+
+		if(panelWk.getFiltroNivel().getSelectedIndex()!=-1 && panelWk.getWorkoutsList().getSelectedIndex()!=-1 ) {
+			WorkOut workousleccionado = panelWk.getWorkOutseleccionado();
+			System.out.println(workousleccionado.getVideoURL().toString());
+			try {
+				URI uri = new URI(workousleccionado.getVideoURL());
+				if (Desktop.isDesktopSupported()) {
+					Desktop desktop = Desktop.getDesktop();
+					if (desktop.isSupported(Desktop.Action.BROWSE)) {
+						desktop.browse(uri);
+					}
+				} else {
+					System.out.println("Desktop no soportado");
+				}
+			} catch (IOException | URISyntaxException e) {
+				e.printStackTrace();
+			}
+		}	
+	}
+
+}
+
 //	private void mModificarContacto(Principal.enumAcciones accion) {
 //		PanelModificar panelModificar = this.vistaPrincipal.getPanelModificar();
 //		Usuario contacto = null;
@@ -212,8 +261,7 @@ public class Controlador implements ActionListener {
 //			if (!nombre.isEmpty() && !email.isEmpty() && esDouble(telString)) {
 //				double tel = Double.parseDouble(panelModificar.getTextFieldTel().getText());
 //
-//				contacto = new Usuario(nombre, tel, email);
-//				contacto.setIdContacto(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
+//				contacto = new Usuario(nombre, tel, email);ç	//				contacto.setIdContacto(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
 //				System.out.println("Clase controlador.contacto mModificar valor id "
 //						+ table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
 //				contacto.mModificar();
@@ -233,4 +281,3 @@ public class Controlador implements ActionListener {
 //		}
 //
 //	}
-}
