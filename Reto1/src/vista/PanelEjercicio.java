@@ -19,7 +19,7 @@ import modelo.Usuario;
 import modelo.WorkOut;
 
 
-public class PanelWorkout2 extends JPanel {
+public class PanelEjercicio extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private JComboBox<String> filtroNivel;
@@ -31,7 +31,7 @@ public class PanelWorkout2 extends JPanel {
 	private JLabel lblUrl;
 	private JButton btnIrAVideo;
 
-	public PanelWorkout2() {
+	public PanelEjercicio() {
 	
 		setBackground(new Color(230, 230, 250)); // Un color más claro
 		setBounds(288, 11, 688, 541);

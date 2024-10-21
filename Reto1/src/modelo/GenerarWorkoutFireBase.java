@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class GenerarWorkoutFireBase {
 	public static void main(String[] args) {
 		ArrayList<WorkOut> workouts = crearWorkouts();
+		
 		for (WorkOut workout: workouts) {
 			workout.mIngresarWorkout();
 
@@ -21,6 +22,12 @@ public class GenerarWorkoutFireBase {
 				String videoURL = generarVideoURL(nivel, i);
 
 				WorkOut workout = new WorkOut(nombreWorkout, nivel, videoURL);
+				 
+				ArrayList<Ejercicio> ejercicios = crearEjercicios(nivel, i);
+	                for (Ejercicio ejercicio : ejercicios) {
+	                    workout.getEjercicios().add(ejercicio);
+	                }
+	                
 				workouts.add(workout);
 			}
 		}
@@ -68,19 +75,14 @@ public class GenerarWorkoutFireBase {
 	// Método para crear ejercicios para cada workout
 	private static ArrayList<Ejercicio> crearEjercicios(int nivel, int numeroWorkout) {
 		ArrayList<Ejercicio> ejercicios = new ArrayList<>();
-
 		for (int i = 1; i <= 3; i++) {
 			String nombreEjercicio = generarNombreEjercicio(nivel, numeroWorkout, i);
 			String descripcion = "Descripción del ejercicio " + nombreEjercicio;
-			String videoURL = "https://www.youtube.com/watch?v=Ejercicio" + i; // URL ficticia para el video
+			String imagenURL = "img/defecto.png" + i; //Ruta por defecto
 
-			// Crear series para cada ejercicio
-			ArrayList<Serie> series = crearSeries();
-
-			Ejercicio ejercicio = new Ejercicio(nombreEjercicio, descripcion, series, videoURL);
+			Ejercicio ejercicio = new Ejercicio(nombreEjercicio, descripcion, imagenURL);
 			ejercicios.add(ejercicio);
 		}
-
 		return ejercicios;
 	}
 

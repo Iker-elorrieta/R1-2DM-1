@@ -24,7 +24,7 @@ public class WorkOut {
 	private String nombre;
 	private double nivel;
 	private String videoURL;
-	private ArrayList<Ejercicio> ejercicios;
+	private ArrayList<Ejercicio> ejercicios = new ArrayList<Ejercicio>();
 	private double tiempoEstimado;
 
 	private static final String COLLECTION_NAME = "workouts";
@@ -91,6 +91,10 @@ public class WorkOut {
 	public double getTiempoEstimado() {
 		return tiempoEstimado;
 	}
+	
+	public int getNumEjercicios(){
+		return ejercicios.size();
+	}
 
 	// Calcular el tiempo total estimado sumando la duración de cada ejercicio
 	/* private double calcularTiempoEstimado() {
@@ -118,6 +122,13 @@ public class WorkOut {
 				nuevoWorkout.put(FIELD_NIVEL, this.nivel);
 				nuevoWorkout.put(FIELD_VIDEO_URL, this.videoURL);
 				// nuevoWorkout.put(FIELD_TIEMPO_ESTIMADO, this.tiempoEstimado);
+				
+		            for (Ejercicio ejercicio : ejercicios) { 
+		            	ejercicio.mIngresarEjercicio(COLLECTION_NAME, nombre);
+		               
+		            }
+				
+				
 				root.document(this.nombre).set(nuevoWorkout);
 				
 				System.out.println("Workout insertado con éxito");
@@ -139,39 +150,6 @@ public class WorkOut {
 		}
 	}
 
-
-
-
-
-
-
-
-
-	// Método para obtener un workout por su nombre
-	public WorkOut mObtenerWorkout(String nombreWorkout) {
-		Firestore co = null;
-
-		try {
-			co = Conexion.conectar();
-			DocumentSnapshot workoutSnapshot = co.collection(COLLECTION_NAME).document(nombreWorkout).get().get();
-			if (workoutSnapshot.exists()) {
-				this.nombre = workoutSnapshot.getString(FIELD_NOMBRE);
-				this.nivel = workoutSnapshot.getLong(FIELD_NIVEL).intValue();
-				this.videoURL = workoutSnapshot.getString(FIELD_VIDEO_URL);
-				System.out.println("URL: " + workoutSnapshot.getString(FIELD_VIDEO_URL));
-				//this.tiempoEstimado = workoutSnapshot.getLong(FIELD_TIEMPO_ESTIMADO).intValue();
-				System.out.println("Workout encontrado: " + this.nombre);
-			} else {
-				JOptionPane.showMessageDialog(null, "El workout no existe", "ERROR", JOptionPane.ERROR_MESSAGE);
-			}
-
-		} catch (InterruptedException | ExecutionException | IOException e) {
-			System.out.println("Error: Clase Workout, método mObtenerWorkout");
-			e.printStackTrace();
-		}
-
-		return this;
-	}
 
 
 	public ArrayList<WorkOut> mObtenerWorkouts() {
