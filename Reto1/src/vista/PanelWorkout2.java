@@ -18,7 +18,6 @@ import javax.swing.BorderFactory;
 import modelo.Usuario;
 import modelo.WorkOut;
 
-import javax.swing.UIManager;
 
 public class PanelWorkout2 extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -33,25 +32,21 @@ public class PanelWorkout2 extends JPanel {
 	private JButton btnIrAVideo;
 
 	public PanelWorkout2() {
-		// Aplicar el tema Nimbus si está disponible
-		try {
-			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+	
 		setBackground(new Color(230, 230, 250)); // Un color más claro
 		setBounds(288, 11, 688, 541);
-		setLayout(new BorderLayout());
+		setLayout(null);
 
 		// Título principal
 		JLabel lblLogin = new JLabel("Workout", SwingConstants.CENTER);
+		lblLogin.setBounds(0, 0, 0, 0);
 		lblLogin.setFont(new Font("Tahoma", Font.BOLD, 24));
 		lblLogin.setBorder(new EmptyBorder(10, 0, 10, 0));
-		add(lblLogin, BorderLayout.NORTH);
+		add(lblLogin);
 
 		// Panel superior para filtros y botones
 		JPanel topPanel = new JPanel(new BorderLayout(10, 10));
+		topPanel.setBounds(0, 0, 688, 43);
 		topPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		topPanel.setBackground(new Color(230, 230, 250));
 
@@ -65,25 +60,26 @@ public class PanelWorkout2 extends JPanel {
 		JButton btnHistorialWK = new JButton("Ver Histórico");
 		btnHistorialWK.addActionListener(e -> JOptionPane.showMessageDialog(this, "Mostrando histórico de workouts..."));
 		topPanel.add(btnHistorialWK, BorderLayout.EAST);
-		add(topPanel, BorderLayout.PAGE_START);
+		add(topPanel);
 
 		// Panel central para la lista y detalles del workout
 		JPanel centerPanel = new JPanel();
+		centerPanel.setBounds(0, 43, 688, 458);
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		centerPanel.setBackground(new Color(245, 245, 245));
 
 		// Lista de workouts
 		workoutListModel = new DefaultListModel<>();
 		centerPanel.setLayout(null);
-		workoutsList = new JList<>(workoutListModel);
+		workoutsList = new JList<>();
 		JScrollPane scrollPane = new JScrollPane(workoutsList);
 		scrollPane.setBounds(0, 10, 688, 208);
 		scrollPane.setBorder(BorderFactory.createTitledBorder("Lista de Workouts"));
 		centerPanel.add(scrollPane);
-
+		
 		// Detalles del workout seleccionado
 		JPanel detailsPanel = new JPanel(null);
-		detailsPanel.setBounds(0, 218, 370, 240);
+		detailsPanel.setBounds(0, 218, 428, 240);
 		detailsPanel.setBorder(BorderFactory.createTitledBorder("Detalles del Workout"));
 		detailsPanel.setBackground(new Color(245, 245, 245));
 		JLabel lblNEjer = new JLabel("Nº Ejercicios: -");
@@ -91,7 +87,7 @@ public class PanelWorkout2 extends JPanel {
 		detailsPanel.add(lblNEjer);
 
 		lblUrl = new JLabel("Video: -");
-		lblUrl.setBounds(20, 60, 300, 25);
+		lblUrl.setBounds(20, 60, 387, 25);
 		detailsPanel.add(lblUrl);
 
 		btnIrAVideo = new JButton("Ver Video");
@@ -100,17 +96,18 @@ public class PanelWorkout2 extends JPanel {
 
 		centerPanel.add(detailsPanel);
 
-		add(centerPanel, BorderLayout.CENTER);
+		add(centerPanel);
 
 		// Botón para iniciar el workout
 		JButton startWorkoutButton = new JButton("Iniciar Workout");
+		startWorkoutButton.setBounds(0, 501, 688, 40);
 		startWorkoutButton.addActionListener(e -> startWorkout());
 		startWorkoutButton.setFont(new Font("Tahoma", Font.BOLD, 16));
 		startWorkoutButton.setBackground(new Color(102, 153, 255));
 		startWorkoutButton.setForeground(Color.WHITE);
 		startWorkoutButton.setFocusPainted(false);
 		startWorkoutButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-		add(startWorkoutButton, BorderLayout.SOUTH);
+		add(startWorkoutButton);
 
 		// Listeners para la selección en la lista
 		workoutsList.addListSelectionListener(e -> {

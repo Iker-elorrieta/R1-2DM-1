@@ -41,7 +41,7 @@ public class GenerarWorkoutFireBase {
 			case 2: return "https://www.youtube.com/watch?v=Y-S129ji8N0"; // Fuerza Intermedio
 			case 3: return "https://www.youtube.com/watch?v=j397EgMX8dA"; // Flexibilidad Intermedia
 			}
-		} else if (nivel == 2) {
+		} else  {
 			switch (numero) {
 			case 1: return "https://www.youtube.com/watch?v=YgxT9sZw4ek"; // Cardio Avanzado
 			case 2: return "https://www.youtube.com/watch?v=b6CUJlpmxOE"; // Fuerza Avanzada
@@ -65,5 +65,37 @@ public class GenerarWorkoutFireBase {
 	}
 
 
-	
+	// Método para crear ejercicios para cada workout
+	private static ArrayList<Ejercicio> crearEjercicios(int nivel, int numeroWorkout) {
+		ArrayList<Ejercicio> ejercicios = new ArrayList<>();
+
+		for (int i = 1; i <= 3; i++) {
+			String nombreEjercicio = generarNombreEjercicio(nivel, numeroWorkout, i);
+			String descripcion = "Descripción del ejercicio " + nombreEjercicio;
+			String videoURL = "https://www.youtube.com/watch?v=Ejercicio" + i; // URL ficticia para el video
+
+			// Crear series para cada ejercicio
+			ArrayList<Serie> series = crearSeries();
+
+			Ejercicio ejercicio = new Ejercicio(nombreEjercicio, descripcion, series, videoURL);
+			ejercicios.add(ejercicio);
+		}
+
+		return ejercicios;
+	}
+
+	private static String generarNombreEjercicio(int nivel, int numeroWorkout, int numeroEjercicio) {
+		String[] ejerciciosNivel0 = {"Saltos", "Flexiones", "Estiramiento"};
+		String[] ejerciciosNivel1 = {"Correr", "Levantamiento de pesas", "Yoga"};
+		String[] ejerciciosNivel2 = {"Sprints", "Sentadillas", "Pilates"};
+
+		switch (nivel) {
+		case 0: return ejerciciosNivel0[numeroEjercicio - 1];
+		case 1: return ejerciciosNivel1[numeroEjercicio - 1];
+		case 2: return ejerciciosNivel2[numeroEjercicio - 1];
+		default: return "Ejercicio Desconocido";
+		}
+	}
+
+
 }
