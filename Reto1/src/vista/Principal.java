@@ -4,8 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import modelo.Usuario;
-
 import javax.swing.JButton;
 import java.awt.Font;
 
@@ -20,7 +18,8 @@ public class Principal extends JFrame {
 
 	// Acciones
 	public static enum enumAcciones {
-		CARGAR_PANEL_LOGIN, CARGAR_PANEL_REGISTRO, CARGAR_PANEL_PERFIL, CARGAR_PANEL_WORKOUT, LOGIN, REGISTRAR_USUARIO, EDITAR_PERFIL, ABRIR_NAVEGADOR
+		CARGAR_PANEL_LOGIN, CARGAR_PANEL_REGISTRO, CARGAR_PANEL_PERFIL, CARGAR_PANEL_WORKOUT, LOGIN, REGISTRAR_USUARIO,
+		EDITAR_PERFIL, VER_CONTRASENA, APLICAR_CAMBIOS_PERFIL, ABRIR_NAVEGADOR
 	}
 
 	private JPanel panelContenedor;
@@ -88,7 +87,7 @@ public class Principal extends JFrame {
 		panelLogin.setVisible(true);
 
 	}
-	
+
 	private void mCrearPanelWorkOut() {
 		panelWorkout = new PanelWorkout2();
 		panelContenedor.add(panelWorkout);
@@ -127,19 +126,9 @@ public class Principal extends JFrame {
 			break;
 		case CARGAR_PANEL_REGISTRO:
 			panelRegistro.setVisible(true);
-//			panelPerfil.getTfNombre().setText(usuario.getNombre());
-//			panelPerfil.getTfApellidos().setText(usuario.getApellidos());
-//			panelPerfil.getTfEmail().setText(usuario.getEmail());
-//			panelPerfil.getPfContrasena().setText(usuario.getEmail());
-//			panelPerfil.getFechaNacimientoCalendar().setDate(usuario.getFechaNacimiento());
 			break;
 		case CARGAR_PANEL_PERFIL:
 			panelPerfil.setVisible(true);
-//			panelPerfil.getTfNombre().setText(usuario.getNombre());
-//			panelPerfil.getTfApellidos().setText(usuario.getApellidos());
-//			panelPerfil.getTfEmail().setText(usuario.getEmail());
-//			panelPerfil.getPfContrasena().setText(usuario.getEmail());
-//			panelPerfil.getFechaNacimientoCalendar().setDate(usuario.getFechaNacimiento());
 			break;
 		case CARGAR_PANEL_WORKOUT:
 			panelWorkout.setVisible(true);

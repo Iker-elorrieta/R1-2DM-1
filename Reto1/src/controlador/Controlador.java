@@ -56,41 +56,44 @@ public class Controlador implements ActionListener {
 		 * .setActionCommand(Principal.enumAcciones.CARGAR_PANEL_CONSULTA.toString());
 		 */
 
-
-		//VENTANA REGISTRO
+		// VENTANA REGISTRO
 
 		this.vistaPrincipal.getPanelRegistro().getBtnRegistrarse().addActionListener(this);
 		this.vistaPrincipal.getPanelRegistro().getBtnRegistrarse()
-		.setActionCommand(Principal.enumAcciones.REGISTRAR_USUARIO.toString());
+				.setActionCommand(Principal.enumAcciones.REGISTRAR_USUARIO.toString());
 
 		this.vistaPrincipal.getPanelRegistro().getBtnVolverLogin().addActionListener(this);
 		this.vistaPrincipal.getPanelRegistro().getBtnVolverLogin()
-		.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_LOGIN.toString());
+				.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_LOGIN.toString());
 
-
-		//VENTANA LOGIN
+		// VENTANA LOGIN
 		this.vistaPrincipal.getPanelLogin().getBtnLogin().addActionListener(this);
 		this.vistaPrincipal.getPanelLogin().getBtnLogin().setActionCommand(Principal.enumAcciones.LOGIN.toString());
 
 		this.vistaPrincipal.getPanelLogin().getBtnRegistrarse().addActionListener(this);
 		this.vistaPrincipal.getPanelLogin().getBtnRegistrarse()
-		.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_REGISTRO.toString());
-		//VENTANA PERFIL
+				.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_REGISTRO.toString());
 
+		// VENTANA PERFIL
 		this.vistaPrincipal.getPanelPerfil().getBtnEditar().addActionListener(this);
 		this.vistaPrincipal.getPanelPerfil().getBtnEditar()
-		.setActionCommand(Principal.enumAcciones.EDITAR_PERFIL.toString());
+				.setActionCommand(Principal.enumAcciones.EDITAR_PERFIL.toString());
 
 		this.vistaPrincipal.getBtnPerfil().addActionListener(this);
 		this.vistaPrincipal.getBtnPerfil().setActionCommand(Principal.enumAcciones.CARGAR_PANEL_PERFIL.toString());
 
+		this.vistaPrincipal.getPanelPerfil().getBtnIconoVerContrasena().addActionListener(this);
+		this.vistaPrincipal.getPanelPerfil().getBtnIconoVerContrasena()
+				.setActionCommand(Principal.enumAcciones.VER_CONTRASENA.toString());
 
-		//VENTANA WORKOUT
+		this.vistaPrincipal.getPanelPerfil().getBtnAceptar().addActionListener(this);
+		this.vistaPrincipal.getPanelPerfil().getBtnAceptar()
+				.setActionCommand(Principal.enumAcciones.APLICAR_CAMBIOS_PERFIL.toString());
+
+		// VENTANA WORKOUT
 		this.vistaPrincipal.getPanelWorkout().getBtnIrAVideo().addActionListener(this);
-		this.vistaPrincipal.getPanelWorkout().getBtnIrAVideo().setActionCommand(Principal.enumAcciones.ABRIR_NAVEGADOR.toString());
-
-
-
+		this.vistaPrincipal.getPanelWorkout().getBtnIrAVideo()
+				.setActionCommand(Principal.enumAcciones.ABRIR_NAVEGADOR.toString());
 	}
 
 	/*** Tratamiento de las acciones ***/
@@ -105,24 +108,40 @@ public class Controlador implements ActionListener {
 			this.mConfirmarLogin(accion);
 			break;
 		case CARGAR_PANEL_LOGIN:
+			this.vistaPrincipal.getPanelRegistro().getTfNombre().setText("");
+			this.vistaPrincipal.getPanelRegistro().getTfApellidos().setText("");
+			this.vistaPrincipal.getPanelRegistro().getTfEmail().setText("");
+			this.vistaPrincipal.getPanelRegistro().getPfContrasena().setText("");
+			this.vistaPrincipal.getPanelRegistro().getFechaNacimientoCalendar().setDate(new Date());
 			this.vistaPrincipal.mVisualizarPaneles(accion);
 			break;
 		case CARGAR_PANEL_REGISTRO:
+			this.vistaPrincipal.getPanelLogin().getTextFieldUser().setText("");
+			this.vistaPrincipal.getPanelLogin().getTextFieldPass().setText("");
 			this.vistaPrincipal.mVisualizarPaneles(accion);
 			break;
 		case CARGAR_PANEL_PERFIL:
 			this.vistaPrincipal.getPanelPerfil().setUsuarioLogeado(usuarioLogeado);
-			this.vistaPrincipal.getPanelPerfil().getTfNombre().setText(usuarioLogeado.getNombre());	
-			this.vistaPrincipal.getPanelPerfil().getTfApellidos().setText(usuarioLogeado.getApellidos());		
-
+			this.vistaPrincipal.getPanelPerfil().getTfNombre().setText(usuarioLogeado.getNombre());
+			this.vistaPrincipal.getPanelPerfil().getTfApellidos().setText(usuarioLogeado.getApellidos());
+			this.vistaPrincipal.getPanelPerfil().getTfEmail().setText(usuarioLogeado.getEmail());
+			this.vistaPrincipal.getPanelPerfil().getPfContrasena().setText(usuarioLogeado.getPass());
+			this.vistaPrincipal.getPanelPerfil().getTfContrasenaVer().setText(usuarioLogeado.getPass());
+			this.vistaPrincipal.getPanelPerfil().getFechaNacimientoCalendar()
+					.setDate(usuarioLogeado.getFechaNacimiento());
 			this.vistaPrincipal.mVisualizarPaneles(accion);
-			System.out.println("hola");
 			break;
 		case REGISTRAR_USUARIO:
-			this.mRegistrarUsuario(accion);
+			this.mRegistrarUsuario();
 			break;
 		case EDITAR_PERFIL:
-			this.editarPerfil(accion);
+			this.editarPerfil();
+			break;
+		case APLICAR_CAMBIOS_PERFIL:
+			this.aplicarCambiosPerfil();
+			break;
+		case VER_CONTRASENA:
+			this.verContrasena();
 			break;
 		case ABRIR_NAVEGADOR:
 			this.abrirWebPagina();
@@ -133,6 +152,16 @@ public class Controlador implements ActionListener {
 		}
 	}
 
+	private void verContrasena() {
+		if (this.vistaPrincipal.getPanelPerfil().getPfContrasena().isVisible()) {
+			this.vistaPrincipal.getPanelPerfil().getPfContrasena().setVisible(false);
+			this.vistaPrincipal.getPanelPerfil().getTfContrasenaVer().setVisible(true);
+		} else {
+			this.vistaPrincipal.getPanelPerfil().getPfContrasena().setVisible(true);
+			this.vistaPrincipal.getPanelPerfil().getTfContrasenaVer().setVisible(false);
+		}
+	}
+
 	public void mCargarVentanas(Principal.enumAcciones accion) {
 
 		switch (accion) {
@@ -140,7 +169,8 @@ public class Controlador implements ActionListener {
 			listaWorkouts = new WorkOut().mObtenerWorkouts();
 			this.vistaPrincipal.getPanelWorkout().setWorkouts(listaWorkouts);
 			this.vistaPrincipal.getPanelWorkout().setUser(usuarioLogeado);
-			this.vistaPrincipal.getPanelWorkout().getFiltroNivel().setSelectedIndex((int)usuarioLogeado.getNivel()+1);
+			this.vistaPrincipal.getPanelWorkout().getFiltroNivel()
+					.setSelectedIndex((int) usuarioLogeado.getNivel() + 1);
 			this.vistaPrincipal.mVisualizarPaneles(Principal.enumAcciones.CARGAR_PANEL_WORKOUT);
 
 			break;
@@ -158,19 +188,20 @@ public class Controlador implements ActionListener {
 		if (!usuarioIntroducido.isEmpty() && !passIntroducida.isEmpty()) {
 			Usuario usuario = new Usuario();
 			usuarioLogeado = usuario.mObtenerUsuario(usuarioIntroducido, passIntroducida);
-			mCargarVentanas(Principal.enumAcciones.CARGAR_PANEL_WORKOUT);
+			if (usuarioLogeado != null)
+				mCargarVentanas(Principal.enumAcciones.CARGAR_PANEL_WORKOUT);
 		} else {
 			JOptionPane.showMessageDialog(null, "Algún campo está vacío", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
-	private void mRegistrarUsuario(Principal.enumAcciones accion) {
+	private void mRegistrarUsuario() {
 		PanelRegistro panelRegistro = this.vistaPrincipal.getPanelRegistro();
 
 		String nombre = panelRegistro.getTfNombre().getText();
 		String apellidos = panelRegistro.getTfNombre().getText();
 		String email = panelRegistro.getTfEmail().getText();
-		
+
 		String contrasena = new String(panelRegistro.getPfContrasena().getPassword()).trim();
 
 		Date fechaNacimiento = panelRegistro.getFechaNacimientoCalendar().getDate();
@@ -207,25 +238,47 @@ public class Controlador implements ActionListener {
 		return matcher.matches();
 	}
 
-	private void editarPerfil(enumAcciones accion) {
+	private void editarPerfil() {
 		PanelPerfil panelPerfil = this.vistaPrincipal.getPanelPerfil();
 		panelPerfil.getTfNombre().setEditable(true);
 		panelPerfil.getTfApellidos().setEditable(true);
-		panelPerfil.getPfContrasena().setEditable(true);
 		panelPerfil.getFechaNacimientoCalendar().setEnabled(true);
 		panelPerfil.getBtnAceptar().setEnabled(true);
 		panelPerfil.getBtnEditar().setEnabled(false);
+		panelPerfil.getBtnIconoVerContrasena().setEnabled(true);
+		/*
+		 * usuarioLogeado.setNombre(panelPerfil.getTfNombre().getText());
+		 * usuario.setApellidos(panelPerfil.getTfApellidos().getText());
+		 * usuario.setPass(panelPerfil.getTfContrasenaVer().getText());
+		 * usuario.setFechaNacimiento((panelPerfil.getFechaNacimientoCalendar().getDate(
+		 * )));
+		 * 
+		 * panelPerfil.getTfNombre().setEditable(false);
+		 * panelPerfil.getTfApellidos().setEditable(false);
+		 * panelPerfil.getPfContrasena().setVisible(true);
+		 * panelPerfil.getTfContrasenaVer().setVisible(false);
+		 * panelPerfil.getFechaNacimientoCalendar().setEnabled(false);
+		 * panelPerfil.getBtnAceptar().setEnabled(false);
+		 * panelPerfil.getBtnEditar().setEnabled(true);
+		 * panelPerfil.getBtnIconoVerContrasena().setEnabled(false);
+		 */
 	}
 
-	private void aplicarCambiosPerfil(enumAcciones accion) {
+	private void aplicarCambiosPerfil() {
 		PanelPerfil panelPerfil = this.vistaPrincipal.getPanelPerfil();
-	}
 
+		Usuario usuario = new Usuario();
+		usuario.setNombre(panelPerfil.getTfNombre().getText());
+		usuario.setApellidos(panelPerfil.getTfApellidos().getText());
+		usuario.setPass(panelPerfil.getTfContrasenaVer().getText());
+		usuario.setFechaNacimiento((panelPerfil.getFechaNacimientoCalendar().getDate()));
+		usuario.mModificarUsuario();
+	}
 
 	private void abrirWebPagina() {
 		PanelWorkout2 panelWk = this.vistaPrincipal.getPanelWorkout();
 
-		if(panelWk.getFiltroNivel().getSelectedIndex()!=-1 && panelWk.getWorkoutsList().getSelectedIndex()!=-1 ) {
+		if (panelWk.getFiltroNivel().getSelectedIndex() != -1 && panelWk.getWorkoutsList().getSelectedIndex() != -1) {
 			WorkOut workousleccionado = panelWk.getWorkOutseleccionado();
 			System.out.println(workousleccionado.getVideoURL().toString());
 			try {
@@ -241,43 +294,6 @@ public class Controlador implements ActionListener {
 			} catch (IOException | URISyntaxException e) {
 				e.printStackTrace();
 			}
-		}	
+		}
 	}
-
 }
-
-//	private void mModificarContacto(Principal.enumAcciones accion) {
-//		PanelModificar panelModificar = this.vistaPrincipal.getPanelModificar();
-//		Usuario contacto = null;
-//
-//		JTable table = panelModificar.getTablaContactos();
-//
-//		if (table.getSelectedRow() != -1) {
-//
-//			String nombre = panelModificar.getTextFieldNombre().getText();
-//			String email = panelModificar.getTextFieldEmail().getText();
-//			String telString = panelModificar.getTextFieldTel().getText();
-//
-//			if (!nombre.isEmpty() && !email.isEmpty() && esDouble(telString)) {
-//				double tel = Double.parseDouble(panelModificar.getTextFieldTel().getText());
-//
-//				contacto = new Usuario(nombre, tel, email);ç	//				contacto.setIdContacto(table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
-//				System.out.println("Clase controlador.contacto mModificar valor id "
-//						+ table.getModel().getValueAt(table.getSelectedRow(), 0).toString());
-//				contacto.mModificar();
-//
-//				panelModificar.getTextFieldNombre().setText("");
-//				panelModificar.getTextFieldEmail().setText("");
-//				panelModificar.getTextFieldTel().setText("");
-//
-//				mCargarContactos(Principal.enumAcciones.CARGAR_PANEL_MODIFICAR);
-//			} else {
-//				JOptionPane.showMessageDialog(null, "Algun campo es invalido");
-//			}
-//
-//		} else {
-//			JOptionPane.showMessageDialog(null, "No hay elemento seleccionado");
-//
-//		}
-//
-//	}

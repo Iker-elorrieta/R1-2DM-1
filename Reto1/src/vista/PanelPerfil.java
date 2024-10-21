@@ -1,9 +1,11 @@
 package vista;
 
+import java.awt.Image;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,6 +15,7 @@ import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
 import modelo.Usuario;
+import javax.swing.JComboBox;
 
 public class PanelPerfil extends JPanel {
 	/**
@@ -26,8 +29,9 @@ public class PanelPerfil extends JPanel {
 	private JDateChooser fechaNacimientoCalendar;
 	private JButton btnEditar;
 	private JButton btnAceptar;
+	private JButton btnIconoVerContrasena;
 	private Usuario usuarioLogeado;
-
+	private JTextField tfContrasenaVer;
 
 	/**
 	 * Create the panel.
@@ -39,6 +43,12 @@ public class PanelPerfil extends JPanel {
 		int dia = ahoraMismo.get(Calendar.DATE);
 		String maxString = ano + "-" + mes + "-" + dia;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+		ImageIcon originalIcon = new ImageIcon("Multimedia/Ojo.png");
+
+		Image originalImage = originalIcon.getImage();
+		Image scaledImage = originalImage.getScaledInstance(26, 21, Image.SCALE_SMOOTH);
+		ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
 		setBounds(288, 11, 784, 541);
 		setLayout(null);
@@ -109,14 +119,36 @@ public class PanelPerfil extends JPanel {
 		btnAceptar.setEnabled(false);
 		btnAceptar.setBounds(315, 354, 89, 23);
 		add(btnAceptar);
-	
 
+		btnIconoVerContrasena = new JButton(new ImageIcon("Multimedia/Ojo.png"));
+		btnIconoVerContrasena.setBounds(504, 274, 26, 21);
+		add(btnIconoVerContrasena);
+		btnIconoVerContrasena.setIcon(scaledIcon);
+		btnIconoVerContrasena.setEnabled(false);
+
+		tfContrasenaVer = new JTextField();
+		tfContrasenaVer.setBounds(294, 275, 200, 20);
+		add(tfContrasenaVer);
+		tfContrasenaVer.setColumns(10);
+		tfContrasenaVer.setVisible(false);
 	}
 
 	public void setUsuarioLogeado(Usuario usuarioLogeado) {
 		this.usuarioLogeado = usuarioLogeado;
 	}
-	
+
+	public Usuario getUsuarioLogeado() {
+		return usuarioLogeado;
+	}
+
+	public JButton getBtnIconoVerContrasena() {
+		return btnIconoVerContrasena;
+	}
+
+	public void setBtnIconoVerContrasena(JButton btnIconoVerContrasena) {
+		this.btnIconoVerContrasena = btnIconoVerContrasena;
+	}
+
 	public JButton getBtnAceptar() {
 		return btnAceptar;
 	}
@@ -131,6 +163,14 @@ public class PanelPerfil extends JPanel {
 
 	public void setBtnEditar(JButton btnEditar) {
 		this.btnEditar = btnEditar;
+	}
+
+	public JTextField getTfContrasenaVer() {
+		return tfContrasenaVer;
+	}
+
+	public void setTfContrasenaVer(JTextField tfContrasenaVer) {
+		this.tfContrasenaVer = tfContrasenaVer;
 	}
 
 	public JTextField getTfNombre() {

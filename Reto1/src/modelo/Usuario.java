@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.JOptionPane;
 
 import com.google.api.SystemParameterOrBuilder;
+import com.google.api.core.ApiFuture;
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
@@ -177,7 +178,7 @@ public class Usuario {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return this;
+		return null;
 	}
 
 	// Convertir de timeStamp de Firestore a date
@@ -217,29 +218,34 @@ public class Usuario {
 
 	}
 
-//	  public void mModificar() { Firestore co = null; try { co =
-//	  Conexion.conectar(); CollectionReference root =
-//	  co.collection(collectionName); DocumentReference conRef =
-//	  root.document(this.idContacto);
-//	  
-//	  ApiFuture<DocumentSnapshot> future = conRef.get(); DocumentSnapshot document
-//	  = future.get();
-//	  
-//	  if (document.exists()) { Map<String, Object> contactoCambios =
-//	  document.getData();
-//	  
-//	  contactoCambios.put(fieldNombre, this.nombre);
-//	  contactoCambios.put(fieldTelefono, this.telefono);
-//	  contactoCambios.put(fieldEmail, this.email);
-//	  
-//	  
-//	  conRef.update(contactoCambios); System.out.println("Modificado");
-//	  
-//	  
-//	  
-//	  } else { System.out.println("El documento no existe."); }
-//	  
-//	  } catch (IOException e) { e.printStackTrace(); } catch (InterruptedException
-//	  | ExecutionException e) { e.printStackTrace(); }
+	public void mModificarUsuario() {
+		Firestore co = null;
+		try {
+			co = Conexion.conectar();
+			CollectionReference root = co.collection(COLLECTION_NAME);
+			DocumentReference conRef = root.document(this.email);
 
+			ApiFuture<DocumentSnapshot> future = conRef.get();
+			DocumentSnapshot document = future.get();
+
+			if (document.exists()) {
+				Map<String, Object> usuarioModificado = document.getData();
+
+				usuarioModificado.put(FIELD_NOMBRE, this.nombre);
+				usuarioModificado.put(FIELD_APELLIDOS, this.apellidos);
+				usuarioModificado.put(FIELD_PASS, this.pass);
+				usuarioModificado.put(FIELD_FECHA_NACIMIENTO, this.fechaNacimiento);
+
+				conRef.update(usuarioModificado);
+				System.out.println("Modificado");
+			} else {
+				System.out.println("El documento no existe.");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
+	}
 }
