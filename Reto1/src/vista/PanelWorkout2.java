@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.BorderFactory;
 import modelo.Usuario;
 import modelo.WorkOut;
+import javax.swing.JTextArea;
 
 
 public class PanelWorkout2 extends JPanel {
@@ -32,7 +33,7 @@ public class PanelWorkout2 extends JPanel {
 	private JButton btnIrAVideo;
 
 	public PanelWorkout2() {
-	
+
 		setBackground(new Color(230, 230, 250)); // Un color más claro
 		setBounds(288, 11, 688, 541);
 		setLayout(null);
@@ -76,7 +77,7 @@ public class PanelWorkout2 extends JPanel {
 		scrollPane.setBounds(0, 10, 688, 208);
 		scrollPane.setBorder(BorderFactory.createTitledBorder("Lista de Workouts"));
 		centerPanel.add(scrollPane);
-		
+
 		// Detalles del workout seleccionado
 		JPanel detailsPanel = new JPanel(null);
 		detailsPanel.setBounds(0, 218, 428, 240);
@@ -97,7 +98,18 @@ public class PanelWorkout2 extends JPanel {
 		centerPanel.add(detailsPanel);
 
 		add(centerPanel);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(438, 229, 167, 128);
+		scrollPane_1.setBorder(BorderFactory.createTitledBorder("Ejercicios"));
 
+		centerPanel.add(scrollPane_1);
+		
+		JTextArea textArea = new JTextArea();
+		textArea.setEnabled(false);
+		textArea.setEditable(false);
+		scrollPane_1.setViewportView(textArea);
+		
+		
 		// Botón para iniciar el workout
 		JButton startWorkoutButton = new JButton("Iniciar Workout");
 		startWorkoutButton.setBounds(0, 501, 688, 40);
@@ -119,8 +131,14 @@ public class PanelWorkout2 extends JPanel {
 						break;
 					}
 				}
-				lblNEjer.setText("Nº Ejercicios: " + (workouSelect != null ? workouSelect.getNumEjercicios() : "-"));
-				lblUrl.setText("Video: " + (workouSelect != null ? workouSelect.getVideoURL() : "-"));
+				if(workouSelect!=null) {
+				lblNEjer.setText("Nº Ejercicios: " + workouSelect.getNumEjercicios());
+				lblUrl.setText("Video: " + workouSelect.getVideoURL());
+				
+				textArea.setText(workouSelect.getListaEjercicios());
+				}
+
+				
 			}
 		});
 
@@ -151,7 +169,7 @@ public class PanelWorkout2 extends JPanel {
 		}
 		JOptionPane.showMessageDialog(this,
 				"Iniciando " + workouSelect.getNombre() +
-			//	"\nNúmero de ejercicios: " + workouSelect.getNumeroEjercicios() +
+				//	"\nNúmero de ejercicios: " + workouSelect.getNumeroEjercicios() +
 				"\nURL del video: " + workouSelect.getVideoURL());
 	}
 
@@ -186,11 +204,8 @@ public class PanelWorkout2 extends JPanel {
 	public void setWorkoutsList(JList<?> workoutsList) {
 		this.workoutsList = workoutsList;
 	}
-	
+
 	public WorkOut getWorkOutseleccionado() {
 		return this.workouSelect;
 	}
-	
-	
-	
 }

@@ -40,12 +40,7 @@ public class WorkOut {
 		this.ejercicios = new ArrayList<>();
 	}
 
-	//Para poder crear los WorKouts de moemnto sin ejercicios
-	public WorkOut(String nombre, double nivel, String videoURL) {
-		this.nombre = nombre;
-		this.nivel = nivel;
-		this.videoURL = videoURL;
-	}
+
 
 	public WorkOut(String nombre, double nivel, String videoURL, ArrayList<Ejercicio> ejercicios) {
 		this.nombre = nombre;
@@ -107,6 +102,14 @@ public class WorkOut {
 	 */
 
 
+	public String getListaEjercicios() {
+		String texto ="";
+		for(Ejercicio ejercicio: ejercicios) {
+			texto += ejercicio.getNombre() + "\n";
+		}
+		return texto;
+	}
+	
 
 	// *** Métodos CRUD ***
 
@@ -166,6 +169,8 @@ public class WorkOut {
 				w.setNombre(workout.getId());
 				w.setNivel(workout.getDouble(FIELD_NIVEL));
 				w.setVideoURL(workout.getString(FIELD_VIDEO_URL));
+				w.setEjercicios(new Ejercicio().mObtenerEjercicios(COLLECTION_NAME, w.getNombre()));
+				
 				listaWorkOuts.add(w);
 			}
 			co.close();

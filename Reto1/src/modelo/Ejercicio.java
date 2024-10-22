@@ -113,20 +113,21 @@ public class Ejercicio {
 	public ArrayList<Ejercicio> mObtenerEjercicios(String coleccionRoot, String nombreWorkout) {
 		Firestore co = null;
 		ArrayList<Ejercicio> listaEjercicios = new ArrayList<>();
+		System.out.println(coleccionRoot +" " +nombreWorkout); 
 		try {
 			co = Conexion.conectar();
 
-	        ApiFuture<DocumentSnapshot> query = co.collection(coleccionRoot).document(nombreWorkout).get();
-	        QuerySnapshot querySnapshot = query.get();
-	        List<QueryDocumentSnapshot> ejercicios = querySnapshot.getDocuments();
-			
-			
+			DocumentReference workOutDoc = co.collection(coleccionRoot).document(nombreWorkout);
+			ApiFuture<QuerySnapshot> ejerciciosFuture = workOutDoc.collection(COLLECTION_NAME).get();
+			QuerySnapshot ejerciciosSnapshot = ejerciciosFuture.get();
+			List<QueryDocumentSnapshot> ejercicios = ejerciciosSnapshot.getDocuments();
 			for (QueryDocumentSnapshot ejercicio : ejercicios) {
+				System.out.println("Entra en el metodo");
+
 				Ejercicio e = new Ejercicio();
 				e.setNombre(ejercicio.getId());
 				e.setDescripcion(ejercicio.getString(FIELD_DESCRIPCION));
 				e.setImagenURL(ejercicio.getString(FIELD_VIDEO_URL));
-				// No recuperamos las series aquí; eso se haría al obtener un ejercicio específico
 				listaEjercicios.add(e);
 			}
 			co.close();
