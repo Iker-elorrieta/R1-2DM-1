@@ -85,9 +85,6 @@ public class Controlador implements ActionListener, ListSelectionListener {
 		this.vistaPrincipal.getPanelPerfil().getBtnEditar()
 				.setActionCommand(Principal.enumAcciones.EDITAR_PERFIL.toString());
 
-		this.vistaPrincipal.getBtnPerfil().addActionListener(this);
-		this.vistaPrincipal.getBtnPerfil().setActionCommand(Principal.enumAcciones.CARGAR_PANEL_PERFIL.toString());
-
 		this.vistaPrincipal.getPanelPerfil().getBtnIconoVerContrasena().addActionListener(this);
 		this.vistaPrincipal.getPanelPerfil().getBtnIconoVerContrasena()
 				.setActionCommand(Principal.enumAcciones.VER_CONTRASENA.toString());
@@ -96,6 +93,11 @@ public class Controlador implements ActionListener, ListSelectionListener {
 		this.vistaPrincipal.getPanelPerfil().getBtnAceptar()
 				.setActionCommand(Principal.enumAcciones.APLICAR_CAMBIOS_PERFIL.toString());
 
+		this.vistaPrincipal.getPanelPerfil().getBtnVolver().addActionListener(this);
+		this.vistaPrincipal.getPanelPerfil().getBtnVolver()
+				.setActionCommand(Principal.enumAcciones.APLICAR_CAMBIOS_PERFIL.toString());
+
+		
 		// VENTANA WORKOUT
 		this.vistaPrincipal.getPanelWorkout().getBtnIrAVideo().addActionListener(this);
 		this.vistaPrincipal.getPanelWorkout().getBtnIrAVideo()
@@ -107,8 +109,13 @@ public class Controlador implements ActionListener, ListSelectionListener {
 		
 		this.vistaPrincipal.getPanelWorkout().getWorkoutsList().addListSelectionListener(this);
 		this.vistaPrincipal.getPanelWorkout().getWorkoutsList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
+		
+		
+		this.vistaPrincipal.getPanelWorkout().getBtnPerfil().addActionListener(this);
+		this.vistaPrincipal.getPanelWorkout().getBtnPerfil()
+				.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_PERFIL.toString());
 	
+		
 		//VENTANA PANEL EJERCICIO
 		
 	}
@@ -164,13 +171,17 @@ public class Controlador implements ActionListener, ListSelectionListener {
 			this.abrirWebPagina();
 			break;
 		case CARGAR_PANEL_EJERCICIO:
+			if(workoutSelect!=null) {
 			this.vistaPrincipal.getPanelEjercicio().setWorkouSelect(workoutSelect);
 			System.out.println(workoutSelect.getNombre());
-			this.vistaPrincipal.getPanelEjercicio().revalidate(); // Reorganiza los componentes
-			this.vistaPrincipal.getPanelEjercicio().repaint(); 
-			this.vistaPrincipal.getPanelEjercicio().updateUI();
+			this.vistaPrincipal.getPanelEjercicio().actualizarVentana();
 			this.vistaPrincipal.mVisualizarPaneles(accion);
+			}else {System.out.println("Selcciona una opcion");}
 			break;
+		case CARGAR_PANEL_WORKOUT:
+			this.vistaPrincipal.mVisualizarPaneles(accion);
+			break;	
+			
 		default:
 			break;
 

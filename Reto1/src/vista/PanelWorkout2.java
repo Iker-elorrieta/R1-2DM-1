@@ -32,8 +32,9 @@ public class PanelWorkout2 extends JPanel {
 	private JLabel lblUrl;
 	private JButton btnIrAVideo;
 	private JButton btnIniciar;
-	JTextArea textArea;
-	JLabel lblNEjer;
+	private JTextArea textArea;
+	private JLabel lblNEjer;
+	private JButton btnPerfil;
 	public PanelWorkout2() {
 
 		setBackground(new Color(230, 230, 250)); 
@@ -41,7 +42,7 @@ public class PanelWorkout2 extends JPanel {
 		setLayout(null);
 
 		JPanel topPanel = new JPanel(new BorderLayout(10, 10));
-		topPanel.setBounds(0, 0, 688, 43);
+		topPanel.setBounds(0, 33, 688, 43);
 		topPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		topPanel.setBackground(new Color(230, 230, 250));
 
@@ -56,7 +57,7 @@ public class PanelWorkout2 extends JPanel {
 		add(topPanel);
 
 		JPanel centerPanel = new JPanel();
-		centerPanel.setBounds(0, 43, 688, 458);
+		centerPanel.setBounds(0, 75, 688, 426);
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		centerPanel.setBackground(new Color(245, 245, 245));
 
@@ -74,15 +75,15 @@ public class PanelWorkout2 extends JPanel {
 		detailsPanel.setBackground(new Color(245, 245, 245));
 		detailsPanel.setLayout(null);
 		 lblNEjer = new JLabel("Nº Ejercicios: -");
-		lblNEjer.setBounds(36, 25, 70, 14);
+		lblNEjer.setBounds(36, 25, 142, 14);
 		detailsPanel.add(lblNEjer);
 
 		lblUrl = new JLabel("Video: -");
-		lblUrl.setBounds(36, 50, 37, 14);
+		lblUrl.setBounds(36, 50, 351, 14);
 		detailsPanel.add(lblUrl);
 
 		btnIrAVideo = new JButton("Ver Video");
-		btnIrAVideo.setBounds(36, 106, 77, 23);
+		btnIrAVideo.setBounds(36, 92, 85, 31);
 		detailsPanel.add(btnIrAVideo);
 
 		centerPanel.add(detailsPanel);
@@ -108,6 +109,10 @@ public class PanelWorkout2 extends JPanel {
 		btnIniciar.setFocusPainted(false);
 		btnIniciar.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		add(btnIniciar);
+		
+		 btnPerfil = new JButton("Perfil");
+		btnPerfil.setBounds(595, 0, 93, 23);
+		add(btnPerfil);
 
 		if (user != null) {
 			actualizarListaWorkOuts();
@@ -192,7 +197,13 @@ public class PanelWorkout2 extends JPanel {
 	public void setLblNEjer(JLabel lblNEjer) {
 		this.lblNEjer = lblNEjer;
 	}
-	
-	
+
+	public JButton getBtnPerfil() {
+		return btnPerfil;
+	}
+
+	public void setBtnPerfil(JButton btnPerfil) {
+		this.btnPerfil = btnPerfil;
+	}
 	
 }

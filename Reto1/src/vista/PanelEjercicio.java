@@ -25,7 +25,10 @@ public class PanelEjercicio extends JPanel {
 	private Ejercicio ejercicio;
 	private int labelAltura = 24;
 	private int margenEntrePanelSeires = 15;
-
+	private JLabel lblDescripcionE;
+	private JPanel panelSerie1;
+	JLabel lblWorkout;
+	JPanel panelMenu;
 
 	public PanelEjercicio() {
 
@@ -55,7 +58,7 @@ public class PanelEjercicio extends JPanel {
 		panel.setBounds(165, 0, 280, 51);
 		panel_2.add(panel);
 
-		JLabel lblDescripcionE = new JLabel("Ejercicio X- Descripción");
+		lblDescripcionE = new JLabel("Ejercicio X- Descripción");
 		lblDescripcionE.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDescripcionE.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		panel.add(lblDescripcionE);
@@ -64,7 +67,7 @@ public class PanelEjercicio extends JPanel {
 		panel_1.setBounds(455, 0, 234, 51);
 		panel_2.add(panel_1);
 
-		JLabel lblWorkout = new JLabel("Workout ");
+		lblWorkout = new JLabel("Workout ");
 		lblWorkout.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWorkout.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		panel_1.add(lblWorkout);
@@ -120,11 +123,11 @@ public class PanelEjercicio extends JPanel {
 		scrollPane.setBounds(128, 113, 453, 270);
 		panelCentral.add(scrollPane);
 
-		JPanel panelMenu = new JPanel();
+		panelMenu = new JPanel();
 		scrollPane.setViewportView(panelMenu);
 		panelMenu.setLayout(null);
 
-		JPanel panelSerie1 = new JPanel();
+		panelSerie1 = new JPanel();
 		panelSerie1.setBounds(79, 24, 265, 90);
 		panelMenu.add(panelSerie1);
 		panelSerie1.setLayout(null);
@@ -139,59 +142,40 @@ public class PanelEjercicio extends JPanel {
 		lblNSerie1.setBounds(123, 39, 116, 14);
 		panelSerie1.add(lblNSerie1);
 
-		JPanel panelSerie2 = new JPanel();
-		panelSerie2.setBounds(79, 125, 265, 90);
-		panelMenu.add(panelSerie2);
-		panelSerie2.setLayout(null);
-
-		JLabel lblImg2 = new JLabel("*foto*");
-		lblImg2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblImg2.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblImg2.setBounds(10, 28, 64, 21);
-		panelSerie2.add(lblImg2);
-
-		JLabel lblNSerie2 = new JLabel("Número Serie 30:00");
-		lblNSerie2.setBounds(116, 34, 107, 14);
-		panelSerie2.add(lblNSerie2);
-
-
-		if (workouSelect!=null) {
-			ejercicio = workouSelect.getEjercicios().get(0);
-			lblDescripcionE.setText(ejercicio.getNombre() + "- Descripción");
-			lblWorkout.setText("Workout "+ workouSelect.getNombre());
-
-			panelSerie1.setVisible(false);
-			panelSerie2.setVisible(false);
-			//Generamos los iconos de forma dinamica
-			for (Serie serie : ejercicio.getSeries()) {
 
 
 
-				JPanel panelSerie = new JPanel();
-				panelSerie.setBounds(79, labelAltura, 265, 90);
-				panelMenu.add(panelSerie);
-				panelSerie.setLayout(null);
+	}
 
-				JLabel lblImgE = new JLabel(serie.getImagenURL());
-				lblImgE.setHorizontalAlignment(SwingConstants.CENTER);
-				lblImgE.setFont(new Font("Tahoma", Font.PLAIN, 17));
-				lblImgE.setBounds(10, 33, 64, 21);
-				panelSerie.add(lblImgE);
+	public void actualizarVentana () {
+		ejercicio = workouSelect.getEjercicios().get(0);
+		lblDescripcionE.setText(ejercicio.getNombre() + "- Descripción");
+		lblWorkout.setText("Workout "+ workouSelect.getNombre());
 
-				JLabel lblNSerie = new JLabel(serie.getNombre());
-				lblNSerie.setBounds(123, 39, 116, 14);
-				lblNSerie.add(panelSerie);
+		panelSerie1.setVisible(false);
+		panelMenu.removeAll();
+		//Generamos los iconos de forma dinamica
+		for (Serie serie : ejercicio.getSeries()) {
 
-				labelAltura += panelSerie.getHeight() + margenEntrePanelSeires;
+			JLabel lblNSerie2 = new JLabel(serie.getNombre());
+			lblNSerie2.setBounds(208, labelAltura, 107, 14);
+			panelMenu.add(lblNSerie2);
 
-				if(labelAltura > panelMenu.getHeight()-20) {
-					panelMenu.setPreferredSize(new Dimension(400, labelAltura + margenEntrePanelSeires));
-				}
+			JLabel lblImg2 = new JLabel(serie.getImagenURL());
+			lblImg2.setBounds(134, labelAltura, 64, 21);
+			panelMenu.add(lblImg2);
+			lblImg2.setHorizontalAlignment(SwingConstants.CENTER);
+			lblImg2.setFont(new Font("Tahoma", Font.PLAIN, 17));
+
+			
+
+			labelAltura += lblNSerie2.getHeight() + margenEntrePanelSeires;
+
+			if(labelAltura > panelMenu.getHeight()-20) {
+				panelMenu.setPreferredSize(new Dimension(400, labelAltura + margenEntrePanelSeires));
 			}
 		}
 	}
-
-
 	public void setWorkouSelect(WorkOut workouSelect) {
 		this.workouSelect = workouSelect;
 	}

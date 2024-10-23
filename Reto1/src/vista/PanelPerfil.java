@@ -32,6 +32,7 @@ public class PanelPerfil extends JPanel {
 	private JButton btnIconoVerContrasena;
 	private Usuario usuarioLogeado;
 	private JTextField tfContrasenaVer;
+	private JButton btnVolver;
 
 	/**
 	 * Create the panel.
@@ -130,6 +131,10 @@ public class PanelPerfil extends JPanel {
 		tfContrasenaVer.setBounds(294, 275, 200, 20);
 		add(tfContrasenaVer);
 		tfContrasenaVer.setColumns(10);
+		
+		btnVolver = new JButton("Volver");
+		btnVolver.setBounds(630, 26, 89, 23);
+		add(btnVolver);
 		tfContrasenaVer.setVisible(false);
 	}
 
@@ -212,4 +217,13 @@ public class PanelPerfil extends JPanel {
 	public void setFechaNacimientoCalendar(JDateChooser fechaNacimientoCalendar) {
 		this.fechaNacimientoCalendar = fechaNacimientoCalendar;
 	}
+
+	public JButton getBtnVolver() {
+		return btnVolver;
+	}
+
+	public void setBtnVolver(JButton btnVolver) {
+		this.btnVolver = btnVolver;
+	}
+	
 }
