@@ -64,18 +64,34 @@ public class GenerarWorkoutFireBase {
 
 		return nombresWorkouts[nivel][numero];
 	}
+	
+	
+	 private static int asignarTiempoDescanso(String nombreWorkout) {
+	        if (nombreWorkout.contains("Cardio")) {
+	            return 30; // 30 segundos para cardio
+	        } else if (nombreWorkout.contains("Fuerza")) {
+	            return 60; // 60 segundos para fuerza
+	        } else {
+	            return 45; // 45 segundos para flexibilidad
+	        }
+	    }
+	 
 	private static ArrayList<Ejercicio> crearEjercicios(String nombreWorkout) {
 		ArrayList<Ejercicio> ejercicios = new ArrayList<>();
+		int tiempoDescanso = asignarTiempoDescanso(nombreWorkout);
 		for (int i = 0; i <= 2; i++) {
 			String nombreEjercicio = generarNombreEjercicio(i, nombreWorkout);
 			String descripcion = "Descripción del ejercicio " + nombreEjercicio;
 			String imagenURL = "img/defecto.png" + i; //Ruta por defecto
+            ArrayList<Serie> series = generarSeries(nombreEjercicio, nombreWorkout);
 
-			Ejercicio ejercicio = new Ejercicio(nombreEjercicio, descripcion, imagenURL);
+			Ejercicio ejercicio = new Ejercicio(nombreEjercicio, descripcion, imagenURL, tiempoDescanso, series);
 			ejercicios.add(ejercicio);
 		}
 		return ejercicios;
 	}
+	
+	
 
 	private static String generarNombreEjercicio(int numEjercicio, String nombreWorkout) {
 		String[] ejerciciosCardio = {"Saltos", "Flexiones", "Estiramiento"};
@@ -91,4 +107,21 @@ public class GenerarWorkoutFireBase {
 		}
 		return nombre + " " + nombreWorkout.split(" ")[1];
 	}
+	
+	 private static ArrayList<Serie> generarSeries(String nombreEjercicio, String nombreWorkout) {
+	        ArrayList<Serie> series = new ArrayList<>();
+	        int numberOfSeries = nombreWorkout.contains("Avanzado") ? 3 : 2; // El avanzado tiene mas series
+	        double repeticionesBase = nombreWorkout.contains("Cardio") ? 15 : 10; // 
+
+	        for (int i = 1; i <= numberOfSeries; i++) {
+	            String serieNombre = nombreEjercicio + " - Serie " + i;
+	            double repeticiones = repeticionesBase + (i * 2); 
+	            String imagenURL = "img/serie_default.png";
+	            Serie serie = new Serie(serieNombre, repeticiones, imagenURL);
+	            series.add(serie);
+	        }
+
+	        return series;
+	    }
+	
 }

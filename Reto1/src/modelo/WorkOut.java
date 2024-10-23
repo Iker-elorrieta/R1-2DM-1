@@ -21,6 +21,7 @@ import conexion.Conexion;
 public class WorkOut {
 
 	// *** Atributos ***
+	
 	private String nombre;
 	private double nivel;
 	private String videoURL;

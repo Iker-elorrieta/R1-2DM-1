@@ -14,7 +14,12 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import modelo.Usuario;
 import modelo.WorkOut;
 import vista.PanelLogin;
@@ -24,11 +29,12 @@ import vista.PanelWorkout2;
 import vista.Principal;
 import vista.Principal.enumAcciones;
 
-public class Controlador implements ActionListener {
+public class Controlador implements ActionListener, ListSelectionListener {
 
 	private vista.Principal vistaPrincipal;
 	private Usuario usuarioLogeado;
 	private ArrayList<WorkOut> listaWorkouts;
+	private WorkOut workoutSelect;
 
 	/*
 	 * *** CONSTRUCTORES ***
@@ -94,6 +100,17 @@ public class Controlador implements ActionListener {
 		this.vistaPrincipal.getPanelWorkout().getBtnIrAVideo().addActionListener(this);
 		this.vistaPrincipal.getPanelWorkout().getBtnIrAVideo()
 				.setActionCommand(Principal.enumAcciones.ABRIR_NAVEGADOR.toString());
+		
+		this.vistaPrincipal.getPanelWorkout().getBtnIniciar().addActionListener(this);
+		this.vistaPrincipal.getPanelWorkout().getBtnIniciar()
+				.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_EJERCICIO.toString());
+		
+		this.vistaPrincipal.getPanelWorkout().getWorkoutsList().addListSelectionListener(this);
+		this.vistaPrincipal.getPanelWorkout().getWorkoutsList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+	
+		//VENTANA PANEL EJERCICIO
+		
 	}
 
 	/*** Tratamiento de las acciones ***/
@@ -145,6 +162,14 @@ public class Controlador implements ActionListener {
 			break;
 		case ABRIR_NAVEGADOR:
 			this.abrirWebPagina();
+			break;
+		case CARGAR_PANEL_EJERCICIO:
+			this.vistaPrincipal.getPanelEjercicio().setWorkouSelect(workoutSelect);
+			System.out.println(workoutSelect.getNombre());
+			this.vistaPrincipal.getPanelEjercicio().revalidate(); // Reorganiza los componentes
+			this.vistaPrincipal.getPanelEjercicio().repaint(); 
+			this.vistaPrincipal.getPanelEjercicio().updateUI();
+			this.vistaPrincipal.mVisualizarPaneles(accion);
 			break;
 		default:
 			break;
@@ -263,6 +288,36 @@ public class Controlador implements ActionListener {
 		 * panelPerfil.getBtnIconoVerContrasena().setEnabled(false);
 		 */
 	}
+	
+	
+	
+	
+	// Listeners para la selección en la lista
+
+	
+	public void valueChanged(ListSelectionEvent e ) {
+		PanelWorkout2 panelWorkout = vistaPrincipal.getPanelWorkout();
+		JList workoutsList = panelWorkout.getWorkoutsList();
+		int selectedIndex = workoutsList.getSelectedIndex();
+		if (selectedIndex != -1) {
+			for (WorkOut workout : listaWorkouts) {
+				if (workout.getNombre().equals(workoutsList.getSelectedValue().toString().split(": ")[1].trim())) {
+					workoutSelect = workout;
+					break;
+				}
+			}
+			if(workoutSelect!=null) {
+				panelWorkout.getLblNEjer().setText("Nº Ejercicios: " + workoutSelect.getNumEjercicios());
+				panelWorkout.getLblUrl().setText("Video: " + workoutSelect.getVideoURL());
+		
+				panelWorkout.getTextArea().setText(workoutSelect.getListaEjercicios());
+			}
+
+			
+		}
+		}
+		
+		
 
 	private void aplicarCambiosPerfil() {
 		PanelPerfil panelPerfil = this.vistaPrincipal.getPanelPerfil();
@@ -279,10 +334,10 @@ public class Controlador implements ActionListener {
 		PanelWorkout2 panelWk = this.vistaPrincipal.getPanelWorkout();
 
 		if (panelWk.getFiltroNivel().getSelectedIndex() != -1 && panelWk.getWorkoutsList().getSelectedIndex() != -1) {
-			WorkOut workousleccionado = panelWk.getWorkOutseleccionado();
-			System.out.println(workousleccionado.getVideoURL().toString());
+			workoutSelect = panelWk.getWorkOutseleccionado();
+			System.out.println(workoutSelect.getVideoURL().toString());
 			try {
-				URI uri = new URI(workousleccionado.getVideoURL());
+				URI uri = new URI(workoutSelect.getVideoURL());
 				if (Desktop.isDesktopSupported()) {
 					Desktop desktop = Desktop.getDesktop();
 					if (desktop.isSupported(Desktop.Action.BROWSE)) {

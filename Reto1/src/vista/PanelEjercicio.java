@@ -2,195 +2,198 @@ package vista;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.DefaultListModel;
+
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import java.awt.Font;
-import java.util.ArrayList;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 import javax.swing.BorderFactory;
+
+import modelo.Ejercicio;
+import modelo.Serie;
 import modelo.Usuario;
 import modelo.WorkOut;
 
 
 public class PanelEjercicio extends JPanel {
 	private static final long serialVersionUID = 1L;
-
-	private JComboBox<String> filtroNivel;
-	private JList<?> workoutsList;
-	private ArrayList<WorkOut> workouts;
-	WorkOut workouSelect = null;
+	WorkOut workouSelect;
 	private Usuario user;
-	private DefaultListModel workoutListModel;
-	private JLabel lblUrl;
-	private JButton btnIrAVideo;
+	private Ejercicio ejercicio;
+	private int labelAltura = 24;
+	private int margenEntrePanelSeires = 15;
+
 
 	public PanelEjercicio() {
-	
-		setBackground(new Color(230, 230, 250)); // Un color más claro
+
+		setBackground(new Color(230, 230, 250)); 
 		setBounds(288, 11, 688, 541);
 		setLayout(null);
 
-		// Título principal
-		JLabel lblLogin = new JLabel("Workout", SwingConstants.CENTER);
-		lblLogin.setBounds(0, 0, 0, 0);
-		lblLogin.setFont(new Font("Tahoma", Font.BOLD, 24));
-		lblLogin.setBorder(new EmptyBorder(10, 0, 10, 0));
-		add(lblLogin);
 
-		// Panel superior para filtros y botones
-		JPanel topPanel = new JPanel(new BorderLayout(10, 10));
-		topPanel.setBounds(0, 0, 688, 43);
-		topPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-		topPanel.setBackground(new Color(230, 230, 250));
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(0, 0, 688, 55);
+		add(panel_2);
+		panel_2.setLayout(null);
 
-		// Filtro por nivel
-		filtroNivel = new JComboBox<>(new String[]{"Todos", "Nivel 0", "Nivel 1", "Nivel 2"});
-		filtroNivel.addActionListener(e -> actualizarListaWorkOuts());
-		topPanel.add(new JLabel("Filtrar por nivel:"), BorderLayout.WEST);
-		topPanel.add(filtroNivel, BorderLayout.CENTER);
+		JPanel panelCronometroW = new JPanel();
+		panelCronometroW.setBounds(0, 0, 167, 51);
+		panel_2.add(panelCronometroW);
+		panelCronometroW.setBorder(BorderFactory.createTitledBorder("Cronometro workout"));
+		panelCronometroW.setBackground(new Color(245, 245, 245));
 
-		// Botón de historial
-		JButton btnHistorialWK = new JButton("Ver Histórico");
-		btnHistorialWK.addActionListener(e -> JOptionPane.showMessageDialog(this, "Mostrando histórico de workouts..."));
-		topPanel.add(btnHistorialWK, BorderLayout.EAST);
-		add(topPanel);
+		JLabel lblCWorkout = new JLabel("00:00");
+		lblCWorkout.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblCWorkout.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCWorkout.setBounds(10, 16, 89, 19);
+		panelCronometroW.add(lblCWorkout);
 
-		// Panel central para la lista y detalles del workout
-		JPanel centerPanel = new JPanel();
-		centerPanel.setBounds(0, 43, 688, 458);
-		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-		centerPanel.setBackground(new Color(245, 245, 245));
+		JPanel panel = new JPanel();
+		panel.setBounds(165, 0, 280, 51);
+		panel_2.add(panel);
 
-		// Lista de workouts
-		workoutListModel = new DefaultListModel<>();
-		centerPanel.setLayout(null);
-		workoutsList = new JList<>();
-		JScrollPane scrollPane = new JScrollPane(workoutsList);
-		scrollPane.setBounds(0, 10, 688, 208);
-		scrollPane.setBorder(BorderFactory.createTitledBorder("Lista de Workouts"));
-		centerPanel.add(scrollPane);
-		
-		// Detalles del workout seleccionado
-		JPanel detailsPanel = new JPanel(null);
-		detailsPanel.setBounds(0, 218, 428, 240);
-		detailsPanel.setBorder(BorderFactory.createTitledBorder("Detalles del Workout"));
-		detailsPanel.setBackground(new Color(245, 245, 245));
-		JLabel lblNEjer = new JLabel("Nº Ejercicios: -");
-		lblNEjer.setBounds(20, 30, 200, 25);
-		detailsPanel.add(lblNEjer);
+		JLabel lblDescripcionE = new JLabel("Ejercicio X- Descripción");
+		lblDescripcionE.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDescripcionE.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		panel.add(lblDescripcionE);
 
-		lblUrl = new JLabel("Video: -");
-		lblUrl.setBounds(20, 60, 387, 25);
-		detailsPanel.add(lblUrl);
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(455, 0, 234, 51);
+		panel_2.add(panel_1);
 
-		btnIrAVideo = new JButton("Ver Video");
-		btnIrAVideo.setBounds(20, 90, 120, 30);
-		detailsPanel.add(btnIrAVideo);
+		JLabel lblWorkout = new JLabel("Workout ");
+		lblWorkout.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWorkout.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		panel_1.add(lblWorkout);
 
-		centerPanel.add(detailsPanel);
+		JPanel panelCentral = new JPanel();
+		panelCentral.setBounds(0, 55, 688, 486);
+		add(panelCentral);
+		panelCentral.setLayout(null);
 
-		add(centerPanel);
+		JPanel panelCronometroW_1 = new JPanel();
+		panelCronometroW_1.setBorder(BorderFactory.createTitledBorder("Tiempo Ejercicio"));
+		panelCronometroW_1.setBackground(new Color(245, 245, 245));
+		panelCronometroW_1.setBounds(0, 0, 168, 51);
+		panelCentral.add(panelCronometroW_1);
 
-		// Botón para iniciar el workout
-		JButton startWorkoutButton = new JButton("Iniciar Workout");
-		startWorkoutButton.setBounds(0, 501, 688, 40);
-		startWorkoutButton.addActionListener(e -> startWorkout());
-		startWorkoutButton.setFont(new Font("Tahoma", Font.BOLD, 16));
-		startWorkoutButton.setBackground(new Color(102, 153, 255));
-		startWorkoutButton.setForeground(Color.WHITE);
-		startWorkoutButton.setFocusPainted(false);
-		startWorkoutButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-		add(startWorkoutButton);
+		JLabel lblCTiempoE = new JLabel("00:00");
+		lblCTiempoE.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCTiempoE.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblCTiempoE.setBounds(10, 16, 89, 19);
+		panelCronometroW_1.add(lblCTiempoE);
 
-		// Listeners para la selección en la lista
-		workoutsList.addListSelectionListener(e -> {
-			int selectedIndex = workoutsList.getSelectedIndex();
-			if (selectedIndex != -1) {
-				for (WorkOut workout : workouts) {
-					if (workout.getNombre().equals(workoutsList.getSelectedValue().toString().split(": ")[1].trim())) {
-						workouSelect = workout;
-						break;
-					}
+		JPanel panelCronometroW_1_1 = new JPanel();
+		panelCronometroW_1_1.setBorder(BorderFactory.createTitledBorder("Descanso 1 min"));
+		panelCronometroW_1_1.setBackground(new Color(245, 245, 245));
+		panelCronometroW_1_1.setBounds(0, 51, 168, 51);
+		panelCentral.add(panelCronometroW_1_1);
+
+		JLabel lblCDescanso = new JLabel("00:45");
+		lblCDescanso.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCDescanso.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		panelCronometroW_1_1.add(lblCDescanso);
+
+
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.setBounds(522, 406, 156, 40);
+		panelCentral.add(btnSalir);
+		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnSalir.setBackground(new Color(102, 153, 255));
+		btnSalir.setForeground(Color.WHITE);
+		btnSalir.setFocusPainted(false);
+		btnSalir.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
+		JButton btnIniciar = new JButton("play");
+		btnIniciar.setForeground(Color.WHITE);
+		btnIniciar.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnIniciar.setFocusPainted(false);
+		btnIniciar.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+		btnIniciar.setBackground(new Color(102, 153, 255));
+		btnIniciar.setBounds(290, 406, 156, 40);
+		panelCentral.add(btnIniciar);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(128, 113, 453, 270);
+		panelCentral.add(scrollPane);
+
+		JPanel panelMenu = new JPanel();
+		scrollPane.setViewportView(panelMenu);
+		panelMenu.setLayout(null);
+
+		JPanel panelSerie1 = new JPanel();
+		panelSerie1.setBounds(79, 24, 265, 90);
+		panelMenu.add(panelSerie1);
+		panelSerie1.setLayout(null);
+
+		JLabel lblImgE1 = new JLabel("*foto*");
+		lblImgE1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblImgE1.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblImgE1.setBounds(10, 33, 64, 21);
+		panelSerie1.add(lblImgE1);
+
+		JLabel lblNSerie1 = new JLabel("Número Serie 12:37");
+		lblNSerie1.setBounds(123, 39, 116, 14);
+		panelSerie1.add(lblNSerie1);
+
+		JPanel panelSerie2 = new JPanel();
+		panelSerie2.setBounds(79, 125, 265, 90);
+		panelMenu.add(panelSerie2);
+		panelSerie2.setLayout(null);
+
+		JLabel lblImg2 = new JLabel("*foto*");
+		lblImg2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblImg2.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblImg2.setBounds(10, 28, 64, 21);
+		panelSerie2.add(lblImg2);
+
+		JLabel lblNSerie2 = new JLabel("Número Serie 30:00");
+		lblNSerie2.setBounds(116, 34, 107, 14);
+		panelSerie2.add(lblNSerie2);
+
+
+		if (workouSelect!=null) {
+			ejercicio = workouSelect.getEjercicios().get(0);
+			lblDescripcionE.setText(ejercicio.getNombre() + "- Descripción");
+			lblWorkout.setText("Workout "+ workouSelect.getNombre());
+
+			panelSerie1.setVisible(false);
+			panelSerie2.setVisible(false);
+			//Generamos los iconos de forma dinamica
+			for (Serie serie : ejercicio.getSeries()) {
+
+
+
+				JPanel panelSerie = new JPanel();
+				panelSerie.setBounds(79, labelAltura, 265, 90);
+				panelMenu.add(panelSerie);
+				panelSerie.setLayout(null);
+
+				JLabel lblImgE = new JLabel(serie.getImagenURL());
+				lblImgE.setHorizontalAlignment(SwingConstants.CENTER);
+				lblImgE.setFont(new Font("Tahoma", Font.PLAIN, 17));
+				lblImgE.setBounds(10, 33, 64, 21);
+				panelSerie.add(lblImgE);
+
+				JLabel lblNSerie = new JLabel(serie.getNombre());
+				lblNSerie.setBounds(123, 39, 116, 14);
+				lblNSerie.add(panelSerie);
+
+				labelAltura += panelSerie.getHeight() + margenEntrePanelSeires;
+
+				if(labelAltura > panelMenu.getHeight()-20) {
+					panelMenu.setPreferredSize(new Dimension(400, labelAltura + margenEntrePanelSeires));
 				}
-				lblNEjer.setText("Nº Ejercicios: " + (workouSelect != null ? workouSelect.getNumEjercicios() : "-"));
-				lblUrl.setText("Video: " + (workouSelect != null ? workouSelect.getVideoURL() : "-"));
-			}
-		});
-
-		// Inicializar lista de workouts si es necesario
-		if (user != null) {
-			actualizarListaWorkOuts();
-		}
-	}
-
-	private void actualizarListaWorkOuts() {
-		workoutListModel.clear();
-		String nivelSeleccionado = (String) filtroNivel.getSelectedItem();
-		int filterLevel = nivelSeleccionado.equals("Todos") ? -1 : Integer.parseInt(nivelSeleccionado.split(" ")[1]);
-
-		for (WorkOut workout : this.workouts) {
-			if (workout.getNivel() <= user.getNivel() && (filterLevel == -1 || workout.getNivel() == filterLevel)) {
-				workoutListModel.addElement("WorkOut: " + workout.getNombre());
 			}
 		}
-		workoutsList.setModel(workoutListModel);
 	}
 
-	private void startWorkout() {
-		int selectedIndex = workoutsList.getSelectedIndex();
-		if (selectedIndex == -1 || workouSelect == null) {
-			JOptionPane.showMessageDialog(this, "Por favor, seleccione un workout para iniciar.");
-			return;
-		}
-		JOptionPane.showMessageDialog(this,
-				"Iniciando " + workouSelect.getNombre() +
-			//	"\nNúmero de ejercicios: " + workouSelect.getNumeroEjercicios() +
-				"\nURL del video: " + workouSelect.getVideoURL());
+
+	public void setWorkouSelect(WorkOut workouSelect) {
+		this.workouSelect = workouSelect;
 	}
 
-	public void setWorkouts(ArrayList<WorkOut> workouts) {
-		this.workouts = workouts;
-	}
-
-	public void setUser(Usuario user) {
-		this.user = user;
-	}
-
-	public JComboBox<String> getFiltroNivel() {
-		return filtroNivel;
-	}
-
-	public void setFiltroNivel(JComboBox<String> filtroNivel) {
-		this.filtroNivel = filtroNivel;
-	}
-
-	public JButton getBtnIrAVideo() {
-		return btnIrAVideo;
-	}
-
-	public void setBtnIrAVideo(JButton btnIrAVideo) {
-		this.btnIrAVideo = btnIrAVideo;
-	}
-
-	public JList<?> getWorkoutsList() {
-		return workoutsList;
-	}
-
-	public void setWorkoutsList(JList<?> workoutsList) {
-		this.workoutsList = workoutsList;
-	}
-	
-	public WorkOut getWorkOutseleccionado() {
-		return this.workouSelect;
-	}
-	
-	
-	
 }

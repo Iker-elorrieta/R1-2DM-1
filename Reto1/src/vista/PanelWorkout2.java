@@ -26,50 +26,40 @@ public class PanelWorkout2 extends JPanel {
 	private JComboBox<String> filtroNivel;
 	private JList<?> workoutsList;
 	private ArrayList<WorkOut> workouts;
-	WorkOut workouSelect = null;
+	private WorkOut workouSelect = null;
 	private Usuario user;
 	private DefaultListModel workoutListModel;
 	private JLabel lblUrl;
 	private JButton btnIrAVideo;
-
+	private JButton btnIniciar;
+	JTextArea textArea;
+	JLabel lblNEjer;
 	public PanelWorkout2() {
 
-		setBackground(new Color(230, 230, 250)); // Un color más claro
+		setBackground(new Color(230, 230, 250)); 
 		setBounds(288, 11, 688, 541);
 		setLayout(null);
 
-		// Título principal
-		JLabel lblLogin = new JLabel("Workout", SwingConstants.CENTER);
-		lblLogin.setBounds(0, 0, 0, 0);
-		lblLogin.setFont(new Font("Tahoma", Font.BOLD, 24));
-		lblLogin.setBorder(new EmptyBorder(10, 0, 10, 0));
-		add(lblLogin);
-
-		// Panel superior para filtros y botones
 		JPanel topPanel = new JPanel(new BorderLayout(10, 10));
 		topPanel.setBounds(0, 0, 688, 43);
 		topPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		topPanel.setBackground(new Color(230, 230, 250));
 
-		// Filtro por nivel
 		filtroNivel = new JComboBox<>(new String[]{"Todos", "Nivel 0", "Nivel 1", "Nivel 2"});
 		filtroNivel.addActionListener(e -> actualizarListaWorkOuts());
 		topPanel.add(new JLabel("Filtrar por nivel:"), BorderLayout.WEST);
 		topPanel.add(filtroNivel, BorderLayout.CENTER);
 
-		// Botón de historial
 		JButton btnHistorialWK = new JButton("Ver Histórico");
 		btnHistorialWK.addActionListener(e -> JOptionPane.showMessageDialog(this, "Mostrando histórico de workouts..."));
 		topPanel.add(btnHistorialWK, BorderLayout.EAST);
 		add(topPanel);
 
-		// Panel central para la lista y detalles del workout
 		JPanel centerPanel = new JPanel();
 		centerPanel.setBounds(0, 43, 688, 458);
 		centerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		centerPanel.setBackground(new Color(245, 245, 245));
 
-		// Lista de workouts
 		workoutListModel = new DefaultListModel<>();
 		centerPanel.setLayout(null);
 		workoutsList = new JList<>();
@@ -78,21 +68,21 @@ public class PanelWorkout2 extends JPanel {
 		scrollPane.setBorder(BorderFactory.createTitledBorder("Lista de Workouts"));
 		centerPanel.add(scrollPane);
 
-		// Detalles del workout seleccionado
-		JPanel detailsPanel = new JPanel(null);
+		JPanel detailsPanel = new JPanel();
 		detailsPanel.setBounds(0, 218, 428, 240);
 		detailsPanel.setBorder(BorderFactory.createTitledBorder("Detalles del Workout"));
 		detailsPanel.setBackground(new Color(245, 245, 245));
-		JLabel lblNEjer = new JLabel("Nº Ejercicios: -");
-		lblNEjer.setBounds(20, 30, 200, 25);
+		detailsPanel.setLayout(null);
+		 lblNEjer = new JLabel("Nº Ejercicios: -");
+		lblNEjer.setBounds(36, 25, 70, 14);
 		detailsPanel.add(lblNEjer);
 
 		lblUrl = new JLabel("Video: -");
-		lblUrl.setBounds(20, 60, 387, 25);
+		lblUrl.setBounds(36, 50, 37, 14);
 		detailsPanel.add(lblUrl);
 
 		btnIrAVideo = new JButton("Ver Video");
-		btnIrAVideo.setBounds(20, 90, 120, 30);
+		btnIrAVideo.setBounds(36, 106, 77, 23);
 		detailsPanel.add(btnIrAVideo);
 
 		centerPanel.add(detailsPanel);
@@ -104,45 +94,21 @@ public class PanelWorkout2 extends JPanel {
 
 		centerPanel.add(scrollPane_1);
 		
-		JTextArea textArea = new JTextArea();
+		 textArea = new JTextArea();
 		textArea.setEnabled(false);
 		textArea.setEditable(false);
 		scrollPane_1.setViewportView(textArea);
 		
 		
-		// Botón para iniciar el workout
-		JButton startWorkoutButton = new JButton("Iniciar Workout");
-		startWorkoutButton.setBounds(0, 501, 688, 40);
-		startWorkoutButton.addActionListener(e -> startWorkout());
-		startWorkoutButton.setFont(new Font("Tahoma", Font.BOLD, 16));
-		startWorkoutButton.setBackground(new Color(102, 153, 255));
-		startWorkoutButton.setForeground(Color.WHITE);
-		startWorkoutButton.setFocusPainted(false);
-		startWorkoutButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-		add(startWorkoutButton);
+		btnIniciar = new JButton("Iniciar Workout");
+		btnIniciar.setBounds(0, 501, 688, 40);
+		btnIniciar.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnIniciar.setBackground(new Color(102, 153, 255));
+		btnIniciar.setForeground(Color.WHITE);
+		btnIniciar.setFocusPainted(false);
+		btnIniciar.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+		add(btnIniciar);
 
-		// Listeners para la selección en la lista
-		workoutsList.addListSelectionListener(e -> {
-			int selectedIndex = workoutsList.getSelectedIndex();
-			if (selectedIndex != -1) {
-				for (WorkOut workout : workouts) {
-					if (workout.getNombre().equals(workoutsList.getSelectedValue().toString().split(": ")[1].trim())) {
-						workouSelect = workout;
-						break;
-					}
-				}
-				if(workouSelect!=null) {
-				lblNEjer.setText("Nº Ejercicios: " + workouSelect.getNumEjercicios());
-				lblUrl.setText("Video: " + workouSelect.getVideoURL());
-				
-				textArea.setText(workouSelect.getListaEjercicios());
-				}
-
-				
-			}
-		});
-
-		// Inicializar lista de workouts si es necesario
 		if (user != null) {
 			actualizarListaWorkOuts();
 		}
@@ -161,18 +127,7 @@ public class PanelWorkout2 extends JPanel {
 		workoutsList.setModel(workoutListModel);
 	}
 
-	private void startWorkout() {
-		int selectedIndex = workoutsList.getSelectedIndex();
-		if (selectedIndex == -1 || workouSelect == null) {
-			JOptionPane.showMessageDialog(this, "Por favor, seleccione un workout para iniciar.");
-			return;
-		}
-		JOptionPane.showMessageDialog(this,
-				"Iniciando " + workouSelect.getNombre() +
-				//	"\nNúmero de ejercicios: " + workouSelect.getNumeroEjercicios() +
-				"\nURL del video: " + workouSelect.getVideoURL());
-	}
-
+	
 	public void setWorkouts(ArrayList<WorkOut> workouts) {
 		this.workouts = workouts;
 	}
@@ -193,9 +148,6 @@ public class PanelWorkout2 extends JPanel {
 		return btnIrAVideo;
 	}
 
-	public void setBtnIrAVideo(JButton btnIrAVideo) {
-		this.btnIrAVideo = btnIrAVideo;
-	}
 
 	public JList<?> getWorkoutsList() {
 		return workoutsList;
@@ -208,4 +160,39 @@ public class PanelWorkout2 extends JPanel {
 	public WorkOut getWorkOutseleccionado() {
 		return this.workouSelect;
 	}
+
+	public JButton getBtnIniciar() {
+		return btnIniciar;
+	}
+
+	public void setBtnIniciar(JButton btnIniciar) {
+		this.btnIniciar = btnIniciar;
+	}
+
+	public JLabel getLblUrl() {
+		return lblUrl;
+	}
+
+	public void setLblUrl(JLabel lblUrl) {
+		this.lblUrl = lblUrl;
+	}
+
+	public JTextArea getTextArea() {
+		return textArea;
+	}
+
+	public void setTextArea(JTextArea textArea) {
+		this.textArea = textArea;
+	}
+
+	public JLabel getLblNEjer() {
+		return lblNEjer;
+	}
+
+	public void setLblNEjer(JLabel lblNEjer) {
+		this.lblNEjer = lblNEjer;
+	}
+	
+	
+	
 }

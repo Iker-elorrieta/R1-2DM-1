@@ -19,7 +19,7 @@ public class Principal extends JFrame {
 	// Acciones
 	public static enum enumAcciones {
 		CARGAR_PANEL_LOGIN, CARGAR_PANEL_REGISTRO, CARGAR_PANEL_PERFIL, CARGAR_PANEL_WORKOUT, LOGIN, REGISTRAR_USUARIO,
-		EDITAR_PERFIL, VER_CONTRASENA, APLICAR_CAMBIOS_PERFIL, ABRIR_NAVEGADOR
+		EDITAR_PERFIL, VER_CONTRASENA, APLICAR_CAMBIOS_PERFIL, ABRIR_NAVEGADOR, CARGAR_PANEL_EJERCICIO
 	}
 
 	private JPanel panelContenedor;
@@ -28,6 +28,10 @@ public class Principal extends JFrame {
 	private PanelLogin panelLogin;
 	private PanelWorkout2 panelWorkout;
 	private PanelPerfil panelPerfil;
+	private PanelEjercicio panelEjercicio;
+	
+	
+	
 	private JButton btnPerfil;
 	private JButton btnInsertarContacto;
 	private JButton btnModificarContacto;
@@ -46,6 +50,7 @@ public class Principal extends JFrame {
 
 		mCrearPanelLogin();
 		mCrearPanelWorkOut();
+		mCrearPanelEjercicio();
 
 		mCrearPanelPerfil();
 	}
@@ -102,6 +107,13 @@ public class Principal extends JFrame {
 		panelContenedor.setBounds(panelRegistro.getBounds());
 		panelRegistro.setVisible(false);
 	}
+	
+	private void mCrearPanelEjercicio() {
+		panelEjercicio = new PanelEjercicio();
+		panelContenedor.add(panelEjercicio);
+		panelContenedor.setBounds(panelEjercicio.getBounds());
+		panelEjercicio.setVisible(false);
+	}
 
 	private void mCrearPanelPerfil() {
 		panelPerfil = new PanelPerfil();
@@ -119,7 +131,7 @@ public class Principal extends JFrame {
 		panelWorkout.setVisible(false);
 		panelRegistro.setVisible(false);
 		panelPerfil.setVisible(false);
-
+		panelEjercicio.setVisible(false);
 		switch (panel) {
 		case CARGAR_PANEL_LOGIN:
 			panelLogin.setVisible(true);
@@ -133,6 +145,9 @@ public class Principal extends JFrame {
 		case CARGAR_PANEL_WORKOUT:
 			panelWorkout.setVisible(true);
 			panelMenu.setVisible(true);
+			break;
+		case CARGAR_PANEL_EJERCICIO:
+			panelEjercicio.setVisible(true);
 			break;
 		default:
 			break;
@@ -150,6 +165,16 @@ public class Principal extends JFrame {
 
 	public JPanel getPanelContenedor() {
 		return panelContenedor;
+	}
+	
+	
+
+	public PanelEjercicio getPanelEjercicio() {
+		return panelEjercicio;
+	}
+
+	public void setPanelEjercicio(PanelEjercicio panelEjercicio) {
+		this.panelEjercicio = panelEjercicio;
 	}
 
 	public void setPanelContenedor(JPanel panelContenedor) {
