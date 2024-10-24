@@ -45,7 +45,7 @@ public class PanelPerfil extends JPanel {
 		String maxString = ano + "-" + mes + "-" + dia;
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-		ImageIcon originalIcon = new ImageIcon("Multimedia/Ojo.png");
+		ImageIcon originalIcon = new ImageIcon("multimedia/Ojo.png");
 
 		Image originalImage = originalIcon.getImage();
 		Image scaledImage = originalImage.getScaledInstance(26, 21, Image.SCALE_SMOOTH);

@@ -1,8 +1,11 @@
 package modelo;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import javax.swing.JOptionPane;
@@ -14,12 +17,19 @@ import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
 
 import conexion.Conexion;
 
-public class Usuario {
+public class Usuario implements Serializable {
 
 	// *** Atributos ***
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public enum enumTipoUsuario {
 		CLIENTE, ENTRENADOR
@@ -162,14 +172,14 @@ public class Usuario {
 					return this;
 
 				} else {
-					JOptionPane.showMessageDialog(null, "Usuario o contraseña incorecctos", "ERROR",
+					JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "ERROR",
 							JOptionPane.ERROR_MESSAGE);
 				}
 			} else {
-				JOptionPane.showMessageDialog(null, "Usuario o contraseña incorecctos", "ERROR",
+				JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "ERROR",
 						JOptionPane.ERROR_MESSAGE);
 			}
-			
+
 			co.close();
 		} catch (InterruptedException | ExecutionException | IOException e) {
 			System.out.println("Error: Clase Usuario, metodo mObtenerUsuario");
@@ -218,7 +228,7 @@ public class Usuario {
 
 	}
 
-	public void mModificarUsuario() {
+	public boolean mModificarUsuario() {
 		Firestore co = null;
 		try {
 			co = Conexion.conectar();
@@ -237,15 +247,46 @@ public class Usuario {
 				usuarioModificado.put(FIELD_FECHA_NACIMIENTO, this.fechaNacimiento);
 
 				conRef.update(usuarioModificado);
-				System.out.println("Modificado");
+				JOptionPane.showMessageDialog(null, "Datos modificados con éxito");
+				return true;
 			} else {
-				System.out.println("El documento no existe.");
+				JOptionPane.showMessageDialog(null, "Error al modificar los datos");
 			}
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}
+		return false;
+	}
+
+	public ArrayList<Usuario> mObtenerTodosLosUsuarios() {
+		Firestore co = null;
+
+		ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>();
+
+		try {
+			co = Conexion.conectar();
+
+			ApiFuture<QuerySnapshot> query = co.collection(COLLECTION_NAME).get();
+
+			QuerySnapshot querySnapshot = query.get();
+			List<QueryDocumentSnapshot> usuariosFireBase = querySnapshot.getDocuments();
+			for (QueryDocumentSnapshot usuarioFireBase : usuariosFireBase) {
+
+				Usuario usuario = new Usuario(usuarioFireBase.getString(FIELD_NOMBRE),
+						usuarioFireBase.getString(FIELD_APELLIDOS), usuarioFireBase.getId(),
+						usuarioFireBase.getString(FIELD_PASS), usuarioFireBase.getDate(FIELD_FECHA_NACIMIENTO),
+						usuarioFireBase.getDate(FIELD_FECHA_REGISTRO), usuarioFireBase.getDouble(FIELD_NIVEL));
+
+				listaUsuarios.add(usuario);
+			}
+		} catch (InterruptedException | ExecutionException e) {
+			System.out.println("Error: Clase Contacto, metodo mObtenerContactos");
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return listaUsuarios;
 	}
 }

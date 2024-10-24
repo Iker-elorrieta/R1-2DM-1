@@ -3,6 +3,7 @@ package controlador;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -63,6 +64,14 @@ public class Controlador implements ActionListener, ListSelectionListener {
 		 */
 
 		// VENTANA REGISTRO
+		try {
+			ProcessBuilder builder = new ProcessBuilder("java", "GenerarBackups");
+			builder.directory(new File("target/classes/modelo"));
+			Process process = builder.start();
+			System.out.println(process.isAlive());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 
 		this.vistaPrincipal.getPanelRegistro().getBtnRegistrarse().addActionListener(this);
 		this.vistaPrincipal.getPanelRegistro().getBtnRegistrarse()
@@ -95,7 +104,7 @@ public class Controlador implements ActionListener, ListSelectionListener {
 
 		this.vistaPrincipal.getPanelPerfil().getBtnVolver().addActionListener(this);
 		this.vistaPrincipal.getPanelPerfil().getBtnVolver()
-				.setActionCommand(Principal.enumAcciones.APLICAR_CAMBIOS_PERFIL.toString());
+				.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_WORKOUT.toString());
 
 		
 		// VENTANA WORKOUT
@@ -282,22 +291,6 @@ public class Controlador implements ActionListener, ListSelectionListener {
 		panelPerfil.getBtnAceptar().setEnabled(true);
 		panelPerfil.getBtnEditar().setEnabled(false);
 		panelPerfil.getBtnIconoVerContrasena().setEnabled(true);
-		/*
-		 * usuarioLogeado.setNombre(panelPerfil.getTfNombre().getText());
-		 * usuario.setApellidos(panelPerfil.getTfApellidos().getText());
-		 * usuario.setPass(panelPerfil.getTfContrasenaVer().getText());
-		 * usuario.setFechaNacimiento((panelPerfil.getFechaNacimientoCalendar().getDate(
-		 * )));
-		 * 
-		 * panelPerfil.getTfNombre().setEditable(false);
-		 * panelPerfil.getTfApellidos().setEditable(false);
-		 * panelPerfil.getPfContrasena().setVisible(true);
-		 * panelPerfil.getTfContrasenaVer().setVisible(false);
-		 * panelPerfil.getFechaNacimientoCalendar().setEnabled(false);
-		 * panelPerfil.getBtnAceptar().setEnabled(false);
-		 * panelPerfil.getBtnEditar().setEnabled(true);
-		 * panelPerfil.getBtnIconoVerContrasena().setEnabled(false);
-		 */
 	}
 	
 	
@@ -334,11 +327,27 @@ public class Controlador implements ActionListener, ListSelectionListener {
 		PanelPerfil panelPerfil = this.vistaPrincipal.getPanelPerfil();
 
 		Usuario usuario = new Usuario();
+		usuario.setEmail(usuarioLogeado.getEmail());
 		usuario.setNombre(panelPerfil.getTfNombre().getText());
 		usuario.setApellidos(panelPerfil.getTfApellidos().getText());
 		usuario.setPass(panelPerfil.getTfContrasenaVer().getText());
 		usuario.setFechaNacimiento((panelPerfil.getFechaNacimientoCalendar().getDate()));
-		usuario.mModificarUsuario();
+
+		boolean exito = usuario.mModificarUsuario();
+
+		panelPerfil.getTfNombre().setEditable(false);
+		panelPerfil.getTfApellidos().setEditable(false);
+		panelPerfil.getPfContrasena().setVisible(true);
+		panelPerfil.getTfContrasenaVer().setVisible(false);
+		panelPerfil.getFechaNacimientoCalendar().setEnabled(false);
+		panelPerfil.getBtnAceptar().setEnabled(false);
+		panelPerfil.getBtnEditar().setEnabled(true);
+		panelPerfil.getBtnIconoVerContrasena().setEnabled(false);
+
+		if (exito) {
+			usuarioLogeado = usuario;
+			panelPerfil.getPfContrasena().setText(usuarioLogeado.getPass());
+		}
 	}
 
 	private void abrirWebPagina() {
