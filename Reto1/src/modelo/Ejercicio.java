@@ -1,6 +1,7 @@
 package modelo;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,18 +20,22 @@ import com.google.cloud.firestore.QuerySnapshot;
 
 import conexion.Conexion;
 
-public class Ejercicio {
-	// tiempo de descanso 
+public class Ejercicio implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	// tiempo de descanso
 	// *** Atributos ***
 	private String nombre;
 	private String descripcion;
-	private ArrayList<Serie> series; 
+	private ArrayList<Serie> series;
 	private String imagenURL;
 	private double tiempoDescanso;
 
 	private static final String COLLECTION_NAME = "ejercicios";
 	private static final String FIELD_DESCRIPCION = "descripcion";
-	private static final String FIELD_SERIES = "series"; 
+	private static final String FIELD_SERIES = "series";
 	private static final String FIELD_VIDEO_URL = "imagenURL";
 	private static final String FIELD_TIEMPO_DESCANSO = "tiempoDescanso";
 
@@ -39,7 +44,8 @@ public class Ejercicio {
 		this.series = new ArrayList<>();
 	}
 
-	public Ejercicio(String nombre, String descripcion, String imagenURL, double tiempoDescanso, ArrayList<Serie> series) {
+	public Ejercicio(String nombre, String descripcion, String imagenURL, double tiempoDescanso,
+			ArrayList<Serie> series) {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.imagenURL = imagenURL;
@@ -48,9 +54,7 @@ public class Ejercicio {
 	}
 
 	// *** Métodos Getters y Setters ***
-	
-	
-	
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -101,15 +105,15 @@ public class Ejercicio {
 			DocumentReference workoutDoc = co.collection(coleccionRoot).document(nombreWorkout);
 			CollectionReference ejerciciosCollection = workoutDoc.collection(COLLECTION_NAME);
 			System.out.println(COLLECTION_NAME);
-			
+
 			if (!ejerciciosCollection.document(nombre).get().get().exists()) {
 				Map<String, Object> nuevoEjercicio = new HashMap<>();
 				nuevoEjercicio.put(FIELD_DESCRIPCION, this.descripcion);
 				nuevoEjercicio.put(FIELD_VIDEO_URL, this.imagenURL);
 				nuevoEjercicio.put(FIELD_TIEMPO_DESCANSO, this.tiempoDescanso);
-			     for (Serie serie : series) { 
-		            	serie.mIngresarSerie(coleccionRoot,COLLECTION_NAME, nombre,nombreWorkout);
-		            }
+				for (Serie serie : series) {
+					serie.mIngresarSerie(coleccionRoot, COLLECTION_NAME, nombre, nombreWorkout);
+				}
 				ejerciciosCollection.document(this.nombre).set(nuevoEjercicio);
 
 				System.out.println("Ejercicio insertado con éxito");
@@ -124,7 +128,6 @@ public class Ejercicio {
 			e.printStackTrace();
 		}
 	}
-
 
 	// Método para obtener todos los ejercicios
 	public ArrayList<Ejercicio> mObtenerEjercicios(String coleccionRoot, String nombreWorkout) {
@@ -144,7 +147,7 @@ public class Ejercicio {
 				e.setDescripcion(ejercicio.getString(FIELD_DESCRIPCION));
 				e.setImagenURL(ejercicio.getString(FIELD_VIDEO_URL));
 				e.setTiempoDescanso(ejercicio.getDouble(FIELD_TIEMPO_DESCANSO));
-				e.setSeries(new Serie().mObtenerSeries(coleccionRoot, COLLECTION_NAME, e.getNombre(),nombreWorkout));
+				e.setSeries(new Serie().mObtenerSeries(coleccionRoot, COLLECTION_NAME, e.getNombre(), nombreWorkout));
 
 				listaEjercicios.add(e);
 			}

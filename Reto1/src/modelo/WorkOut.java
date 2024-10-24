@@ -1,6 +1,7 @@
 package modelo;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,10 +19,14 @@ import com.google.cloud.firestore.QuerySnapshot;
 
 import conexion.Conexion;
 
-public class WorkOut {
+public class WorkOut implements Serializable {
 
 	// *** Atributos ***
-	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String nombre;
 	private double nivel;
 	private String videoURL;
@@ -41,14 +46,12 @@ public class WorkOut {
 		this.ejercicios = new ArrayList<>();
 	}
 
-
-
 	public WorkOut(String nombre, double nivel, String videoURL, ArrayList<Ejercicio> ejercicios) {
 		this.nombre = nombre;
 		this.nivel = nivel;
 		this.videoURL = videoURL;
 		this.ejercicios = ejercicios;
-		//  this.tiempoEstimado = calcularTiempoEstimado();
+		// this.tiempoEstimado = calcularTiempoEstimado();
 	}
 
 	// *** Métodos Getters y Setters ***
@@ -60,6 +63,7 @@ public class WorkOut {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
 	public double getNivel() {
 		return nivel;
 	}
@@ -87,30 +91,26 @@ public class WorkOut {
 	public double getTiempoEstimado() {
 		return tiempoEstimado;
 	}
-	
-	public int getNumEjercicios(){
+
+	public int getNumEjercicios() {
 		return ejercicios.size();
 	}
 
 	// Calcular el tiempo total estimado sumando la duración de cada ejercicio
-	/* private double calcularTiempoEstimado() {
-        double totalTiempo = 0;
-        for (Ejercicio ejercicio : ejercicios) {
-            totalTiempo += ejercicio.getDuracionSegundos() + ejercicio.getDescansoSegundos();
-        }
-        return totalTiempo;
-    }
+	/*
+	 * private double calcularTiempoEstimado() { double totalTiempo = 0; for
+	 * (Ejercicio ejercicio : ejercicios) { totalTiempo +=
+	 * ejercicio.getDuracionSegundos() + ejercicio.getDescansoSegundos(); } return
+	 * totalTiempo; }
 	 */
 
-
 	public String getListaEjercicios() {
-		String texto ="";
-		for(Ejercicio ejercicio: ejercicios) {
+		String texto = "";
+		for (Ejercicio ejercicio : ejercicios) {
 			texto += ejercicio.getNombre() + "\n";
 		}
 		return texto;
 	}
-	
 
 	// *** Métodos CRUD ***
 
@@ -121,22 +121,21 @@ public class WorkOut {
 			co = Conexion.conectar();
 			CollectionReference root = co.collection(COLLECTION_NAME);
 
-			if(!root.document(nombre).get().get().exists()) {
+			if (!root.document(nombre).get().get().exists()) {
 				Map<String, Object> nuevoWorkout = new HashMap<>();
 				nuevoWorkout.put(FIELD_NIVEL, this.nivel);
 				nuevoWorkout.put(FIELD_VIDEO_URL, this.videoURL);
 				// nuevoWorkout.put(FIELD_TIEMPO_ESTIMADO, this.tiempoEstimado);
-				
-		            for (Ejercicio ejercicio : ejercicios) { 
-		            	ejercicio.mIngresarEjercicio(COLLECTION_NAME, nombre);
-		               
-		            }
-				
-				
+
+				for (Ejercicio ejercicio : ejercicios) {
+					ejercicio.mIngresarEjercicio(COLLECTION_NAME, nombre);
+
+				}
+
 				root.document(this.nombre).set(nuevoWorkout);
-				
+
 				System.out.println("Workout insertado con éxito");
-			}else{
+			} else {
 				System.out.println("Ya introducido");
 			}
 			co.close();
@@ -154,29 +153,27 @@ public class WorkOut {
 		}
 	}
 
-
-
 	public ArrayList<WorkOut> mObtenerWorkouts() {
-		Firestore co =null;
-		ArrayList<WorkOut> listaWorkOuts = new 	ArrayList<WorkOut>();
-		try {			
-			co= Conexion.conectar();
+		Firestore co = null;
+		ArrayList<WorkOut> listaWorkOuts = new ArrayList<WorkOut>();
+		try {
+			co = Conexion.conectar();
 
 			ApiFuture<QuerySnapshot> query = co.collection(COLLECTION_NAME).get();
 			QuerySnapshot querySnapshot = query.get();
 			List<QueryDocumentSnapshot> workouts = querySnapshot.getDocuments();
 			for (QueryDocumentSnapshot workout : workouts) {
-				WorkOut w =new WorkOut();
+				WorkOut w = new WorkOut();
 				w.setNombre(workout.getId());
 				w.setNivel(workout.getDouble(FIELD_NIVEL));
 				w.setVideoURL(workout.getString(FIELD_VIDEO_URL));
 				w.setEjercicios(new Ejercicio().mObtenerEjercicios(COLLECTION_NAME, w.getNombre()));
-				
+
 				listaWorkOuts.add(w);
 			}
 			co.close();
 
-		} catch ( InterruptedException | ExecutionException e) {
+		} catch (InterruptedException | ExecutionException e) {
 			System.out.println("Error: Clase Contacto, metodo mObtenerContactos");
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -189,6 +186,5 @@ public class WorkOut {
 
 		return listaWorkOuts;
 	}
-
 
 }

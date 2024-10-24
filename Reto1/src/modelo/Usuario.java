@@ -43,7 +43,6 @@ public class Usuario implements Serializable {
 	private String email; // Campo Unico al ser unico podria ser el ID
 	private String pass;
 	private Date fechaNacimiento;
-	private Date fechaRegistro;
 	private double nivel; // Inicialmente 0
 	private enumTipoUsuario tipoUsuario;
 	// ArrayList<WorkOuts> workoutsRealizados ;
@@ -53,7 +52,6 @@ public class Usuario implements Serializable {
 	private static final String FIELD_APELLIDOS = "apellidos";
 	private static final String FIELD_PASS = "pass";
 	private static final String FIELD_FECHA_NACIMIENTO = "fechaNacimiento";
-	private static final String FIELD_FECHA_REGISTRO = "fechaRegistro";
 	private static final String FIELD_NIVEL = "nivel";
 
 	// *** Constructores ***
@@ -63,25 +61,21 @@ public class Usuario implements Serializable {
 	}
 
 	// nivel inicial 0
-	public Usuario(String nombre, String apellidos, String email, String pass, Date fechaNacimiento,
-			Date fechaRegistro) {
+	public Usuario(String nombre, String apellidos, String email, String pass, Date fechaNacimiento) {
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.email = email;
 		this.pass = pass;
 		this.fechaNacimiento = fechaNacimiento;
-		this.fechaRegistro = fechaRegistro;
-		this.nivel = 0; // Inicializamos
+		this.nivel = 0;
 	}
 
-	public Usuario(String nombre, String apellidos, String email, String pass, Date fechaNacimiento, Date fechaRegistro,
-			double nivel) {
+	public Usuario(String nombre, String apellidos, String email, String pass, Date fechaNacimiento, double nivel) {
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.email = email;
 		this.pass = pass;
 		this.fechaNacimiento = fechaNacimiento;
-		this.fechaRegistro = fechaRegistro;
 		this.nivel = nivel;
 	}
 
@@ -125,14 +119,6 @@ public class Usuario implements Serializable {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public Date getFechaRegistro() {
-		return fechaRegistro;
-	}
-
-	public void setFechaRegistro(Date fechaRegistro) {
-		this.fechaRegistro = fechaRegistro;
-	}
-
 	public double getNivel() {
 		return nivel;
 	}
@@ -164,7 +150,6 @@ public class Usuario implements Serializable {
 					setNombre(dsUsuario.getString(FIELD_NOMBRE));
 					setApellidos(dsUsuario.getString(FIELD_APELLIDOS));
 					setPass(dsUsuario.getString(FIELD_PASS));
-					setFechaRegistro(obtenerFechaDate(dsUsuario, FIELD_FECHA_REGISTRO));
 					setFechaNacimiento(obtenerFechaDate(dsUsuario, FIELD_FECHA_NACIMIENTO));
 					setNivel(dsUsuario.getDouble(FIELD_NIVEL));
 
@@ -181,11 +166,7 @@ public class Usuario implements Serializable {
 			}
 
 			co.close();
-		} catch (InterruptedException | ExecutionException | IOException e) {
-			System.out.println("Error: Clase Usuario, metodo mObtenerUsuario");
-			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -210,7 +191,6 @@ public class Usuario implements Serializable {
 				nuevoUsuario.put(FIELD_APELLIDOS, this.apellidos);
 				nuevoUsuario.put(FIELD_PASS, this.pass);
 				nuevoUsuario.put(FIELD_FECHA_NACIMIENTO, this.fechaNacimiento);
-				nuevoUsuario.put(FIELD_FECHA_REGISTRO, this.fechaRegistro);
 				nuevoUsuario.put(FIELD_NIVEL, this.nivel);
 				DocumentReference newCont = root.document(this.email);
 				newCont.set(nuevoUsuario);
@@ -277,7 +257,7 @@ public class Usuario implements Serializable {
 				Usuario usuario = new Usuario(usuarioFireBase.getString(FIELD_NOMBRE),
 						usuarioFireBase.getString(FIELD_APELLIDOS), usuarioFireBase.getId(),
 						usuarioFireBase.getString(FIELD_PASS), usuarioFireBase.getDate(FIELD_FECHA_NACIMIENTO),
-						usuarioFireBase.getDate(FIELD_FECHA_REGISTRO), usuarioFireBase.getDouble(FIELD_NIVEL));
+						usuarioFireBase.getDouble(FIELD_NIVEL));
 
 				listaUsuarios.add(usuario);
 			}
