@@ -68,10 +68,12 @@ public class Usuario implements Serializable {
 		this.pass = pass;
 		this.fechaNacimiento = fechaNacimiento;
 		this.nivel = 0; // Inicializamos
+
 	}
 
 	public Usuario(String nombre, String apellidos, String email, String pass, Date fechaNacimiento,
 			double nivel) {
+
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.email = email;
@@ -120,7 +122,6 @@ public class Usuario implements Serializable {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	
 
 	public double getNivel() {
 		return nivel;
@@ -169,11 +170,7 @@ public class Usuario implements Serializable {
 			}
 
 			co.close();
-		} catch (InterruptedException | ExecutionException | IOException e) {
-			System.out.println("Error: Clase Usuario, metodo mObtenerUsuario");
-			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -264,6 +261,7 @@ public class Usuario implements Serializable {
 				Usuario usuario = new Usuario(usuarioFireBase.getString(FIELD_NOMBRE),
 						usuarioFireBase.getString(FIELD_APELLIDOS), usuarioFireBase.getId(),
 						usuarioFireBase.getString(FIELD_PASS), usuarioFireBase.getDate(FIELD_FECHA_NACIMIENTO));
+
 
 				listaUsuarios.add(usuario);
 			}

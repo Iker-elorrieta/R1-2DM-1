@@ -11,59 +11,66 @@ import java.util.ArrayList;
 public class GenerarBackups {
 
 	public static void main(String[] args) {
-		ArrayList<Usuario> nuevosUsuarios = new ArrayList<>();
-		nuevosUsuarios.add(new Usuario());
-		nuevosUsuarios.add(new Usuario());
-		nuevosUsuarios.add(new Usuario());
-
-		// Guardar usuarios en el archivo
-		guardarUsuarios(nuevosUsuarios);
-
-		// Usuario usuario = new Usuario();
-		// guardarUsuarios(usuario.mObtenerTodosLosUsuarios());
+		// escribirUsuariosEnArchivo(new Usuario().mObtenerTodosLosUsuarios());
+		// escribirWorkoutsEnArchivo(new WorkOut().mObtenerWorkouts());
 	}
 
-	private static final String FILEROUTE = "backups/usuarios.dat";
+	private static final String USUARIOSFILEROUTE = "backups/usuarios.dat";
+	private static final String WORKOUTSFILEROUTE = "backups/workouts.dat";
 
-	private static void guardarUsuarios(ArrayList<Usuario> nuevosUsuarios) {
-		ArrayList<Usuario> usuariosExistentes = leerUsuariosDesdeArchivo();
-
-		// Comprobar si los usuarios ya están en el archivo y añadir los nuevos usuarios
-		// no duplicados
-		for (Usuario nuevoUsuario : nuevosUsuarios) {
-			if (!usuariosExistentes.contains(nuevoUsuario)) {
-				System.out.println("el usuario no exitse");
-				usuariosExistentes.add(nuevoUsuario);
-			}
-			System.out.println("el aaa exitse");
+	private static void escribirUsuariosEnArchivo(ArrayList<Usuario> usuarios) {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(USUARIOSFILEROUTE))) {
+			oos.writeObject(usuarios);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-
-		// Guardar la lista de usuarios actualizada en el archivo
-		escribirUsuariosEnArchivo(usuariosExistentes);
 	}
 
-	// Método para leer usuarios desde el archivo usuarios.dat
-	private static ArrayList<Usuario> leerUsuariosDesdeArchivo() {
-		ArrayList<Usuario> usuarios = new ArrayList<>();
+	private static void escribirWorkoutsEnArchivo(ArrayList<WorkOut> workouts) {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(WORKOUTSFILEROUTE))) {
+			oos.writeObject(workouts);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILEROUTE))) {
-			usuarios = (ArrayList<Usuario>) ois.readObject();
+	private static void leerWorkoutsDesdeArchivo() {
+		ArrayList<WorkOut> wkee = new ArrayList<>();
+		ArrayList<Ejercicio> ejerrs = new ArrayList<>();
+		ArrayList<Serie> series = new ArrayList<>();
+
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(WORKOUTSFILEROUTE))) {
+			wkee = (ArrayList<WorkOut>) ois.readObject();
+			for (WorkOut wk : wkee) {
+				System.out.println(wk.getNombre());
+				ejerrs = wk.getEjercicios();
+				for (Ejercicio ejer : ejerrs) {
+					System.out.println("	" + ejer.getNombre());
+					series = ejer.getSeries();
+					for (Serie serie : series) {
+						System.out.println("		-" + serie.getNombre());
+					}
+				}
+				System.out.println("\n");
+			}
 		} catch (FileNotFoundException e) {
-			// El archivo no existe, se crea uno nuevo más tarde
 			System.out.println("Archivo no encontrado, se creará uno nuevo.");
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
-		return usuarios;
 	}
 
-	// Método para escribir usuarios en el archivo usuarios.dat
-	private static void escribirUsuariosEnArchivo(ArrayList<Usuario> usuarios) {
-		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILEROUTE))) {
-			oos.writeObject(usuarios);
-			System.out.println("Usuarios guardados correctamente en " + FILEROUTE);
-		} catch (IOException e) {
+	private static void leerUsuariosDesdeArchivo() {
+		ArrayList<Usuario> usuarios = new ArrayList<>();
+
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(USUARIOSFILEROUTE))) {
+			usuarios = (ArrayList<Usuario>) ois.readObject();
+			for (Usuario nuevoUsuario : usuarios) {
+				System.out.println(nuevoUsuario.getEmail());
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("Archivo no encontrado, se creará uno nuevo.");
+		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}

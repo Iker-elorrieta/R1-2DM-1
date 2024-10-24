@@ -111,14 +111,15 @@ public class Controlador implements ActionListener, ListSelectionListener {
 		this.vistaPrincipal.getPanelPerfil().getBtnVolver()
 		.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_WORKOUT.toString());
 
-
 		// VENTANA WORKOUT
 		this.vistaPrincipal.getPanelWorkout().getBtnIrAVideo().addActionListener(this);
 		this.vistaPrincipal.getPanelWorkout().getBtnIrAVideo()
 		.setActionCommand(Principal.enumAcciones.ABRIR_NAVEGADOR.toString());
 
+
 		this.vistaPrincipal.getPanelWorkout().getBtnIniciar().addActionListener(this);
 		this.vistaPrincipal.getPanelWorkout().getBtnIniciar()
+
 		.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_EJERCICIO.toString());
 
 		this.vistaPrincipal.getPanelWorkout().getWorkoutsList().addListSelectionListener(this);
@@ -138,6 +139,7 @@ public class Controlador implements ActionListener, ListSelectionListener {
 		this.vistaPrincipal.getPanelEjercicio().getBtnPausar().addActionListener(this);
 		this.vistaPrincipal.getPanelEjercicio().getBtnPausar()
 		.setActionCommand(Principal.enumAcciones.PAUSAR.toString());
+
 
 
 	}
@@ -213,6 +215,7 @@ public class Controlador implements ActionListener, ListSelectionListener {
 				this.vistaPrincipal.mVisualizarPaneles(accion);
 
 			}else {
+
 				System.out.println("Selcciona una opcion");
 			}
 			break;
@@ -224,6 +227,7 @@ public class Controlador implements ActionListener, ListSelectionListener {
 			break;
 		case PAUSAR:
 			pausar();
+
 			break;
 
 		default:
@@ -365,12 +369,11 @@ public class Controlador implements ActionListener, ListSelectionListener {
 	}
 
 
-
-
 	// Listeners para la selección en la lista
 
 
 	public void valueChanged(ListSelectionEvent e ) {
+
 		PanelWorkout2 panelWorkout = vistaPrincipal.getPanelWorkout();
 		JList workoutsList = panelWorkout.getWorkoutsList();
 		int selectedIndex = workoutsList.getSelectedIndex();
@@ -381,18 +384,15 @@ public class Controlador implements ActionListener, ListSelectionListener {
 					break;
 				}
 			}
-			if(workoutSelect!=null) {
+			if (workoutSelect != null) {
 				panelWorkout.getLblNEjer().setText("Nº Ejercicios: " + workoutSelect.getNumEjercicios());
 				panelWorkout.getLblUrl().setText("Video: " + workoutSelect.getVideoURL());
 
 				panelWorkout.getTextArea().setText(workoutSelect.getListaEjercicios());
 			}
 
-
 		}
 	}
-
-
 
 	private void aplicarCambiosPerfil() {
 		PanelPerfil panelPerfil = this.vistaPrincipal.getPanelPerfil();
