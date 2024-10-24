@@ -2,6 +2,7 @@ package modelo;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -165,7 +166,10 @@ public class WorkOut {
 			ApiFuture<QuerySnapshot> query = co.collection(COLLECTION_NAME).get();
 			QuerySnapshot querySnapshot = query.get();
 			List<QueryDocumentSnapshot> workouts = querySnapshot.getDocuments();
+			System.out.println(new Date());
+
 			for (QueryDocumentSnapshot workout : workouts) {
+				
 				WorkOut w =new WorkOut();
 				w.setNombre(workout.getId());
 				w.setNivel(workout.getDouble(FIELD_NIVEL));

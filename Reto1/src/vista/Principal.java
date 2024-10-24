@@ -19,7 +19,8 @@ public class Principal extends JFrame {
 	// Acciones
 	public static enum enumAcciones {
 		CARGAR_PANEL_LOGIN, CARGAR_PANEL_REGISTRO, CARGAR_PANEL_PERFIL, CARGAR_PANEL_WORKOUT, LOGIN, REGISTRAR_USUARIO,
-		EDITAR_PERFIL, VER_CONTRASENA, APLICAR_CAMBIOS_PERFIL, ABRIR_NAVEGADOR, CARGAR_PANEL_EJERCICIO
+		EDITAR_PERFIL, VER_CONTRASENA, APLICAR_CAMBIOS_PERFIL, ABRIR_NAVEGADOR, CARGAR_PANEL_EJERCICIO, PLAY_PAUSE, PAUSAR
+		
 	}
 
 	private JPanel panelContenedor;
@@ -52,7 +53,7 @@ public class Principal extends JFrame {
 	private void mCrearPanelContenedor() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 747, 584);
+		setBounds(100, 100, 707, 584);
 		panelContenedor = new JPanel();
 		panelContenedor.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(panelContenedor);
@@ -99,7 +100,7 @@ public class Principal extends JFrame {
 
 	private void mCrearPanelPerfil() {
 		panelPerfil = new PanelPerfil();
-		panelPerfil.setSize(728, 541);
+		panelPerfil.setSize(694, 541);
 		panelPerfil.setLocation(0, 11);
 		panelContenedor.add(panelPerfil);
 		panelContenedor.setBounds(panelPerfil.getBounds());

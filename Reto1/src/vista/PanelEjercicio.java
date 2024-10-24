@@ -30,10 +30,11 @@ public class PanelEjercicio extends JPanel {
 	private JLabel lblWorkout;
 	private JPanel panelMenu;
 	
-	private JLabel lCWorkout;
 	private JLabel lblCTiempoE;
 	private JLabel lblCWorkout;
 	private JLabel lblCDescanso;
+	JButton btnIniciar;
+	JButton btnPausar;
 
 	public PanelEjercicio() {
 
@@ -115,7 +116,7 @@ public class PanelEjercicio extends JPanel {
 		btnSalir.setFocusPainted(false);
 		btnSalir.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-		JButton btnIniciar = new JButton("play");
+	 btnIniciar = new JButton("play");
 		btnIniciar.setForeground(Color.WHITE);
 		btnIniciar.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnIniciar.setFocusPainted(false);
@@ -146,6 +147,16 @@ public class PanelEjercicio extends JPanel {
 		JLabel lblNSerie1 = new JLabel("Número Serie 12:37");
 		lblNSerie1.setBounds(123, 39, 116, 14);
 		panelSerie1.add(lblNSerie1);
+		
+		 btnPausar = new JButton("Pausar");
+		btnPausar.setForeground(Color.WHITE);
+		btnPausar.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnPausar.setFocusPainted(false);
+		btnPausar.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+		btnPausar.setBackground(new Color(102, 153, 255));
+		btnPausar.setBounds(290, 406, 156, 40);
+		btnPausar.setVisible(false);
+		panelCentral.add(btnPausar);
 
 
 
@@ -185,4 +196,44 @@ public class PanelEjercicio extends JPanel {
 		this.workouSelect = workouSelect;
 	}
 
+	public JLabel getLblCTiempoE() {
+		return lblCTiempoE;
+	}
+
+	public void setLblCTiempoE(JLabel lblCTiempoE) {
+		this.lblCTiempoE = lblCTiempoE;
+	}
+
+	public JLabel getLblCWorkout() {
+		return lblCWorkout;
+	}
+
+	public void setLblCWorkout(JLabel lblCWorkout) {
+		this.lblCWorkout = lblCWorkout;
+	}
+
+	public JLabel getLblCDescanso() {
+		return lblCDescanso;
+	}
+
+	public void setLblCDescanso(JLabel lblCDescanso) {
+		this.lblCDescanso = lblCDescanso;
+	}
+
+	public JButton getBtnIniciar() {
+		return btnIniciar;
+	}
+
+	public void setBtnIniciar(JButton btnIniciar) {
+		this.btnIniciar = btnIniciar;
+	}
+
+	public JButton getBtnPausar() {
+		return btnPausar;
+	}
+
+	public void setBtnPausar(JButton btnPausar) {
+		this.btnPausar = btnPausar;
+	}
+	
 }

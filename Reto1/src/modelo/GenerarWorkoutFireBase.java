@@ -112,12 +112,13 @@ public class GenerarWorkoutFireBase {
 	        ArrayList<Serie> series = new ArrayList<>();
 	        int numberOfSeries = nombreWorkout.contains("Avanzado") ? 3 : 2; // El avanzado tiene mas series
 	        double repeticionesBase = nombreWorkout.contains("Cardio") ? 15 : 10; // 
+	        double tiempoSerie = nombreWorkout.contains("Cardio") ? 20 : 30; // 
 
 	        for (int i = 1; i <= numberOfSeries; i++) {
 	            String serieNombre = nombreEjercicio + " - Serie " + i;
 	            double repeticiones = repeticionesBase + (i * 2); 
 	            String imagenURL = "img/serie_default.png";
-	            Serie serie = new Serie(serieNombre, repeticiones, imagenURL);
+	            Serie serie = new Serie(serieNombre, repeticiones, imagenURL, tiempoSerie);
 	            series.add(serie);
 	        }
 

@@ -2,6 +2,7 @@ package modelo;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,20 +22,22 @@ public class Serie {
     private String nombre;
     private double repeticiones;
 	private String imagenURL;
+	private double tiempoSerie;
 
     private static final String COLLECTION_NAME = "series";
 	private static final String FIELD_IMG_URL = "imagenURL";
     private static final String FIELD_REPETICIONES = "repeticiones";
+	private static final String FIELD_TIEMPO_SERIE = "tiempoSerie";
 
     // *** Constructores ***
     public Serie() {
     }
 
-    public Serie(String nombre, double repeticiones, String imagenURL) {
+    public Serie(String nombre, double repeticiones, String imagenURL, double tiempoSerie) {
         this.nombre = nombre;
         this.repeticiones = repeticiones;
         this.imagenURL = imagenURL;
-
+        this.tiempoSerie = tiempoSerie;
     }
 
     // *** Métodos Getters y Setters ***
@@ -58,7 +61,15 @@ public class Serie {
 
     // *** Métodos CRUD ***
 
-    public String getImagenURL() {
+    public double getTiempoSerie() {
+		return tiempoSerie;
+	}
+
+	public void setTiempoSerie(double tiempoSerie) {
+		this.tiempoSerie = tiempoSerie;
+	}
+
+	public String getImagenURL() {
 		return imagenURL;
 	}
 
@@ -81,6 +92,7 @@ public class Serie {
                 Map<String, Object> nuevaSerie = new HashMap<>();
                 nuevaSerie.put(FIELD_IMG_URL, this.imagenURL);
                 nuevaSerie.put(FIELD_REPETICIONES, this.repeticiones);
+                nuevaSerie.put(FIELD_TIEMPO_SERIE, this.tiempoSerie);
 
                 seriesCollection.document(this.nombre).set(nuevaSerie);
 
@@ -109,6 +121,7 @@ public class Serie {
             ApiFuture<QuerySnapshot> seriesFuture = ejercicioDoc.collection(COLLECTION_NAME).get();
             QuerySnapshot seriesSnapshot = seriesFuture.get();
 			List<QueryDocumentSnapshot> ejercicios = seriesSnapshot.getDocuments();
+			System.out.println(new Date());
 
             for (QueryDocumentSnapshot serieDoc : ejercicios) {
                 Serie serie = new Serie();

@@ -2,6 +2,7 @@ package modelo;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,6 +138,8 @@ public class Ejercicio {
 			ApiFuture<QuerySnapshot> ejerciciosFuture = workOutDoc.collection(COLLECTION_NAME).get();
 			QuerySnapshot ejerciciosSnapshot = ejerciciosFuture.get();
 			List<QueryDocumentSnapshot> ejercicios = ejerciciosSnapshot.getDocuments();
+			System.out.println(new Date());
+
 			for (QueryDocumentSnapshot ejercicio : ejercicios) {
 
 				Ejercicio e = new Ejercicio();
