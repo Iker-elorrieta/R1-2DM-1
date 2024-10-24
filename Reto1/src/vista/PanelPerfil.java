@@ -51,7 +51,7 @@ public class PanelPerfil extends JPanel {
 		Image scaledImage = originalImage.getScaledInstance(26, 21, Image.SCALE_SMOOTH);
 		ImageIcon scaledIcon = new ImageIcon(scaledImage);
 
-		setBounds(288, 11, 784, 541);
+		setBounds(288, 11, 668, 541);
 		setLayout(null);
 
 		btnEditar = new JButton("Editar");
@@ -133,7 +133,7 @@ public class PanelPerfil extends JPanel {
 		tfContrasenaVer.setColumns(10);
 		
 		btnVolver = new JButton("Volver");
-		btnVolver.setBounds(630, 26, 89, 23);
+		btnVolver.setBounds(498, 31, 89, 23);
 		add(btnVolver);
 		tfContrasenaVer.setVisible(false);
 	}

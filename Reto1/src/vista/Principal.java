@@ -52,7 +52,7 @@ public class Principal extends JFrame {
 	private void mCrearPanelContenedor() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 600);
+		setBounds(100, 100, 747, 584);
 		panelContenedor = new JPanel();
 		panelContenedor.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(panelContenedor);
@@ -64,6 +64,7 @@ public class Principal extends JFrame {
 
 	private void mCrearPanelLogin() {
 		panelLogin = new PanelLogin();
+		panelLogin.setLocation(0, 11);
 		panelContenedor.add(panelLogin);
 		panelContenedor.setBounds(panelLogin.getBounds());
 		panelLogin.setVisible(true);
@@ -72,6 +73,7 @@ public class Principal extends JFrame {
 
 	private void mCrearPanelWorkOut() {
 		panelWorkout = new PanelWorkout2();
+		panelWorkout.setLocation(0, 11);
 		panelContenedor.add(panelWorkout);
 		panelContenedor.setBounds(panelWorkout.getBounds());
 		panelWorkout.setVisible(false);
@@ -80,6 +82,8 @@ public class Principal extends JFrame {
 
 	private void mCrearPanelRegistro() {
 		panelRegistro = new PanelRegistro();
+		panelRegistro.setSize(688, 541);
+		panelRegistro.setLocation(0, 11);
 		panelContenedor.add(panelRegistro);
 		panelContenedor.setBounds(panelRegistro.getBounds());
 		panelRegistro.setVisible(false);
@@ -87,6 +91,7 @@ public class Principal extends JFrame {
 	
 	private void mCrearPanelEjercicio() {
 		panelEjercicio = new PanelEjercicio();
+		panelEjercicio.setLocation(0, 11);
 		panelContenedor.add(panelEjercicio);
 		panelContenedor.setBounds(panelEjercicio.getBounds());
 		panelEjercicio.setVisible(false);
@@ -94,6 +99,8 @@ public class Principal extends JFrame {
 
 	private void mCrearPanelPerfil() {
 		panelPerfil = new PanelPerfil();
+		panelPerfil.setSize(728, 541);
+		panelPerfil.setLocation(0, 11);
 		panelContenedor.add(panelPerfil);
 		panelContenedor.setBounds(panelPerfil.getBounds());
 		panelPerfil.setVisible(false);

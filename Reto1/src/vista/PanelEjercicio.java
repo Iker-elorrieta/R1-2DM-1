@@ -20,15 +20,20 @@ import modelo.WorkOut;
 
 public class PanelEjercicio extends JPanel {
 	private static final long serialVersionUID = 1L;
-	WorkOut workouSelect;
+	private WorkOut workouSelect;
 	private Usuario user;
 	private Ejercicio ejercicio;
 	private int labelAltura = 24;
 	private int margenEntrePanelSeires = 15;
 	private JLabel lblDescripcionE;
 	private JPanel panelSerie1;
-	JLabel lblWorkout;
-	JPanel panelMenu;
+	private JLabel lblWorkout;
+	private JPanel panelMenu;
+	
+	private JLabel lCWorkout;
+	private JLabel lblCTiempoE;
+	private JLabel lblCWorkout;
+	private JLabel lblCDescanso;
 
 	public PanelEjercicio() {
 
@@ -48,7 +53,7 @@ public class PanelEjercicio extends JPanel {
 		panelCronometroW.setBorder(BorderFactory.createTitledBorder("Cronometro workout"));
 		panelCronometroW.setBackground(new Color(245, 245, 245));
 
-		JLabel lblCWorkout = new JLabel("00:00");
+		lblCWorkout = new JLabel("00:00");
 		lblCWorkout.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblCWorkout.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCWorkout.setBounds(10, 16, 89, 19);
@@ -83,7 +88,7 @@ public class PanelEjercicio extends JPanel {
 		panelCronometroW_1.setBounds(0, 0, 168, 51);
 		panelCentral.add(panelCronometroW_1);
 
-		JLabel lblCTiempoE = new JLabel("00:00");
+		 lblCTiempoE = new JLabel("00:00");
 		lblCTiempoE.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCTiempoE.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblCTiempoE.setBounds(10, 16, 89, 19);
@@ -95,7 +100,7 @@ public class PanelEjercicio extends JPanel {
 		panelCronometroW_1_1.setBounds(0, 51, 168, 51);
 		panelCentral.add(panelCronometroW_1_1);
 
-		JLabel lblCDescanso = new JLabel("00:45");
+		 lblCDescanso = new JLabel("00:45");
 		lblCDescanso.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCDescanso.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		panelCronometroW_1_1.add(lblCDescanso);
