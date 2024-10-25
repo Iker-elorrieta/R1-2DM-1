@@ -8,12 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import javax.swing.JOptionPane;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
@@ -35,11 +32,10 @@ public class WorkOut implements Serializable {
 	private double tiempoEstimado;
 
 	private static final String COLLECTION_NAME = "workouts";
-	private static final String FIELD_NOMBRE = "nombre";
 	private static final String FIELD_NIVEL = "nivel";
 	private static final String FIELD_VIDEO_URL = "videoURL";
-	private static final String FIELD_EJERCICIOS = "ejercicios";
-	private static final String FIELD_TIEMPO_ESTIMADO = "tiempoEstimado";
+	//Still not used
+	//private static final String FIELD_TIEMPO_ESTIMADO = "tiempoEstimado";
 
 	// *** Constructores ***
 
@@ -166,8 +162,8 @@ public class WorkOut implements Serializable {
 			System.out.println(new Date());
 
 			for (QueryDocumentSnapshot workout : workouts) {
-				
-				WorkOut w =new WorkOut();
+
+				WorkOut w = new WorkOut();
 
 				w.setNombre(workout.getId());
 				w.setNivel(workout.getDouble(FIELD_NIVEL));

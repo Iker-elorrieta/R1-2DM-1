@@ -14,8 +14,9 @@ public class Principal extends JFrame {
 	// Acciones
 	public static enum enumAcciones {
 		CARGAR_PANEL_LOGIN, CARGAR_PANEL_REGISTRO, CARGAR_PANEL_PERFIL, CARGAR_PANEL_WORKOUT, LOGIN, REGISTRAR_USUARIO,
-		EDITAR_PERFIL, VER_CONTRASENA, APLICAR_CAMBIOS_PERFIL, ABRIR_NAVEGADOR, CARGAR_PANEL_EJERCICIO, PLAY_PAUSE, PAUSAR
-		
+		EDITAR_PERFIL, VER_CONTRASENA, APLICAR_CAMBIOS_PERFIL, ABRIR_NAVEGADOR, CARGAR_PANEL_EJERCICIO, PLAY_PAUSE,
+		PAUSAR
+
 	}
 
 	private JPanel panelContenedor;
@@ -24,15 +25,12 @@ public class Principal extends JFrame {
 	private PanelWorkout2 panelWorkout;
 	private PanelPerfil panelPerfil;
 	private PanelEjercicio panelEjercicio;
-	
-
 
 	public Principal() {
 
 		// Panel que contiene todo el contenido de la ventana
 		mCrearPanelContenedor();
 
-	
 		// Panel que contiene el listado de contactos.
 		mCrearPanelRegistro();
 
@@ -55,8 +53,6 @@ public class Principal extends JFrame {
 		panelContenedor.setLayout(null);
 
 	}
-
-	
 
 	private void mCrearPanelLogin() {
 		panelLogin = new PanelLogin();
@@ -84,7 +80,7 @@ public class Principal extends JFrame {
 		panelContenedor.setBounds(panelRegistro.getBounds());
 		panelRegistro.setVisible(false);
 	}
-	
+
 	private void mCrearPanelEjercicio() {
 		panelEjercicio = new PanelEjercicio();
 		panelEjercicio.setLocation(0, 11);
@@ -134,12 +130,9 @@ public class Principal extends JFrame {
 		}
 	}
 
-
 	public JPanel getPanelContenedor() {
 		return panelContenedor;
 	}
-	
-	
 
 	public PanelEjercicio getPanelEjercicio() {
 		return panelEjercicio;

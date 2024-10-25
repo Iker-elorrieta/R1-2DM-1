@@ -14,8 +14,8 @@ public class CronometroRegresivo extends Thread {
 	public CronometroRegresivo(JLabel lblVisualizarCronometro, double tiempoEjercicio) {
 		this.lblVisualizarCronometro = lblVisualizarCronometro;
 		this.tiempoEjercicioMiliSegundos = tiempoEjercicio * 100;
-		this.valorMinutos= ((int) tiempoEjercicio / 60);
-		this.valorSegundos= ((int) tiempoEjercicio % 60);
+		this.valorMinutos = ((int) tiempoEjercicio / 60);
+		this.valorSegundos = ((int) tiempoEjercicio % 60);
 		this.valorMilisegundos = (int) ((tiempoEjercicio - valorSegundos) * 1000);
 	}
 
@@ -24,32 +24,33 @@ public class CronometroRegresivo extends Thread {
 
 		System.out.println("Entra en el run del cronometro");
 		System.out.println(iniciado);
-		System.out.println(valorMilisegundos);;
-		while (iniciado && tiempoEjercicioMiliSegundos>0) {
+		System.out.println(valorMilisegundos);
+		;
+		while (iniciado && tiempoEjercicioMiliSegundos > 0) {
 			System.out.println("Entra en el bucle");
-			if(enFuncionamiento) {
+			if (enFuncionamiento) {
 				System.out.println("Entra en el funcionamiento");
 				tiempoEjercicioMiliSegundos--;
 				System.out.println(tiempoEjercicioMiliSegundos);
-				if(valorMilisegundos!=0) {
-				valorMilisegundos--;
+				if (valorMilisegundos != 0) {
+					valorMilisegundos--;
 				}
-				
-				if (valorMilisegundos == 0 && valorSegundos!=0) {
+
+				if (valorMilisegundos == 0 && valorSegundos != 0) {
 					valorMilisegundos = 100;
 					valorSegundos--;
 				}
-				if (valorSegundos == 0 && valorMinutos!=0) {
+				if (valorSegundos == 0 && valorMinutos != 0) {
 					valorMinutos--;
 				}
-				
 
-				lblVisualizarCronometro.setText(String.format("%02d:%02d:%02d", valorMinutos, valorSegundos, valorMilisegundos));
+				lblVisualizarCronometro
+						.setText(String.format("%02d:%02d:%02d", valorMinutos, valorSegundos, valorMilisegundos));
 				System.out.println(String.format("%02d:%02d:%02d", valorMinutos, valorSegundos, valorMilisegundos));
 
-			}	
+			}
 			try {
-				Thread.sleep(10); 
+				Thread.sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 
@@ -62,30 +63,26 @@ public class CronometroRegresivo extends Thread {
 			System.out.println("Entra en el metodo");
 			iniciado = true;
 			enFuncionamiento = true;
-			start(); 
+			start();
 		}
 	}
 
 	public void detener() {
-		enFuncionamiento = false; 
+		enFuncionamiento = false;
 	}
 
 	public void activar() {
-		enFuncionamiento = true; 
+		enFuncionamiento = true;
 		System.out.println("Cambia");
 	}
 
-
 	public void resetear() {
-		detener(); 
+		detener();
 		valorMinutos = 0;
 		valorSegundos = 0;
 		valorMilisegundos = 0;
-		iniciado = false; 
+		iniciado = false;
 	}
-
-
-
 
 	public boolean funcionando() {
 		return enFuncionamiento;
@@ -94,9 +91,5 @@ public class CronometroRegresivo extends Thread {
 	public boolean iniciadoR() {
 		return iniciado;
 	}
-
-
-
-
 
 }

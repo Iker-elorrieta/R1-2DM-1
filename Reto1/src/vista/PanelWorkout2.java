@@ -18,7 +18,6 @@ import modelo.Usuario;
 import modelo.WorkOut;
 import javax.swing.JTextArea;
 
-
 public class PanelWorkout2 extends JPanel {
 	private static final long serialVersionUID = 1L;
 
@@ -27,6 +26,7 @@ public class PanelWorkout2 extends JPanel {
 	private ArrayList<WorkOut> workouts;
 	private WorkOut workouSelect = null;
 	private Usuario user;
+	@SuppressWarnings("rawtypes")
 	private DefaultListModel workoutListModel;
 	private JLabel lblUrl;
 	private JButton btnIrAVideo;
@@ -34,9 +34,10 @@ public class PanelWorkout2 extends JPanel {
 	private JTextArea textArea;
 	private JLabel lblNEjer;
 	private JButton btnPerfil;
+
 	public PanelWorkout2() {
 
-		setBackground(new Color(230, 230, 250)); 
+		setBackground(new Color(230, 230, 250));
 		setBounds(288, 11, 688, 541);
 		setLayout(null);
 
@@ -45,13 +46,14 @@ public class PanelWorkout2 extends JPanel {
 		topPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		topPanel.setBackground(new Color(230, 230, 250));
 
-		filtroNivel = new JComboBox<>(new String[]{"Todos", "Nivel 0", "Nivel 1", "Nivel 2"});
+		filtroNivel = new JComboBox<>(new String[] { "Todos", "Nivel 0", "Nivel 1", "Nivel 2" });
 		filtroNivel.addActionListener(e -> actualizarListaWorkOuts());
 		topPanel.add(new JLabel("Filtrar por nivel:"), BorderLayout.WEST);
 		topPanel.add(filtroNivel, BorderLayout.CENTER);
 
 		JButton btnHistorialWK = new JButton("Ver Histórico");
-		btnHistorialWK.addActionListener(e -> JOptionPane.showMessageDialog(this, "Mostrando histórico de workouts..."));
+		btnHistorialWK
+				.addActionListener(e -> JOptionPane.showMessageDialog(this, "Mostrando histórico de workouts..."));
 		topPanel.add(btnHistorialWK, BorderLayout.EAST);
 		add(topPanel);
 
@@ -73,7 +75,7 @@ public class PanelWorkout2 extends JPanel {
 		detailsPanel.setBorder(BorderFactory.createTitledBorder("Detalles del Workout"));
 		detailsPanel.setBackground(new Color(245, 245, 245));
 		detailsPanel.setLayout(null);
-		 lblNEjer = new JLabel("Nº Ejercicios: -");
+		lblNEjer = new JLabel("Nº Ejercicios: -");
 		lblNEjer.setBounds(36, 25, 142, 14);
 		detailsPanel.add(lblNEjer);
 
@@ -93,13 +95,12 @@ public class PanelWorkout2 extends JPanel {
 		scrollPane_1.setBorder(BorderFactory.createTitledBorder("Ejercicios"));
 
 		centerPanel.add(scrollPane_1);
-		
-		 textArea = new JTextArea();
+
+		textArea = new JTextArea();
 		textArea.setEnabled(false);
 		textArea.setEditable(false);
 		scrollPane_1.setViewportView(textArea);
-		
-		
+
 		btnIniciar = new JButton("Iniciar Workout");
 		btnIniciar.setBounds(0, 501, 688, 40);
 		btnIniciar.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -108,8 +109,8 @@ public class PanelWorkout2 extends JPanel {
 		btnIniciar.setFocusPainted(false);
 		btnIniciar.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		add(btnIniciar);
-		
-		 btnPerfil = new JButton("Perfil");
+
+		btnPerfil = new JButton("Perfil");
 		btnPerfil.setBounds(595, 0, 93, 23);
 		add(btnPerfil);
 
@@ -118,6 +119,7 @@ public class PanelWorkout2 extends JPanel {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void actualizarListaWorkOuts() {
 		workoutListModel.clear();
 		String nivelSeleccionado = (String) filtroNivel.getSelectedItem();
@@ -131,7 +133,6 @@ public class PanelWorkout2 extends JPanel {
 		workoutsList.setModel(workoutListModel);
 	}
 
-	
 	public void setWorkouts(ArrayList<WorkOut> workouts) {
 		this.workouts = workouts;
 	}
@@ -151,7 +152,6 @@ public class PanelWorkout2 extends JPanel {
 	public JButton getBtnIrAVideo() {
 		return btnIrAVideo;
 	}
-
 
 	public JList<?> getWorkoutsList() {
 		return workoutsList;
@@ -204,5 +204,5 @@ public class PanelWorkout2 extends JPanel {
 	public void setBtnPerfil(JButton btnPerfil) {
 		this.btnPerfil = btnPerfil;
 	}
-	
+
 }

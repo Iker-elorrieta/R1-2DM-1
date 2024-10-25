@@ -12,7 +12,6 @@ public class Principal {
 
 			// Creamos en controlador con acceso al modelo y la vista
 			new Controlador(ventanaPrincipal);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

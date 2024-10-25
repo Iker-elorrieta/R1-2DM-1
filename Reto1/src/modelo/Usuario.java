@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
 import javax.swing.JOptionPane;
 
-import com.google.api.SystemParameterOrBuilder;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.CollectionReference;
@@ -71,8 +71,7 @@ public class Usuario implements Serializable {
 
 	}
 
-	public Usuario(String nombre, String apellidos, String email, String pass, Date fechaNacimiento,
-			double nivel) {
+	public Usuario(String nombre, String apellidos, String email, String pass, Date fechaNacimiento, double nivel) {
 
 		this.nombre = nombre;
 		this.apellidos = apellidos;
@@ -121,7 +120,6 @@ public class Usuario implements Serializable {
 	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
-
 
 	public double getNivel() {
 		return nivel;
@@ -261,7 +259,6 @@ public class Usuario implements Serializable {
 				Usuario usuario = new Usuario(usuarioFireBase.getString(FIELD_NOMBRE),
 						usuarioFireBase.getString(FIELD_APELLIDOS), usuarioFireBase.getId(),
 						usuarioFireBase.getString(FIELD_PASS), usuarioFireBase.getDate(FIELD_FECHA_NACIMIENTO));
-
 
 				listaUsuarios.add(usuario);
 			}
