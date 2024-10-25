@@ -9,35 +9,40 @@ public class CronometroRegresivo extends Thread {
 	private boolean iniciado = false;
 	private boolean enFuncionamiento = false;
 	private JLabel lblVisualizarCronometro;
-	private double tiempoEjercicio;
-	private double tiempo;
+	private double tiempoEjercicioMiliSegundos;
 
 	public CronometroRegresivo(JLabel lblVisualizarCronometro, double tiempoEjercicio) {
 		this.lblVisualizarCronometro = lblVisualizarCronometro;
-		this.tiempoEjercicio = tiempoEjercicio;
+		this.tiempoEjercicioMiliSegundos = tiempoEjercicio * 100;
+		this.valorMinutos= ((int) tiempoEjercicio / 60);
+		this.valorSegundos= ((int) tiempoEjercicio % 60);
+		this.valorMilisegundos = (int) ((tiempoEjercicio - valorSegundos) * 1000);
 	}
 
 	@Override
 	public void run() {
-		valorMinutos= ((int) tiempoEjercicio / 60);
-		valorSegundos= ((int) tiempoEjercicio % 60);
-		valorMilisegundos = (int) ((tiempoEjercicio - valorSegundos) * 1000);
 
-		while (iniciado && tiempo<0) {
+		System.out.println("Entra en el run del cronometro");
+		System.out.println(iniciado);
+		System.out.println(valorMilisegundos);;
+		while (iniciado && tiempoEjercicioMiliSegundos>0) {
+			System.out.println("Entra en el bucle");
 			if(enFuncionamiento) {
-				valorMilisegundos++;
-
-				if (valorMilisegundos == 100) {
-					valorSegundos++;
-					valorMilisegundos = 0;
+				System.out.println("Entra en el funcionamiento");
+				tiempoEjercicioMiliSegundos--;
+				System.out.println(tiempoEjercicioMiliSegundos);
+				if(valorMilisegundos!=0) {
+				valorMilisegundos--;
 				}
-				if (valorSegundos == 60) {
-					valorMinutos++;
-					valorSegundos = 0;
+				
+				if (valorMilisegundos == 0 && valorSegundos!=0) {
+					valorMilisegundos = 100;
+					valorSegundos--;
 				}
-				if (valorMinutos == 60) {
-					valorMinutos = 0;
+				if (valorSegundos == 0 && valorMinutos!=0) {
+					valorMinutos--;
 				}
+				
 
 				lblVisualizarCronometro.setText(String.format("%02d:%02d:%02d", valorMinutos, valorSegundos, valorMilisegundos));
 				System.out.println(String.format("%02d:%02d:%02d", valorMinutos, valorSegundos, valorMilisegundos));
@@ -54,6 +59,7 @@ public class CronometroRegresivo extends Thread {
 
 	public void iniciar() {
 		if (!iniciado) {
+			System.out.println("Entra en el metodo");
 			iniciado = true;
 			enFuncionamiento = true;
 			start(); 

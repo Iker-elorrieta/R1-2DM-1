@@ -15,7 +15,6 @@ import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
 import modelo.Usuario;
-import javax.swing.JComboBox;
 
 public class PanelPerfil extends JPanel {
 	/**

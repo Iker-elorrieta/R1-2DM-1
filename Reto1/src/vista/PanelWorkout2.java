@@ -12,7 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import java.awt.Font;
 import java.util.ArrayList;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.BorderFactory;
 import modelo.Usuario;

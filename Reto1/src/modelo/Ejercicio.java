@@ -9,12 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import javax.swing.JOptionPane;
-
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
@@ -36,7 +33,6 @@ public class Ejercicio implements Serializable {
 
 	private static final String COLLECTION_NAME = "ejercicios";
 	private static final String FIELD_DESCRIPCION = "descripcion";
-	private static final String FIELD_SERIES = "series";
 	private static final String FIELD_VIDEO_URL = "imagenURL";
 	private static final String FIELD_TIEMPO_DESCANSO = "tiempoDescanso";
 

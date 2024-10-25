@@ -33,7 +33,6 @@ public class Cronometro extends Thread {
 				}
 
 				lblVisualizarCronometro.setText(String.format("%02d:%02d:%02d", valorMinutos, valorSegundos, valorMilisegundos));
-				System.out.println(String.format("%02d:%02d:%02d", valorMinutos, valorSegundos, valorMilisegundos));
 
 			}	
 			try {

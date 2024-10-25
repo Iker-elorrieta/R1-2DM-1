@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 
 import javax.swing.JButton;
 import java.awt.Font;
+import java.util.ArrayList;
+
 import javax.swing.SwingConstants;
 import javax.swing.BorderFactory;
 
@@ -26,16 +28,20 @@ public class PanelEjercicio extends JPanel {
 	private int labelAltura = 24;
 	private int margenEntrePanelSeires = 15;
 	private JLabel lblDescripcionE;
-	private JPanel panelSerie1;
 	private JLabel lblWorkout;
 	private JPanel panelMenu;
-	
+
 	private JLabel lblCTiempoE;
 	private JLabel lblCWorkout;
 	private JLabel lblCDescanso;
 	JButton btnIniciar;
 	JButton btnPausar;
-
+	JLabel lblNSerie2;
+	JLabel lblImg2;
+	JLabel lblCSerie;
+	Serie serieActual;
+	ArrayList<JLabel> conjuntoDeCronometros = new  ArrayList<JLabel>(); //Segun eneko con esto puedo se puede seleccionar a que label acceder
+	
 	public PanelEjercicio() {
 
 		setBackground(new Color(230, 230, 250)); 
@@ -89,7 +95,7 @@ public class PanelEjercicio extends JPanel {
 		panelCronometroW_1.setBounds(0, 0, 168, 51);
 		panelCentral.add(panelCronometroW_1);
 
-		 lblCTiempoE = new JLabel("00:00");
+		lblCTiempoE = new JLabel("00:00");
 		lblCTiempoE.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCTiempoE.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblCTiempoE.setBounds(10, 16, 89, 19);
@@ -101,7 +107,7 @@ public class PanelEjercicio extends JPanel {
 		panelCronometroW_1_1.setBounds(0, 51, 168, 51);
 		panelCentral.add(panelCronometroW_1_1);
 
-		 lblCDescanso = new JLabel("00:45");
+		lblCDescanso = new JLabel("00:45");
 		lblCDescanso.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCDescanso.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		panelCronometroW_1_1.add(lblCDescanso);
@@ -116,7 +122,7 @@ public class PanelEjercicio extends JPanel {
 		btnSalir.setFocusPainted(false);
 		btnSalir.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-	 btnIniciar = new JButton("play");
+		btnIniciar = new JButton("play");
 		btnIniciar.setForeground(Color.WHITE);
 		btnIniciar.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnIniciar.setFocusPainted(false);
@@ -133,22 +139,7 @@ public class PanelEjercicio extends JPanel {
 		scrollPane.setViewportView(panelMenu);
 		panelMenu.setLayout(null);
 
-		panelSerie1 = new JPanel();
-		panelSerie1.setBounds(79, 24, 265, 90);
-		panelMenu.add(panelSerie1);
-		panelSerie1.setLayout(null);
-
-		JLabel lblImgE1 = new JLabel("*foto*");
-		lblImgE1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblImgE1.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblImgE1.setBounds(10, 33, 64, 21);
-		panelSerie1.add(lblImgE1);
-
-		JLabel lblNSerie1 = new JLabel("Número Serie 12:37");
-		lblNSerie1.setBounds(123, 39, 116, 14);
-		panelSerie1.add(lblNSerie1);
-		
-		 btnPausar = new JButton("Pausar");
+		btnPausar = new JButton("Pausar");
 		btnPausar.setForeground(Color.WHITE);
 		btnPausar.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnPausar.setFocusPainted(false);
@@ -159,7 +150,19 @@ public class PanelEjercicio extends JPanel {
 		panelCentral.add(btnPausar);
 
 
+		lblNSerie2 = new JLabel("Default");
+		lblNSerie2.setBounds(169, 55, 107, 14);
+		panelMenu.add(lblNSerie2);
 
+		lblImg2 = new JLabel("Default");
+		lblImg2.setBounds(56, 24, 87, 70);
+		panelMenu.add(lblImg2);
+		lblImg2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblImg2.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		
+		 lblCSerie = new JLabel("Default");
+		lblCSerie.setBounds(314, 55, 107, 14);
+		panelMenu.add(lblCSerie);
 
 	}
 
@@ -168,23 +171,30 @@ public class PanelEjercicio extends JPanel {
 		lblDescripcionE.setText(ejercicio.getNombre() + "- Descripción");
 		lblWorkout.setText("Workout "+ workouSelect.getNombre());
 
-		panelSerie1.setVisible(false);
 		panelMenu.removeAll();
 		//Generamos los iconos de forma dinamica
 		for (Serie serie : ejercicio.getSeries()) {
 
-			JLabel lblNSerie2 = new JLabel(serie.getNombre());
+			serieActual = serie;
+			lblNSerie2 = new JLabel(serie.getNombre());
 			lblNSerie2.setBounds(208, labelAltura, 107, 14);
 			panelMenu.add(lblNSerie2);
 
-			JLabel lblImg2 = new JLabel(serie.getImagenURL());
+			lblImg2 = new JLabel(serie.getImagenURL());
 			lblImg2.setBounds(134, labelAltura, 64, 21);
 			panelMenu.add(lblImg2);
 			lblImg2.setHorizontalAlignment(SwingConstants.CENTER);
 			lblImg2.setFont(new Font("Tahoma", Font.PLAIN, 17));
 
-			
+			lblCSerie = new JLabel("Default");
+			lblCSerie.setBounds(314, labelAltura, 107, 14);
+			lblCSerie.setText((String.format("%02d:%02d:%02d", (
+						(int) serie.getTiempoSerie() / 60), 		//min
+						((int)  serie.getTiempoSerie() % 60), 		//seg
+						(int) (( serie.getTiempoSerie() - serie.getTiempoSerie() % 60)) * 1000)));
+			panelMenu.add(lblCSerie);
 
+			conjuntoDeCronometros.add(lblCSerie);
 			labelAltura += lblNSerie2.getHeight() + margenEntrePanelSeires;
 
 			if(labelAltura > panelMenu.getHeight()-20) {
@@ -235,5 +245,27 @@ public class PanelEjercicio extends JPanel {
 	public void setBtnPausar(JButton btnPausar) {
 		this.btnPausar = btnPausar;
 	}
+	
+	public Serie getSerieActual() {
+		return serieActual;
+	}
+
+	public JLabel getLblCSerie() {
+		return lblCSerie;
+	}
+
+	public void setLblCSerie(JLabel lblCSerie) {
+		this.lblCSerie = lblCSerie;
+	}
+
+	public ArrayList<JLabel> getConjuntoDeCronometros() {
+		return conjuntoDeCronometros;
+	}
+
+	public void setConjuntoDeCronometros(ArrayList<JLabel> conjuntoDeCronometros) {
+		this.conjuntoDeCronometros = conjuntoDeCronometros;
+	}
+	
+	
 	
 }

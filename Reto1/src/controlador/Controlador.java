@@ -7,10 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,6 +20,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import Pruebas.Cronometro;
+import Pruebas.CronometroRegresivo;
 import modelo.Usuario;
 import modelo.WorkOut;
 import vista.PanelEjercicio;
@@ -41,6 +40,7 @@ public class Controlador implements ActionListener, ListSelectionListener {
 	Cronometro cPrincipal;
 	Cronometro cDescanso;
 	Cronometro cEjercicio;
+	CronometroRegresivo cSerie;
 
 	/*
 	 * *** CONSTRUCTORES ***
@@ -205,12 +205,11 @@ public class Controlador implements ActionListener, ListSelectionListener {
 				cPrincipal = new Cronometro(pEjercicio.getLblCWorkout());
 				cEjercicio = new Cronometro(pEjercicio.getLblCTiempoE());
 				cDescanso = new Cronometro(pEjercicio.getLblCDescanso());
-				pEjercicio.getLblCTiempoE().setText(String.format("%02d:%02d:%02d", (
-						(int) workoutSelect.getEjercicios().get(0).getSeries().get(0).getTiempoSerie() / 60), 		//min
-						((int)  workoutSelect.getEjercicios().get(0).getSeries().get(0).getTiempoSerie() % 60), 		//seg
-						(int) (( workoutSelect.getEjercicios().get(0).getSeries().get(0).getTiempoSerie() - workoutSelect.getEjercicios().get(0).getSeries().get(0).getTiempoSerie() % 60)) * 1000));//milisegundos
-
-
+				cSerie = new CronometroRegresivo(this.vistaPrincipal.getPanelEjercicio().getConjuntoDeCronometros().get(0)  , this.vistaPrincipal.getPanelEjercicio().getSerieActual().getTiempoSerie());
+				pEjercicio.getLblCDescanso().setText(String.format("%02d:%02d:%02d", (
+						(int) workoutSelect.getEjercicios().get(0).getTiempoDescanso() / 60), 		//min
+						((int)  workoutSelect.getEjercicios().get(0).getTiempoDescanso() % 60), 		//seg
+						(int) (( workoutSelect.getEjercicios().get(0).getTiempoDescanso() - workoutSelect.getEjercicios().get(0).getSeries().get(0).getTiempoSerie() % 60)) * 1000));//milisegundos
 
 				this.vistaPrincipal.mVisualizarPaneles(accion);
 
@@ -250,6 +249,8 @@ public class Controlador implements ActionListener, ListSelectionListener {
 		if(!cPrincipal.iniciadoR()) {
 			cPrincipal.iniciar();
 			cEjercicio.iniciar();
+			cSerie.iniciar();
+			
 			pEjercicio.getBtnIniciar().setVisible(false);
 			pEjercicio.getBtnPausar().setVisible(true);
 		}else {
@@ -375,7 +376,7 @@ public class Controlador implements ActionListener, ListSelectionListener {
 	public void valueChanged(ListSelectionEvent e ) {
 
 		PanelWorkout2 panelWorkout = vistaPrincipal.getPanelWorkout();
-		JList workoutsList = panelWorkout.getWorkoutsList();
+		JList<?> workoutsList = panelWorkout.getWorkoutsList();
 		int selectedIndex = workoutsList.getSelectedIndex();
 		if (selectedIndex != -1) {
 			for (WorkOut workout : listaWorkouts) {

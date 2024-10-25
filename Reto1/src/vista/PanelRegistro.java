@@ -12,8 +12,6 @@ import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
-import modelo.Usuario;
-
 public class PanelRegistro extends JPanel {
 	/**
 	 * 

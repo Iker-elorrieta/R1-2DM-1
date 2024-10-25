@@ -47,6 +47,12 @@ public class Serie implements Serializable {
     }
 
 
+	@Override
+	public String toString() {
+		return "Serie [nombre=" + nombre + ", repeticiones=" + repeticiones + ", imagenURL=" + imagenURL
+				+ ", tiempoSerie=" + tiempoSerie + "]";
+	}
+
 	// *** Métodos Getters y Setters ***
 	public String getNombre() {
 		return nombre;
@@ -137,6 +143,8 @@ public class Serie implements Serializable {
 				serie.setNombre(serieDoc.getId());
 				serie.setRepeticiones(serieDoc.getDouble(FIELD_REPETICIONES));
 				serie.setImagenURL(serieDoc.getString(FIELD_IMG_URL));
+				serie.setTiempoSerie(serieDoc.getDouble(FIELD_TIEMPO_SERIE));
+
 				listaSeries.add(serie);
 			}
 			co.close();
