@@ -17,7 +17,9 @@ public class GenerarBackups {
 
 	private static void escribirUsuariosEnArchivo(ArrayList<Usuario> usuarios) {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(USUARIOSFILEROUTE))) {
-			oos.writeObject(usuarios);
+			for (Usuario usu : usuarios) {
+				oos.writeObject(usu);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -25,7 +27,9 @@ public class GenerarBackups {
 
 	private static void escribirWorkoutsEnArchivo(ArrayList<WorkOut> workouts) {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(WORKOUTSFILEROUTE))) {
-			oos.writeObject(workouts);
+			for (WorkOut wk : workouts) {
+				oos.writeObject(wk);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
