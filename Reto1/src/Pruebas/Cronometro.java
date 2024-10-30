@@ -5,8 +5,9 @@ import javax.swing.JLabel;
 public class Cronometro extends Thread {
 	private int valorMinutos = 0;
 	private int valorSegundos = 0;
-	private int valorMilisegundos = 0;
 	private boolean iniciado = false;
+	private boolean finalizado = false;
+
 	private boolean enFuncionamiento = false;
 	private JLabel lblVisualizarCronometro;
 
@@ -18,12 +19,8 @@ public class Cronometro extends Thread {
 	public void run() {
 		while (iniciado) {
 			if(enFuncionamiento) {
-				valorMilisegundos++;
-
-				if (valorMilisegundos == 100) {
 					valorSegundos++;
-					valorMilisegundos = 0;
-				}
+					
 				if (valorSegundos == 60) {
 					valorMinutos++;
 					valorSegundos = 0;
@@ -32,16 +29,17 @@ public class Cronometro extends Thread {
 					valorMinutos = 0;
 				}
 
-				lblVisualizarCronometro.setText(String.format("%02d:%02d:%02d", valorMinutos, valorSegundos, valorMilisegundos));
+				lblVisualizarCronometro.setText(String.format("%02d:%02d", valorMinutos, valorSegundos));
 
 			}	
 			try {
-				Thread.sleep(10); 
+				Thread.sleep(1000); 
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 
 			}
 		}
+		finalizado = true;
 	}
 
 	public void iniciar() {
@@ -61,17 +59,9 @@ public class Cronometro extends Thread {
 		System.out.println("Cambia");
 	}
 
-
-	public void resetear() {
-		detener(); 
-		valorMinutos = 0;
-		valorSegundos = 0;
-		valorMilisegundos = 0;
-		iniciado = false; 
+	public boolean finalizado() {
+		return finalizado;
 	}
-
-
-
 
 	public boolean funcionando() {
 		return enFuncionamiento;
@@ -80,9 +70,4 @@ public class Cronometro extends Thread {
 	public boolean iniciadoR() {
 		return iniciado;
 	}
-
-
-
-
-
 }

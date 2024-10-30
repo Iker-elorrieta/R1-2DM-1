@@ -101,7 +101,6 @@ public class Ejercicio implements Serializable {
 			co = Conexion.conectar();
 			DocumentReference workoutDoc = co.collection(coleccionRoot).document(nombreWorkout);
 			CollectionReference ejerciciosCollection = workoutDoc.collection(COLLECTION_NAME);
-			System.out.println(COLLECTION_NAME);
 
 			if (!ejerciciosCollection.document(nombre).get().get().exists()) {
 				Map<String, Object> nuevoEjercicio = new HashMap<>();

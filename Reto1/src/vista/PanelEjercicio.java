@@ -3,9 +3,11 @@ package vista;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -101,6 +103,8 @@ public class PanelEjercicio extends JPanel {
 		panelCronometroW_1_1.setBackground(new Color(245, 245, 245));
 		panelCronometroW_1_1.setBounds(0, 51, 168, 51);
 		panelCentral.add(panelCronometroW_1_1);
+		
+		
 
 		lblCDescanso = new JLabel("00:45");
 		lblCDescanso.setHorizontalAlignment(SwingConstants.CENTER);
@@ -144,17 +148,17 @@ public class PanelEjercicio extends JPanel {
 		panelCentral.add(btnPausar);
 
 		lblNSerie2 = new JLabel("Default");
-		lblNSerie2.setBounds(169, 55, 107, 14);
+		lblNSerie2.setBounds(169, 55, 133, 14);
 		panelMenu.add(lblNSerie2);
 
 		lblImg2 = new JLabel("Default");
-		lblImg2.setBounds(56, 24, 87, 70);
+		lblImg2.setBounds(35, 24, 124, 85);
 		panelMenu.add(lblImg2);
 		lblImg2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblImg2.setFont(new Font("Tahoma", Font.PLAIN, 17));
 
 		lblCSerie = new JLabel("Default");
-		lblCSerie.setBounds(314, 55, 107, 14);
+		lblCSerie.setBounds(333, 55, 88, 14);
 		panelMenu.add(lblCSerie);
 
 	}
@@ -176,14 +180,15 @@ public class PanelEjercicio extends JPanel {
 			lblImg2 = new JLabel(serie.getImagenURL());
 			lblImg2.setBounds(134, labelAltura, 64, 21);
 			panelMenu.add(lblImg2);
-			lblImg2.setHorizontalAlignment(SwingConstants.CENTER);
-			lblImg2.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			lblImg2.setIcon(new ImageIcon(new ImageIcon (serie.getImagenURL()).getImage().getScaledInstance(lblImg2.getWidth(), lblImg2.getHeight(), Image.SCALE_SMOOTH)));
 
+			
+			
+			
 			lblCSerie = new JLabel("Default");
 			lblCSerie.setBounds(314, labelAltura, 107, 14);
-			lblCSerie.setText((String.format("%02d:%02d:%02d", ((int) serie.getTiempoSerie() / 60), // min
-					((int) serie.getTiempoSerie() % 60), // seg
-					(int) ((serie.getTiempoSerie() - serie.getTiempoSerie() % 60)) * 1000)));
+			lblCSerie.setText((String.format("%02d:%02d", ((int) serie.getTiempoSerie() / 60), // min
+					((int) serie.getTiempoSerie() % 60))));//seg
 			panelMenu.add(lblCSerie);
 
 			conjuntoDeCronometros.add(lblCSerie);

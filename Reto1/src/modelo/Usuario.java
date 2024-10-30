@@ -155,7 +155,6 @@ public class Usuario implements Serializable {
 					setFechaNacimiento(obtenerFechaDate(dsUsuario, FIELD_FECHA_NACIMIENTO));
 					setNivel(dsUsuario.getDouble(FIELD_NIVEL));
 
-					JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso");
 					return this;
 
 				} else {

@@ -15,7 +15,7 @@ public class GenerarWorkoutFireBase {
 
 		// Crear 3 niveles, con 3 workouts por nivel
 		for (int nivel = 0; nivel <= 2; nivel++) {
-			for (int i = 0; i <= 2; i++) {
+			for (int i = 0; i < 2; i++) {
 				String nombreWorkout = generarNombreWorkout(nivel, i);
 				String videoURL = generarVideoURL(nivel, i);
 				ArrayList<Ejercicio> ejercicios = crearEjercicios(nombreWorkout);
@@ -23,12 +23,8 @@ public class GenerarWorkoutFireBase {
 				workouts.add(workout);
 			}
 		}
-
 		return workouts;
 	}
-
-
-
 
 	private static String generarVideoURL(int nivel, int numero) {
 		// URLs por nivel
@@ -36,17 +32,17 @@ public class GenerarWorkoutFireBase {
 				{
 					"https://www.youtube.com/watch?v=39Sn10y7HMM", // Cardio Principiante
 					"https://www.youtube.com/watch?v=HwSnZAVvAp4", // Fuerza Principiante
-					"https://www.youtube.com/watch?v=msTPZniCgR8"  // Flexibilidad Principiante
+					//"https://www.youtube.com/watch?v=msTPZniCgR8"  // Flexibilidad Principiante
 				},
 				{
 					"https://www.youtube.com/watch?v=yOkFhJBEKwo", // Cardio Intermedio
 					"https://www.youtube.com/watch?v=Y-S129ji8N0", // Fuerza Intermedio
-					"https://www.youtube.com/watch?v=j397EgMX8dA"  // Flexibilidad Intermedia
+				//	"https://www.youtube.com/watch?v=j397EgMX8dA"  // Flexibilidad Intermedia
 				},
 				{
 					"https://www.youtube.com/watch?v=YgxT9sZw4ek", // Cardio Avanzado
 					"https://www.youtube.com/watch?v=b6CUJlpmxOE", // Fuerza Avanzada
-					"https://www.youtube.com/watch?v=NBpsqBQceSU"  // Flexibilidad Avanzada
+					//"https://www.youtube.com/watch?v=NBpsqBQceSU"  // Flexibilidad Avanzada
 				}
 		};
 		return videoURLs[nivel][numero ];
@@ -55,11 +51,11 @@ public class GenerarWorkoutFireBase {
 	private static String generarNombreWorkout(int nivel, int numero) {
 		String[][] nombresWorkouts = {
 				//nivel 0
-				{"Cardio Principiante", "Fuerza Principiante", "Flexibilidad Principiante"},
+				{"Cardio Principiante", "Fuerza Principiante"},
 				//nivel 1
-				{"Cardio Intermedio", "Fuerza Intermedio", "Flexibilidad Intermedia"},
+				{"Cardio Intermedio", "Fuerza Intermedio"},
 				//nivel 2
-				{"Cardio Avanzado", "Fuerza Avanzada", "Flexibilidad Avanzada"}
+				{"Cardio Avanzado", "Fuerza Avanzada"}
 		};
 
 		return nombresWorkouts[nivel][numero];
@@ -68,12 +64,10 @@ public class GenerarWorkoutFireBase {
 	
 	 private static int asignarTiempoDescanso(String nombreWorkout) {
 	        if (nombreWorkout.contains("Cardio")) {
-	            return 30; // 30 segundos para cardio
-	        } else if (nombreWorkout.contains("Fuerza")) {
-	            return 60; // 60 segundos para fuerza
-	        } else {
-	            return 45; // 45 segundos para flexibilidad
-	        }
+	            return 40; // 30 segundos para cardio
+	        } else  {
+	            return 30; // 60 segundos para fuerza
+	        } 
 	    }
 	 
 	private static ArrayList<Ejercicio> crearEjercicios(String nombreWorkout) {
@@ -82,7 +76,7 @@ public class GenerarWorkoutFireBase {
 		for (int i = 0; i <= 2; i++) {
 			String nombreEjercicio = generarNombreEjercicio(i, nombreWorkout);
 			String descripcion = "Descripción del ejercicio " + nombreEjercicio;
-			String imagenURL = "img/defecto.png" + i; //Ruta por defecto
+			String imagenURL = "Multimedia/defecto.png" + i; //Ruta por defecto
             ArrayList<Serie> series = generarSeries(nombreEjercicio, nombreWorkout);
 
 			Ejercicio ejercicio = new Ejercicio(nombreEjercicio, descripcion, imagenURL, tiempoDescanso, series);
@@ -95,15 +89,12 @@ public class GenerarWorkoutFireBase {
 
 	private static String generarNombreEjercicio(int numEjercicio, String nombreWorkout) {
 		String[] ejerciciosCardio = {"Saltos", "Flexiones", "Estiramiento"};
-		String[] ejerciciosFuerza = {"Correr", "Levantamiento de pesas", "Yoga"};
-		String[] ejerciciosFlexibilidad = {"Sprints", "Sentadillas", "Pilates"};
+		String[] ejerciciosFuerza = {"Press Banca", "Pull over", "Remo"};
 		String nombre ="";
 		if(nombreWorkout.contains("Cardio")) {
 			nombre=  ejerciciosCardio[numEjercicio];
-		}else if(nombreWorkout.contains("Fuerza")) {
+		}else  {
 			nombre =  ejerciciosFuerza[numEjercicio];
-		}else {
-			nombre = ejerciciosFlexibilidad[numEjercicio];
 		}
 		return nombre + " " + nombreWorkout.split(" ")[1];
 	}
@@ -112,17 +103,15 @@ public class GenerarWorkoutFireBase {
 	        ArrayList<Serie> series = new ArrayList<>();
 	        int numberOfSeries = nombreWorkout.contains("Avanzado") ? 3 : 2; // El avanzado tiene mas series
 	        double repeticionesBase = nombreWorkout.contains("Cardio") ? 15 : 10; // 
-	        double tiempoSerie = nombreWorkout.contains("Cardio") ? 20 : 30; // 
+	        double tiempoSerie = nombreWorkout.contains("Cardio") ? 20 : 30; //
 
 	        for (int i = 1; i <= numberOfSeries; i++) {
 	            String serieNombre = nombreEjercicio + " - Serie " + i;
 	            double repeticiones = repeticionesBase + (i * 2); 
-	            String imagenURL = "img/serie_default.png";
+	            String imagenURL = "Multimedia/defecto.png";
 	            Serie serie = new Serie(serieNombre, repeticiones, imagenURL, tiempoSerie);
 	            series.add(serie);
 	        }
-
 	        return series;
 	    }
-	
 }

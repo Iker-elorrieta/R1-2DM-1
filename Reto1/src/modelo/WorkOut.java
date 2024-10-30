@@ -34,8 +34,7 @@ public class WorkOut implements Serializable {
 	private static final String COLLECTION_NAME = "workouts";
 	private static final String FIELD_NIVEL = "nivel";
 	private static final String FIELD_VIDEO_URL = "videoURL";
-	//Still not used
-	//private static final String FIELD_TIEMPO_ESTIMADO = "tiempoEstimado";
+    private static final String FIELD_TIEMPO_ESTIMADO = "tiempoEstimado";
 
 	// *** Constructores ***
 
@@ -48,7 +47,7 @@ public class WorkOut implements Serializable {
 		this.nivel = nivel;
 		this.videoURL = videoURL;
 		this.ejercicios = ejercicios;
-		// this.tiempoEstimado = calcularTiempoEstimado();
+		this.tiempoEstimado = calcularTiempoEstimado();
 	}
 
 	// *** Métodos Getters y Setters ***
@@ -92,14 +91,24 @@ public class WorkOut implements Serializable {
 	public int getNumEjercicios() {
 		return ejercicios.size();
 	}
+	
+	
 
 	// Calcular el tiempo total estimado sumando la duración de cada ejercicio
-	/*
-	 * private double calcularTiempoEstimado() { double totalTiempo = 0; for
-	 * (Ejercicio ejercicio : ejercicios) { totalTiempo +=
-	 * ejercicio.getDuracionSegundos() + ejercicio.getDescansoSegundos(); } return
-	 * totalTiempo; }
-	 */
+
+	public void setTiempoEstimado(double tiempoEstimado) {
+		this.tiempoEstimado = tiempoEstimado;
+	}
+
+	private double calcularTiempoEstimado() { 
+		double totalTiempo = 0; 
+		for(Ejercicio ejercicio : ejercicios) { 
+			for(Serie serie: ejercicio.getSeries()) {
+				totalTiempo += ejercicio.getTiempoDescanso() + serie.getTiempoSerie();
+			}
+		} 
+		return totalTiempo; }
+
 
 	public String getListaEjercicios() {
 		String texto = "";
@@ -122,7 +131,7 @@ public class WorkOut implements Serializable {
 				Map<String, Object> nuevoWorkout = new HashMap<>();
 				nuevoWorkout.put(FIELD_NIVEL, this.nivel);
 				nuevoWorkout.put(FIELD_VIDEO_URL, this.videoURL);
-				// nuevoWorkout.put(FIELD_TIEMPO_ESTIMADO, this.tiempoEstimado);
+				nuevoWorkout.put(FIELD_TIEMPO_ESTIMADO, this.tiempoEstimado);
 
 				for (Ejercicio ejercicio : ejercicios) {
 					ejercicio.mIngresarEjercicio(COLLECTION_NAME, nombre);
@@ -168,6 +177,7 @@ public class WorkOut implements Serializable {
 				w.setNombre(workout.getId());
 				w.setNivel(workout.getDouble(FIELD_NIVEL));
 				w.setVideoURL(workout.getString(FIELD_VIDEO_URL));
+				w.setTiempoEstimado(workout.getDouble(FIELD_TIEMPO_ESTIMADO));
 				w.setEjercicios(new Ejercicio().mObtenerEjercicios(COLLECTION_NAME, w.getNombre()));
 
 				listaWorkOuts.add(w);
