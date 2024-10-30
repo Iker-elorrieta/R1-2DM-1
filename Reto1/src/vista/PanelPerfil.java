@@ -32,6 +32,7 @@ public class PanelPerfil extends JPanel {
 	private Usuario usuarioLogeado;
 	private JTextField tfContrasenaVer;
 	private JButton btnVolver;
+	private JButton btnVerHistorico;
 
 	/**
 	 * Create the panel.
@@ -130,10 +131,14 @@ public class PanelPerfil extends JPanel {
 		tfContrasenaVer.setBounds(294, 275, 200, 20);
 		add(tfContrasenaVer);
 		tfContrasenaVer.setColumns(10);
-		
+
 		btnVolver = new JButton("Volver");
-		btnVolver.setBounds(498, 31, 89, 23);
+		btnVolver.setBounds(516, 54, 89, 23);
 		add(btnVolver);
+
+		btnVerHistorico = new JButton("Ver histórico de workouts");
+		btnVerHistorico.setBounds(250, 54, 244, 23);
+		add(btnVerHistorico);
 		tfContrasenaVer.setVisible(false);
 	}
 
@@ -143,6 +148,14 @@ public class PanelPerfil extends JPanel {
 
 	public Usuario getUsuarioLogeado() {
 		return usuarioLogeado;
+	}
+
+	public JButton getBtnVerHistorico() {
+		return btnVerHistorico;
+	}
+
+	public void setBtnVerHistorico(JButton btnVerHistorico) {
+		this.btnVerHistorico = btnVerHistorico;
 	}
 
 	public JButton getBtnIconoVerContrasena() {
@@ -224,5 +237,4 @@ public class PanelPerfil extends JPanel {
 	public void setBtnVolver(JButton btnVolver) {
 		this.btnVolver = btnVolver;
 	}
-	
 }

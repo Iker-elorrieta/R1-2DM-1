@@ -15,7 +15,7 @@ public class Principal extends JFrame {
 	public static enum enumAcciones {
 		CARGAR_PANEL_LOGIN, CARGAR_PANEL_REGISTRO, CARGAR_PANEL_PERFIL, CARGAR_PANEL_WORKOUT, LOGIN, REGISTRAR_USUARIO,
 		EDITAR_PERFIL, VER_CONTRASENA, APLICAR_CAMBIOS_PERFIL, ABRIR_NAVEGADOR, CARGAR_PANEL_EJERCICIO, PLAY_PAUSE,
-		PAUSAR
+		PAUSAR, CARGAR_PANEL_HISTORICO
 
 	}
 
@@ -25,6 +25,7 @@ public class Principal extends JFrame {
 	private PanelWorkout2 panelWorkout;
 	private PanelPerfil panelPerfil;
 	private PanelEjercicio panelEjercicio;
+	private PanelHistorico panelHistorico;
 
 	public Principal() {
 
@@ -39,6 +40,7 @@ public class Principal extends JFrame {
 		mCrearPanelEjercicio();
 
 		mCrearPanelPerfil();
+		mCrearPanelHistorico();
 	}
 
 	// *** Creaci�n de paneles ***
@@ -96,6 +98,15 @@ public class Principal extends JFrame {
 		panelContenedor.add(panelPerfil);
 		panelContenedor.setBounds(panelPerfil.getBounds());
 		panelPerfil.setVisible(false);
+	}
+
+	private void mCrearPanelHistorico() {
+		panelHistorico = new PanelHistorico();
+		panelHistorico.setSize(694, 541);
+		panelHistorico.setLocation(0, 11);
+		panelContenedor.add(panelHistorico);
+		panelContenedor.setBounds(panelHistorico.getBounds());
+		panelHistorico.setVisible(false);
 
 	}
 
@@ -108,6 +119,8 @@ public class Principal extends JFrame {
 		panelRegistro.setVisible(false);
 		panelPerfil.setVisible(false);
 		panelEjercicio.setVisible(false);
+		panelHistorico.setVisible(false);
+
 		switch (panel) {
 		case CARGAR_PANEL_LOGIN:
 			panelLogin.setVisible(true);
@@ -124,6 +137,9 @@ public class Principal extends JFrame {
 		case CARGAR_PANEL_EJERCICIO:
 			panelEjercicio.setVisible(true);
 			break;
+		case CARGAR_PANEL_HISTORICO:
+			panelHistorico.setVisible(true);
+			break;
 		default:
 			break;
 
@@ -132,6 +148,14 @@ public class Principal extends JFrame {
 
 	public JPanel getPanelContenedor() {
 		return panelContenedor;
+	}
+
+	public PanelHistorico getPanelHistorico() {
+		return panelHistorico;
+	}
+
+	public void setPanelHistorico(PanelHistorico panelHistorico) {
+		this.panelHistorico = panelHistorico;
 	}
 
 	public PanelEjercicio getPanelEjercicio() {

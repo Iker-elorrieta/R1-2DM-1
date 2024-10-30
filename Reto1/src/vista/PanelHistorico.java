@@ -26,19 +26,19 @@ public class PanelHistorico extends JPanel {
 		add(panel_2);
 		panel_2.setLayout(null);
 
+		JPanel panelCentral = new JPanel();
+		panelCentral.setBounds(0, 55, 688, 486);
+		add(panelCentral);
+		panelCentral.setLayout(null);
+
 		JButton btnAtras = new JButton("Atrás");
 		btnAtras.setBounds(10, 11, 156, 40);
-		panel_2.add(btnAtras);
+		panelCentral.add(btnAtras);
 		btnAtras.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnAtras.setBackground(new Color(102, 153, 255));
 		btnAtras.setForeground(Color.WHITE);
 		btnAtras.setFocusPainted(false);
 		btnAtras.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-
-		JPanel panelCentral = new JPanel();
-		panelCentral.setBounds(0, 55, 688, 486);
-		add(panelCentral);
-		panelCentral.setLayout(null);
 
 		JScrollPane jScrollPanel;
 		jScrollPanel = new JScrollPane();

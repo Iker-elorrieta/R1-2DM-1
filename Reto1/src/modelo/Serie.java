@@ -3,7 +3,6 @@ package modelo;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,21 +30,19 @@ public class Serie implements Serializable {
 
 	private static final String COLLECTION_NAME = "series";
 	private static final String FIELD_IMG_URL = "imagenURL";
-    private static final String FIELD_REPETICIONES = "repeticiones";
+	private static final String FIELD_REPETICIONES = "repeticiones";
 	private static final String FIELD_TIEMPO_SERIE = "tiempoSerie";
-
 
 	// *** Constructores ***
 	public Serie() {
 	}
 
-    public Serie(String nombre, double repeticiones, String imagenURL, double tiempoSerie) {
-        this.nombre = nombre;
-        this.repeticiones = repeticiones;
-        this.imagenURL = imagenURL;
-        this.tiempoSerie = tiempoSerie;
-    }
-
+	public Serie(String nombre, double repeticiones, String imagenURL, double tiempoSerie) {
+		this.nombre = nombre;
+		this.repeticiones = repeticiones;
+		this.imagenURL = imagenURL;
+		this.tiempoSerie = tiempoSerie;
+	}
 
 	@Override
 	public String toString() {
@@ -72,10 +69,9 @@ public class Serie implements Serializable {
 
 	// *** Métodos CRUD ***
 
+	// *** Métodos CRUD ***
 
-    // *** Métodos CRUD ***
-
-    public double getTiempoSerie() {
+	public double getTiempoSerie() {
 		return tiempoSerie;
 	}
 
@@ -92,36 +88,33 @@ public class Serie implements Serializable {
 	}
 
 	// Método para agregar una nueva serie
-	  public void mIngresarSerie(String coleccionWorkout, String colectionEjercicio, String nombreEjercicio, String nombreWorkout) {
-	        Firestore co = null;
-	        try {
-	            co = Conexion.conectar();
-	            //Como hay un nivel anterior
-	            DocumentReference workoutDoc = co.collection(coleccionWorkout).document(nombreWorkout);
-	            
-	            DocumentReference ejercicioDoc = workoutDoc.collection(colectionEjercicio).document(nombreEjercicio);
-	            CollectionReference seriesCollection = ejercicioDoc.collection(COLLECTION_NAME);
+	public void mIngresarSerie(String coleccionWorkout, String colectionEjercicio, String nombreEjercicio,
+			String nombreWorkout) {
+		Firestore co = null;
+		try {
+			co = Conexion.conectar();
+			// Como hay un nivel anterior
+			DocumentReference workoutDoc = co.collection(coleccionWorkout).document(nombreWorkout);
 
-	            if (!seriesCollection.document(nombre).get().get().exists()) {
-	                Map<String, Object> nuevaSerie = new HashMap<>();
-	                nuevaSerie.put(FIELD_IMG_URL, this.imagenURL);
-	                nuevaSerie.put(FIELD_REPETICIONES, this.repeticiones);
-	                nuevaSerie.put(FIELD_TIEMPO_SERIE, this.tiempoSerie);
+			DocumentReference ejercicioDoc = workoutDoc.collection(colectionEjercicio).document(nombreEjercicio);
+			CollectionReference seriesCollection = ejercicioDoc.collection(COLLECTION_NAME);
 
-	                seriesCollection.document(this.nombre).set(nuevaSerie);
+			if (!seriesCollection.document(nombre).get().get().exists()) {
+				Map<String, Object> nuevaSerie = new HashMap<>();
+				nuevaSerie.put(FIELD_IMG_URL, this.imagenURL);
+				nuevaSerie.put(FIELD_REPETICIONES, this.repeticiones);
+				nuevaSerie.put(FIELD_TIEMPO_SERIE, this.tiempoSerie);
 
-	                System.out.println("Serie insertada con éxito");
-	            } else {
-	                System.out.println("La serie ya está introducida");
-	            }
+				seriesCollection.document(this.nombre).set(nuevaSerie);
 
-	            co.close();
-	        } catch (IOException | InterruptedException | ExecutionException e) {
-	            e.printStackTrace();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }
+			}
+			co.close();
+		} catch (IOException | InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	// Método para obtener todas las series de un ejercicio
 	public ArrayList<Serie> mObtenerSeries(String coleccionWorkout, String colectionEjercicio, String nombreEjercicio,
@@ -136,7 +129,6 @@ public class Serie implements Serializable {
 			ApiFuture<QuerySnapshot> seriesFuture = ejercicioDoc.collection(COLLECTION_NAME).get();
 			QuerySnapshot seriesSnapshot = seriesFuture.get();
 			List<QueryDocumentSnapshot> ejercicios = seriesSnapshot.getDocuments();
-			System.out.println(new Date());
 
 			for (QueryDocumentSnapshot serieDoc : ejercicios) {
 				Serie serie = new Serie();
@@ -149,7 +141,6 @@ public class Serie implements Serializable {
 			}
 			co.close();
 		} catch (InterruptedException | ExecutionException | IOException e) {
-			System.out.println("Error: Clase Serie, método mObtenerSeries");
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -173,7 +164,6 @@ public class Serie implements Serializable {
 
 			serieDoc.update(updatedSerie);
 
-			System.out.println("Serie actualizada con éxito");
 			co.close();
 		} catch (IOException | InterruptedException | ExecutionException e) {
 			e.printStackTrace();
@@ -194,7 +184,6 @@ public class Serie implements Serializable {
 
 			seriesCollection.document(nombre).delete();
 
-			System.out.println("Serie eliminada con éxito");
 			co.close();
 		} catch (IOException | InterruptedException | ExecutionException e) {
 			e.printStackTrace();

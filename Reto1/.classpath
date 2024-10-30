@@ -12,5 +12,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/in2dm3-a/git/R1-2DM-1/Reto1/GenerarBackups.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

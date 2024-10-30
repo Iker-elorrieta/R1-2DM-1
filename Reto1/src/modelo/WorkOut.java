@@ -3,7 +3,6 @@ package modelo;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +33,7 @@ public class WorkOut implements Serializable {
 	private static final String COLLECTION_NAME = "workouts";
 	private static final String FIELD_NIVEL = "nivel";
 	private static final String FIELD_VIDEO_URL = "videoURL";
-    private static final String FIELD_TIEMPO_ESTIMADO = "tiempoEstimado";
+	private static final String FIELD_TIEMPO_ESTIMADO = "tiempoEstimado";
 
 	// *** Constructores ***
 
@@ -91,8 +90,6 @@ public class WorkOut implements Serializable {
 	public int getNumEjercicios() {
 		return ejercicios.size();
 	}
-	
-	
 
 	// Calcular el tiempo total estimado sumando la duración de cada ejercicio
 
@@ -100,15 +97,15 @@ public class WorkOut implements Serializable {
 		this.tiempoEstimado = tiempoEstimado;
 	}
 
-	private double calcularTiempoEstimado() { 
-		double totalTiempo = 0; 
-		for(Ejercicio ejercicio : ejercicios) { 
-			for(Serie serie: ejercicio.getSeries()) {
+	private double calcularTiempoEstimado() {
+		double totalTiempo = 0;
+		for (Ejercicio ejercicio : ejercicios) {
+			for (Serie serie : ejercicio.getSeries()) {
 				totalTiempo += ejercicio.getTiempoDescanso() + serie.getTiempoSerie();
 			}
-		} 
-		return totalTiempo; }
-
+		}
+		return totalTiempo;
+	}
 
 	public String getListaEjercicios() {
 		String texto = "";
@@ -140,9 +137,6 @@ public class WorkOut implements Serializable {
 
 				root.document(this.nombre).set(nuevoWorkout);
 
-				System.out.println("Workout insertado con éxito");
-			} else {
-				System.out.println("Ya introducido");
 			}
 			co.close();
 		} catch (IOException e) {
@@ -168,7 +162,6 @@ public class WorkOut implements Serializable {
 			ApiFuture<QuerySnapshot> query = co.collection(COLLECTION_NAME).get();
 			QuerySnapshot querySnapshot = query.get();
 			List<QueryDocumentSnapshot> workouts = querySnapshot.getDocuments();
-			System.out.println(new Date());
 
 			for (QueryDocumentSnapshot workout : workouts) {
 
@@ -185,7 +178,6 @@ public class WorkOut implements Serializable {
 			co.close();
 
 		} catch (InterruptedException | ExecutionException e) {
-			System.out.println("Error: Clase Contacto, metodo mObtenerContactos");
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

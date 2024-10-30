@@ -3,7 +3,6 @@ package modelo;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,11 +111,7 @@ public class Ejercicio implements Serializable {
 				}
 				ejerciciosCollection.document(this.nombre).set(nuevoEjercicio);
 
-				System.out.println("Ejercicio insertado con éxito");
-			} else {
-				System.out.println("Ya introducido");
 			}
-
 			co.close();
 		} catch (IOException | InterruptedException | ExecutionException e) {
 			e.printStackTrace();
@@ -136,7 +131,6 @@ public class Ejercicio implements Serializable {
 			ApiFuture<QuerySnapshot> ejerciciosFuture = workOutDoc.collection(COLLECTION_NAME).get();
 			QuerySnapshot ejerciciosSnapshot = ejerciciosFuture.get();
 			List<QueryDocumentSnapshot> ejercicios = ejerciciosSnapshot.getDocuments();
-			System.out.println(new Date());
 
 			for (QueryDocumentSnapshot ejercicio : ejercicios) {
 
@@ -151,7 +145,6 @@ public class Ejercicio implements Serializable {
 			}
 			co.close();
 		} catch (InterruptedException | ExecutionException | IOException e) {
-			System.out.println("Error: Clase Ejercicio, método mObtenerEjercicios");
 			e.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
