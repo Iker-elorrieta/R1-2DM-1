@@ -50,11 +50,6 @@ public class PanelWorkout2 extends JPanel {
 		filtroNivel.addActionListener(e -> actualizarListaWorkOuts());
 		topPanel.add(new JLabel("Filtrar por nivel:"), BorderLayout.WEST);
 		topPanel.add(filtroNivel, BorderLayout.CENTER);
-
-		JButton btnHistorialWK = new JButton("Ver Histórico");
-		btnHistorialWK
-				.addActionListener(e -> JOptionPane.showMessageDialog(this, "Mostrando histórico de workouts..."));
-		topPanel.add(btnHistorialWK, BorderLayout.EAST);
 		add(topPanel);
 
 		JPanel centerPanel = new JPanel();
@@ -84,7 +79,7 @@ public class PanelWorkout2 extends JPanel {
 		detailsPanel.add(lblUrl);
 
 		btnIrAVideo = new JButton("Ver Video");
-		btnIrAVideo.setBounds(36, 92, 85, 31);
+		btnIrAVideo.setBounds(36, 92, 98, 31);
 		detailsPanel.add(btnIrAVideo);
 
 		centerPanel.add(detailsPanel);

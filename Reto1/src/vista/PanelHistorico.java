@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 public class PanelHistorico extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTable tabla;
+	private JButton btnAtras;
 
 	public PanelHistorico() {
 
@@ -31,7 +32,7 @@ public class PanelHistorico extends JPanel {
 		add(panelCentral);
 		panelCentral.setLayout(null);
 
-		JButton btnAtras = new JButton("Atrás");
+		btnAtras = new JButton("Atrás");
 		btnAtras.setBounds(10, 11, 156, 40);
 		panelCentral.add(btnAtras);
 		btnAtras.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -42,7 +43,7 @@ public class PanelHistorico extends JPanel {
 
 		JScrollPane jScrollPanel;
 		jScrollPanel = new JScrollPane();
-		jScrollPanel.setBounds(40, 150, 508, 267);
+		jScrollPanel.setBounds(40, 150, 620, 325);
 		add(jScrollPanel);
 
 		String columnas[] = { "Id", "Nombre", "Teléfono", "E-mail" };
@@ -58,6 +59,13 @@ public class PanelHistorico extends JPanel {
 		tabla.setDefaultEditor(Object.class, null);
 
 		jScrollPanel.setViewportView(tabla);
+	}
 
+	public JButton getBtnAtras() {
+		return btnAtras;
+	}
+
+	public void setBtnAtras(JButton btnAtras) {
+		this.btnAtras = btnAtras;
 	}
 }

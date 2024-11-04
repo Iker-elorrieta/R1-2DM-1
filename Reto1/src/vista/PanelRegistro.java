@@ -40,7 +40,7 @@ public class PanelRegistro extends JPanel {
 		setLayout(null);
 
 		btnRegistrarse = new JButton("Registrarse");
-		btnRegistrarse.setBounds(294, 354, 89, 23);
+		btnRegistrarse.setBounds(294, 354, 106, 23);
 		add(btnRegistrarse);
 
 		btnVolverLogin = new JButton("Volver");

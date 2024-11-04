@@ -124,6 +124,11 @@ public class Controlador implements ActionListener, ListSelectionListener {
 		this.vistaPrincipal.getPanelEjercicio().getBtnPausar()
 				.setActionCommand(Principal.enumAcciones.PAUSAR.toString());
 
+		// VENTANA HISTORICO
+		this.vistaPrincipal.getPanelHistorico().getBtnAtras().addActionListener(this);
+		this.vistaPrincipal.getPanelHistorico().getBtnAtras()
+				.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_PERFIL.toString());
+
 	}
 
 	/*** Tratamiento de las acciones ***/
@@ -256,7 +261,7 @@ public class Controlador implements ActionListener, ListSelectionListener {
 	private void mConfirmarLogin(enumAcciones accion) {
 		PanelLogin panelLogin = this.vistaPrincipal.getPanelLogin();
 		String usuarioIntroducido = panelLogin.getTextFieldUser().getText().trim();
-		String passIntroducida = panelLogin.getTextFieldPass().getText().trim();
+		String passIntroducida = new String(panelLogin.getTextFieldPass().getPassword()).trim();
 		if (!usuarioIntroducido.isEmpty() && !passIntroducida.isEmpty()) {
 			Usuario usuario = new Usuario();
 			usuarioLogeado = usuario.mObtenerUsuario(usuarioIntroducido, passIntroducida);
