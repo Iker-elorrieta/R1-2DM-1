@@ -53,9 +53,7 @@ public class Controlador implements ActionListener, ListSelectionListener {
 	 */
 	public Controlador(vista.Principal vistaPrincipal) {
 		this.vistaPrincipal = vistaPrincipal;
-
 		this.inicializarControlador();
-
 	}
 
 	private void inicializarControlador() {
@@ -375,7 +373,7 @@ public class Controlador implements ActionListener, ListSelectionListener {
 		}
 	}
 
-	public static boolean isInternetAvailable() {
+	public boolean hayInternet() {
 		try {
 			InetAddress address = InetAddress.getByName("8.8.8.8");
 			return address.isReachable(3000);

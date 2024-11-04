@@ -62,7 +62,6 @@ public class Principal extends JFrame {
 		panelContenedor.add(panelLogin);
 		panelContenedor.setBounds(panelLogin.getBounds());
 		panelLogin.setVisible(true);
-
 	}
 
 	private void mCrearPanelWorkOut() {

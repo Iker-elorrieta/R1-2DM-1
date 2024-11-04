@@ -1,6 +1,8 @@
 package modelo;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +23,7 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 
 import conexion.Conexion;
+import principal.Principal;
 
 public class Usuario implements Serializable {
 
@@ -36,8 +39,9 @@ public class Usuario implements Serializable {
 
 	}
 
-	// Email sera el campo de inicio de sesion
+	private principal.Principal principal = new Principal();
 
+	// Email sera el campo de inicio de sesion
 	private String nombre;
 	private String apellidos;
 	private String email; // Campo Unico al ser unico podria ser el ID
@@ -46,6 +50,8 @@ public class Usuario implements Serializable {
 	private double nivel; // Inicialmente 0
 	private enumTipoUsuario tipoUsuario;
 	// ArrayList<WorkOuts> workoutsRealizados ;
+
+	private static final String USUARIOSFILEROUTE = "backups/usuarios.dat";
 
 	private static final String COLLECTION_NAME = "usuarios";
 	private static final String FIELD_NOMBRE = "nombre";
@@ -140,35 +146,71 @@ public class Usuario implements Serializable {
 	// *** M�todos CRUD ***
 
 	public Usuario mObtenerUsuario(String idIntroducido, String passIntroducida) {
-		Firestore co = null;
+		if (principal.getInternet()) {
+			Firestore co = null;
 
-		try {
-			co = Conexion.conectar();
+			try {
+				co = Conexion.conectar();
 
-			if (co.collection(COLLECTION_NAME).document(idIntroducido).get().get().exists()) {
-				DocumentSnapshot dsUsuario = co.collection(COLLECTION_NAME).document(idIntroducido).get().get();
-				if (dsUsuario.getString(FIELD_PASS).equals(passIntroducida)) {
-					setEmail(dsUsuario.getId());
-					setNombre(dsUsuario.getString(FIELD_NOMBRE));
-					setApellidos(dsUsuario.getString(FIELD_APELLIDOS));
-					setPass(dsUsuario.getString(FIELD_PASS));
-					setFechaNacimiento(obtenerFechaDate(dsUsuario, FIELD_FECHA_NACIMIENTO));
-					setNivel(dsUsuario.getDouble(FIELD_NIVEL));
+				if (co.collection(COLLECTION_NAME).document(idIntroducido).get().get().exists()) {
+					DocumentSnapshot dsUsuario = co.collection(COLLECTION_NAME).document(idIntroducido).get().get();
+					if (dsUsuario.getString(FIELD_PASS).equals(passIntroducida)) {
+						setEmail(dsUsuario.getId());
+						setNombre(dsUsuario.getString(FIELD_NOMBRE));
+						setApellidos(dsUsuario.getString(FIELD_APELLIDOS));
+						setPass(dsUsuario.getString(FIELD_PASS));
+						setFechaNacimiento(obtenerFechaDate(dsUsuario, FIELD_FECHA_NACIMIENTO));
+						setNivel(dsUsuario.getDouble(FIELD_NIVEL));
 
-					return this;
+						return this;
 
+					} else {
+						JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "ERROR",
+								JOptionPane.ERROR_MESSAGE);
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "ERROR",
 							JOptionPane.ERROR_MESSAGE);
 				}
-			} else {
-				JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "ERROR",
-						JOptionPane.ERROR_MESSAGE);
-			}
 
-			co.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+				co.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+//			private static void leerWorkoutsDesdeArchivo() {
+//				ArrayList<WorkOut> wkee = new ArrayList<>();
+//				ArrayList<Ejercicio> ejerrs = new ArrayList<>();
+//				ArrayList<Serie> series = new ArrayList<>();
+//				try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(WORKOUTSFILEROUTE))) {
+//					wkee = (ArrayList<WorkOut>) ois.readObject();
+//					for (WorkOut wk : wkee) {
+//						System.out.println(wk.getNombre());
+//						ejerrs = wk.getEjercicios();
+//						for (Ejercicio ejer : ejerrs) {
+//							System.out.println("	" + ejer.getNombre());
+//							series = ejer.getSeries();
+//							for (Serie serie : series) {
+//								System.out.println("		-" + serie.getNombre());
+//							}
+//						}
+//						System.out.println("\n");
+//					}
+//				} catch (FileNotFoundException e) {
+//					System.out.println("Archivo no encontrado, se creará uno nuevo.");
+//				} catch (IOException | ClassNotFoundException e) {
+//					e.printStackTrace();
+//				}
+//			}
+			ArrayList<Usuario> usuarios = new ArrayList<>();
+			try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(USUARIOSFILEROUTE))) {
+				usuarios = (ArrayList<Usuario>) ois.readObject();
+				for (Usuario nuevoUsuario : usuarios) {
+					System.out.println(nuevoUsuario.getEmail());
+				}
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -203,7 +245,6 @@ public class Usuario implements Serializable {
 		} catch (IOException | InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
