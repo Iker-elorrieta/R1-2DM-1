@@ -22,8 +22,7 @@ public class PanelEjercicio extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private WorkOut workouSelect;
 	private Ejercicio ejercicio;
-	private int labelAltura = 24;
-	private int margenEntrePanelSeires = 15;
+
 	private JLabel lblDescripcionE;
 	private JLabel lblWorkout;
 	private JPanel panelMenu;
@@ -163,12 +162,20 @@ public class PanelEjercicio extends JPanel {
 
 	}
 
-	public void actualizarVentana() {
-		ejercicio = workouSelect.getEjercicios().get(0);
+	public void actualizarVentana(Ejercicio ejercicio) {
+		 int labelAltura = 24;
+		 int margenEntrePanelSeires = 15;
+		
+		panelMenu.removeAll();
 		lblDescripcionE.setText(ejercicio.getNombre() + "- Descripción");
 		lblWorkout.setText("Workout " + workouSelect.getNombre());
 
-		panelMenu.removeAll();
+		
+		lblCDescanso.setText(String.format("%02d:%02d",
+				((int) workouSelect.getEjercicios().get(0).getTiempoDescanso() / 60), // min
+				((int) workouSelect.getEjercicios().get(0).getTiempoDescanso() % 60)));// seg
+
+		
 		// Generamos los iconos de forma dinamica
 		for (Serie serie : ejercicio.getSeries()) {
 
