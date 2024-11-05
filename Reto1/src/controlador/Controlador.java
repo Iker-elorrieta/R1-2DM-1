@@ -186,21 +186,10 @@ public class Controlador implements ActionListener, ListSelectionListener {
 			if (workoutSelect != null) {
 				PanelEjercicio pEjercicio = this.vistaPrincipal.getPanelEjercicio();
 
+				//Actualizamos la ventana
 				pEjercicio.setWorkouSelect(workoutSelect);
-				pEjercicio.actualizarVentana();
-				// Inicializamos los cronometros
-				cPrincipal = new Cronometro(pEjercicio.getLblCWorkout());
-				cEjercicio = new Cronometro(pEjercicio.getLblCTiempoE());
-				cDescanso = new CronometroRegresivo(pEjercicio.getLblCDescanso(),
-						workoutSelect.getEjercicios().get(0).getTiempoDescanso());
-				cSerie = new CronometroRegresivo(
-						this.vistaPrincipal.getPanelEjercicio().getConjuntoDeCronometros().get(0),
-						this.vistaPrincipal.getPanelEjercicio().getSerieActual().getTiempoSerie());
-				pEjercicio.getLblCDescanso()
-						.setText(String.format("%02d:%02d",
-								((int) workoutSelect.getEjercicios().get(0).getTiempoDescanso() / 60), // min
-								((int) workoutSelect.getEjercicios().get(0).getTiempoDescanso() % 60)));// seg
-
+				pEjercicio.actualizarVentana(workoutSelect.getEjercicios().get(0));
+			
 				gC = new GestionCronometros(pEjercicio, workoutSelect, cPrincipal, cDescanso, cEjercicio, cSerie);
 				this.vistaPrincipal.mVisualizarPaneles(accion);
 
