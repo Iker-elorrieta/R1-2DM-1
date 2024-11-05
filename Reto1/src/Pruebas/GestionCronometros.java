@@ -1,6 +1,8 @@
 package Pruebas;
 
 
+import modelo.Ejercicio;
+import modelo.Serie;
 import modelo.WorkOut;
 import vista.PanelEjercicio;
 
@@ -11,8 +13,11 @@ public class GestionCronometros extends Thread {
 	private CronometroRegresivo cDescanso;
 	private Cronometro cEjercicio;
 	private CronometroRegresivo cSerie;
-
-
+	private int  contadorEjercicio =0;
+	private int  contadorSerie =0;
+	boolean enPausa = false;
+	boolean serieCambiada = false;
+	boolean ejercioCambiada = false;
 
 	public GestionCronometros (PanelEjercicio panelEjercicio ,WorkOut workoutSelect ,	 
 			Cronometro cPrincipal, CronometroRegresivo cDescanso,  Cronometro cEjercicio,  CronometroRegresivo cSerie) {
@@ -25,59 +30,98 @@ public class GestionCronometros extends Thread {
 
 
 	}
-
-
 	@Override
 	public void run() {
-		while(cEjercicio.finalizado()==false) {
-			
-			while(cSerie.finalizado==false) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		Ejercicio ejercicioActual =workoutSelect.getEjercicios().get(contadorEjercicio);
+
+		cPrincipal = new Cronometro(pEjercicio.getLblCWorkout());
+		cPrincipal.iniciar();
+
+		cEjercicio = new Cronometro(pEjercicio.getLblCTiempoE());
+		cEjercicio.iniciar();
+
+
+
+		while (contadorEjercicio < workoutSelect.getEjercicios().size()) {
+
+
+			while (contadorSerie < ejercicioActual.getSeries().size()) {
+				Serie serieActual = ejercicioActual.getSeries().get(contadorSerie);
+				cSerie = new CronometroRegresivo(pEjercicio.getConjuntoDeCronometros().get(contadorSerie),
+						serieActual.getTiempoSerie());
+				cSerie.iniciar();
+
+				// Espera hasta que la serie se haya completado 
+				while (!cSerie.finalizado() && !enPausa) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+
+				// Si está en pausa, no aumentamos el contador de series
+				if (!enPausa) {
+					contadorSerie++;
+					activarDescanso();
+					
+					
+					if(ejercicioActual.getSeries().size() == contadorSerie && contadorEjercicio < workoutSelect.getEjercicios().size()) {
+						//cambiamos de jercicio
+						contadorEjercicio++;
+						contadorSerie = 0;
+						ejercicioActual = workoutSelect.getEjercicios().get(contadorEjercicio);
+						pEjercicio.actualizarVentana(ejercicioActual);
+					}
+
+
+					while (!cDescanso.finalizado() && !enPausa) {
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						
+						if (cDescanso.finalizado()) {
+						    pEjercicio.getBtnIniciar().setVisible(true);
+						    pEjercicio.getBtnPausar().setVisible(false);
+						}
+					}
 				}
 			}
-			
-			activarDescanso();
-			cSerie = new CronometroRegresivo ( pEjercicio.getConjuntoDeCronometros().get(1),
-					workoutSelect.getEjercicios().get(0).getSeries().get(1).getTiempoSerie());
-			pEjercicio.getBtnIniciar().setVisible(true);
-
+			contadorSerie = 0;
+			contadorEjercicio++;
 		}
 	}
 
-
 	public void pausar() {
+		enPausa = true; 
 		cEjercicio.detener();
-		cSerie.detener();
+		cSerie.detener(); 
 		pEjercicio.getBtnIniciar().setVisible(true);
-		pEjercicio.getBtnPausar().setVisible(false);
+		pEjercicio.getBtnPausar().setVisible(false); 
 	}
 
 	public void play() {
-		if (!cPrincipal.iniciadoR()) {
-			cPrincipal.iniciar();
-			cEjercicio.iniciar();
-			cSerie.iniciar();
-			this.start();
-
+		if(!this.isAlive()) {
+			this.start(); 
+		}else {
+			enPausa = false; 
 			pEjercicio.getBtnIniciar().setVisible(false);
-			pEjercicio.getBtnPausar().setVisible(true);
-		} else {
-			cEjercicio.activar();
-			cSerie.activar();
-			pEjercicio.getBtnIniciar().setVisible(false);
-			pEjercicio.getBtnPausar().setVisible(true);
+			pEjercicio.getBtnPausar().setVisible(true); 
 		}
-
-		if(cEjercicio.finalizado()) {}
 	}
 
 	private void activarDescanso() {
+		cDescanso = new CronometroRegresivo(pEjercicio.getLblCDescanso(),
+				workoutSelect.getEjercicios().get(contadorEjercicio).getTiempoDescanso());
+		cDescanso.iniciar();
 		pEjercicio.getBtnIniciar().setVisible(false);
 		pEjercicio.getBtnPausar().setVisible(false);
-		cDescanso.iniciar();
+		
+		
+		
+		
+		
 	}
 }
