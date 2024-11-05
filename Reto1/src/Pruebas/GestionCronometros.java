@@ -1,7 +1,7 @@
 package Pruebas;
+//Preguntar a iker
 
 import modelo.Ejercicio;
-import modelo.Serie;
 import modelo.WorkOut;
 import vista.PanelEjercicio;
 
@@ -14,8 +14,6 @@ public class GestionCronometros extends Thread {
 	private CronometroRegresivo cSerie;
 	private int contadorEjercicio = 0;
 	private int contadorSerie = 0;
-	private boolean enPausa = true; // Inicialmente en pausa para que el usuario comience manualmente
-	private boolean enDescanso = false;
 
 	public GestionCronometros(PanelEjercicio panelEjercicio, WorkOut workoutSelect,
 			Cronometro cPrincipal, CronometroRegresivo cDescanso,
@@ -40,66 +38,65 @@ public class GestionCronometros extends Thread {
 
 		cSerie = new CronometroRegresivo(pEjercicio.getConjuntoDeCronometros().get(contadorSerie),  ejercicioActual.getSeries().get(contadorSerie).getTiempoSerie());
 		cSerie.iniciar();
-		
+		cDescanso = new CronometroRegresivo(pEjercicio.getLblCDescanso(), workoutSelect.getEjercicios().get(contadorEjercicio).getTiempoDescanso());
+
 
 		while (contadorEjercicio < workoutSelect.getEjercicios().size()) {
 			ejercicioActual = workoutSelect.getEjercicios().get(contadorEjercicio);
-			cDescanso = new CronometroRegresivo(pEjercicio.getLblCDescanso(), workoutSelect.getEjercicios().get(contadorEjercicio).getTiempoDescanso());
 
 			while (contadorSerie < ejercicioActual.getSeries().size()) {
-
-				// Iniciar la serie tanto cunado termina como cuando no existe y es la primera ejecucion
-
-				// Espera hasta que la serie termine o esté en pausa
-				while (!cSerie.finalizado()) {
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
-
-				// Si la serie ha finalizado, iniciar descanso automáticamente
-				if (cSerie.finalizado() && !enPausa) {
+				// Si la serie ha finalizado
+				if (!cSerie.isAlive()) {
+					System.out.println("Contador serie" + contadorSerie);	
 					contadorSerie++;
+					//Tras finalizar la ultima serie por algun motivo entra en el bucle para controlar obligamos a salir 
+					if (contadorSerie >= ejercicioActual.getSeries().size()) {
+		                break;
+		            }		
 					iniciarDescanso();
-					System.out.println("entra");
-					// Esperar hasta que el descanso termine o esté en pausa
+
+					// Esperar hasta que el descanso termine
 					while (cDescanso.isAlive() ) {
 						try {
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
 					}
+					//Los campos que varian seran el descanso y la serie
+					cDescanso = new CronometroRegresivo(pEjercicio.getLblCDescanso(), workoutSelect.getEjercicios().get(contadorEjercicio).getTiempoDescanso());
+					//Actulizamos el descanso en panel
+					pEjercicio.getLblCDescanso().setText(String.format("%02d:%02d",
+							((int) workoutSelect.getEjercicios().get(contadorEjercicio).getTiempoDescanso() / 60), // min
+							((int) workoutSelect.getEjercicios().get(contadorEjercicio).getTiempoDescanso() % 60)));
 
-					if(contadorSerie < ejercicioActual.getSeries().size()) {
-						cSerie = new CronometroRegresivo(pEjercicio.getConjuntoDeCronometros().get(contadorSerie),  ejercicioActual.getSeries().get(contadorSerie).getTiempoSerie());
-						cDescanso = new CronometroRegresivo(pEjercicio.getLblCDescanso(), workoutSelect.getEjercicios().get(contadorEjercicio).getTiempoDescanso());
-
-						cSerie.iniciar();
-						// Pausar después del descanso para esperar el botón "Play" para la siguiente serie
-						cSerie.detener();
-						pEjercicio.getBtnIniciar().setVisible(true);
-		                pEjercicio.actualizarVentana(workoutSelect.getEjercicios().get(contadorEjercicio));
-
-
-					}
-
-
+					// Inicializamos la siguiente serie pero la detenomos hasta que lo active
+					cSerie = new CronometroRegresivo(pEjercicio.getConjuntoDeCronometros().get(contadorSerie),  ejercicioActual.getSeries().get(contadorSerie).getTiempoSerie());
+					cSerie.iniciar();
+					cSerie.detener();	
+					pEjercicio.getBtnIniciar().setVisible(true);
 				}
 			}
 			// Reiniciar variables para el siguiente ejercicio
-			contadorSerie = 0;
+			contadorSerie = -1; // por algun motivo al salir del bucle y volver a entrar automaticametnte accede a la linea 54 y accede per
 			contadorEjercicio++;
+			// Actualizar la ventana con el nuevo ejercicio
+			//En el caso de que sea la ultima ejecucion no se actualiza la ventana si no que se muestra el reloj de descanso por ultima vez
 			if (contadorEjercicio < workoutSelect.getEjercicios().size()) {
-				pEjercicio.actualizarVentana(workoutSelect.getEjercicios().get(contadorEjercicio));
+			    pEjercicio.actualizarVentana(workoutSelect.getEjercicios().get(contadorEjercicio));
+			}else {
+				cDescanso = new CronometroRegresivo(pEjercicio.getLblCDescanso(), ejercicioActual.getTiempoDescanso());
+				iniciarDescanso(); 
 			}
 		}
 	}
 
 	public void pausar() {
-		enPausa = true;
 		cEjercicio.detener();
 		cSerie.detener();
 
@@ -108,27 +105,21 @@ public class GestionCronometros extends Thread {
 	}
 
 	public void play() {
+		//La primera ejecucion seria desencadenar todo el proceso
 		if(cPrincipal== null) {
 			this.start(); 
-			pEjercicio.getBtnIniciar().setVisible(false);
-			pEjercicio.getBtnPausar().setVisible(true); 
 		}
-
-		enPausa = false;
-		pEjercicio.getBtnIniciar().setVisible(false);
-		pEjercicio.getBtnPausar().setVisible(true);
-
 		// Activar la serie 
 		if(cSerie != null) {
 			cSerie.activar();
 			cEjercicio.activar();
 		}
+		pEjercicio.getBtnIniciar().setVisible(false);
+		pEjercicio.getBtnPausar().setVisible(true);
 	}
 
 	private void iniciarDescanso() {
-		enDescanso = true;
 		cDescanso.iniciar();
-
 		pEjercicio.getBtnIniciar().setVisible(false);
 		pEjercicio.getBtnPausar().setVisible(false);
 	}
