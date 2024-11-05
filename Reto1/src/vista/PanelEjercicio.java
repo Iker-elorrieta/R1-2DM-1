@@ -204,6 +204,8 @@ public class PanelEjercicio extends JPanel {
 			if (labelAltura > panelMenu.getHeight() - 20) {
 				panelMenu.setPreferredSize(new Dimension(400, labelAltura + margenEntrePanelSeires));
 			}
+			 panelMenu.revalidate();
+			    panelMenu.repaint();
 		}
 	}
 

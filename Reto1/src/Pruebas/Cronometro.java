@@ -56,7 +56,6 @@ public class Cronometro extends Thread {
 
 	public void activar() {
 		enFuncionamiento = true; 
-		System.out.println("Cambia");
 	}
 
 	public boolean finalizado() {

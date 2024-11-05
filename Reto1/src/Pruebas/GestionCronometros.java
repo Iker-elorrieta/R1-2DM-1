@@ -1,6 +1,5 @@
 package Pruebas;
 
-
 import modelo.Ejercicio;
 import modelo.Serie;
 import modelo.WorkOut;
@@ -13,26 +12,25 @@ public class GestionCronometros extends Thread {
 	private CronometroRegresivo cDescanso;
 	private Cronometro cEjercicio;
 	private CronometroRegresivo cSerie;
-	private int  contadorEjercicio =0;
-	private int  contadorSerie =0;
-	boolean enPausa = false;
-	boolean serieCambiada = false;
-	boolean ejercioCambiada = false;
+	private int contadorEjercicio = 0;
+	private int contadorSerie = 0;
+	private boolean enPausa = true; // Inicialmente en pausa para que el usuario comience manualmente
+	private boolean enDescanso = false;
 
-	public GestionCronometros (PanelEjercicio panelEjercicio ,WorkOut workoutSelect ,	 
-			Cronometro cPrincipal, CronometroRegresivo cDescanso,  Cronometro cEjercicio,  CronometroRegresivo cSerie) {
+	public GestionCronometros(PanelEjercicio panelEjercicio, WorkOut workoutSelect,
+			Cronometro cPrincipal, CronometroRegresivo cDescanso,
+			Cronometro cEjercicio, CronometroRegresivo cSerie) {
 		this.pEjercicio = panelEjercicio;
 		this.workoutSelect = workoutSelect;
 		this.cPrincipal = cPrincipal;
 		this.cDescanso = cDescanso;
 		this.cEjercicio = cEjercicio;
 		this.cSerie = cSerie;
-
-
 	}
+
 	@Override
 	public void run() {
-		Ejercicio ejercicioActual =workoutSelect.getEjercicios().get(contadorEjercicio);
+		Ejercicio ejercicioActual = workoutSelect.getEjercicios().get(contadorEjercicio);
 
 		cPrincipal = new Cronometro(pEjercicio.getLblCWorkout());
 		cPrincipal.iniciar();
@@ -40,19 +38,20 @@ public class GestionCronometros extends Thread {
 		cEjercicio = new Cronometro(pEjercicio.getLblCTiempoE());
 		cEjercicio.iniciar();
 
-
+		cSerie = new CronometroRegresivo(pEjercicio.getConjuntoDeCronometros().get(contadorSerie),  ejercicioActual.getSeries().get(contadorSerie).getTiempoSerie());
+		cSerie.iniciar();
+		
 
 		while (contadorEjercicio < workoutSelect.getEjercicios().size()) {
-
+			ejercicioActual = workoutSelect.getEjercicios().get(contadorEjercicio);
+			cDescanso = new CronometroRegresivo(pEjercicio.getLblCDescanso(), workoutSelect.getEjercicios().get(contadorEjercicio).getTiempoDescanso());
 
 			while (contadorSerie < ejercicioActual.getSeries().size()) {
-				Serie serieActual = ejercicioActual.getSeries().get(contadorSerie);
-				cSerie = new CronometroRegresivo(pEjercicio.getConjuntoDeCronometros().get(contadorSerie),
-						serieActual.getTiempoSerie());
-				cSerie.iniciar();
 
-				// Espera hasta que la serie se haya completado 
-				while (!cSerie.finalizado() && !enPausa) {
+				// Iniciar la serie tanto cunado termina como cuando no existe y es la primera ejecucion
+
+				// Espera hasta que la serie termine o esté en pausa
+				while (!cSerie.finalizado()) {
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
@@ -60,68 +59,77 @@ public class GestionCronometros extends Thread {
 					}
 				}
 
-				// Si está en pausa, no aumentamos el contador de series
-				if (!enPausa) {
+				// Si la serie ha finalizado, iniciar descanso automáticamente
+				if (cSerie.finalizado() && !enPausa) {
 					contadorSerie++;
-					activarDescanso();
-					
-					
-					if(ejercicioActual.getSeries().size() == contadorSerie && contadorEjercicio < workoutSelect.getEjercicios().size()) {
-						//cambiamos de jercicio
-						contadorEjercicio++;
-						contadorSerie = 0;
-						ejercicioActual = workoutSelect.getEjercicios().get(contadorEjercicio);
-						pEjercicio.actualizarVentana(ejercicioActual);
-					}
-
-
-					while (!cDescanso.finalizado() && !enPausa) {
+					iniciarDescanso();
+					System.out.println("entra");
+					// Esperar hasta que el descanso termine o esté en pausa
+					while (cDescanso.isAlive() ) {
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						
-						if (cDescanso.finalizado()) {
-						    pEjercicio.getBtnIniciar().setVisible(true);
-						    pEjercicio.getBtnPausar().setVisible(false);
-						}
 					}
+
+					if(contadorSerie < ejercicioActual.getSeries().size()) {
+						cSerie = new CronometroRegresivo(pEjercicio.getConjuntoDeCronometros().get(contadorSerie),  ejercicioActual.getSeries().get(contadorSerie).getTiempoSerie());
+						cDescanso = new CronometroRegresivo(pEjercicio.getLblCDescanso(), workoutSelect.getEjercicios().get(contadorEjercicio).getTiempoDescanso());
+
+						cSerie.iniciar();
+						// Pausar después del descanso para esperar el botón "Play" para la siguiente serie
+						cSerie.detener();
+						pEjercicio.getBtnIniciar().setVisible(true);
+		                pEjercicio.actualizarVentana(workoutSelect.getEjercicios().get(contadorEjercicio));
+
+
+					}
+
+
 				}
 			}
+			// Reiniciar variables para el siguiente ejercicio
 			contadorSerie = 0;
 			contadorEjercicio++;
+			if (contadorEjercicio < workoutSelect.getEjercicios().size()) {
+				pEjercicio.actualizarVentana(workoutSelect.getEjercicios().get(contadorEjercicio));
+			}
 		}
 	}
 
 	public void pausar() {
-		enPausa = true; 
+		enPausa = true;
 		cEjercicio.detener();
-		cSerie.detener(); 
+		cSerie.detener();
+
 		pEjercicio.getBtnIniciar().setVisible(true);
-		pEjercicio.getBtnPausar().setVisible(false); 
+		pEjercicio.getBtnPausar().setVisible(false);
 	}
 
 	public void play() {
-		if(!this.isAlive()) {
+		if(cPrincipal== null) {
 			this.start(); 
-		}else {
-			enPausa = false; 
 			pEjercicio.getBtnIniciar().setVisible(false);
 			pEjercicio.getBtnPausar().setVisible(true); 
 		}
+
+		enPausa = false;
+		pEjercicio.getBtnIniciar().setVisible(false);
+		pEjercicio.getBtnPausar().setVisible(true);
+
+		// Activar la serie 
+		if(cSerie != null) {
+			cSerie.activar();
+			cEjercicio.activar();
+		}
 	}
 
-	private void activarDescanso() {
-		cDescanso = new CronometroRegresivo(pEjercicio.getLblCDescanso(),
-				workoutSelect.getEjercicios().get(contadorEjercicio).getTiempoDescanso());
+	private void iniciarDescanso() {
+		enDescanso = true;
 		cDescanso.iniciar();
+
 		pEjercicio.getBtnIniciar().setVisible(false);
 		pEjercicio.getBtnPausar().setVisible(false);
-		
-		
-		
-		
-		
 	}
 }
