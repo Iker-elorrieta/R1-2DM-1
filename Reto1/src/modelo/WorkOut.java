@@ -12,6 +12,8 @@ import java.util.concurrent.ExecutionException;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
@@ -161,6 +163,48 @@ public class WorkOut implements Serializable {
 		}
 	}
 
+	
+	public WorkOut mObtenerWorkoutByID(String id) {
+	    Firestore co = null;
+	    WorkOut w = null;
+	    try {
+	        co = Conexion.conectar();
+
+	        // Obtener el documento con el ID especificado
+	        DocumentReference workoutDocRef = co.collection(COLLECTION_NAME).document(id);
+	        ApiFuture<DocumentSnapshot> future = workoutDocRef.get();
+	        DocumentSnapshot workout = future.get();
+
+	        // Verificar si el documento existe
+	        if (workout.exists()) {
+	            w = new WorkOut();
+
+	            // Asignar valores del documento al objeto WorkOut
+	            w.setNombre(workout.getId());
+	            w.setNivel(workout.getDouble(FIELD_NIVEL));
+	            w.setVideoURL(workout.getString(FIELD_VIDEO_URL));
+	            w.setTiempoEstimado(workout.getDouble(FIELD_TIEMPO_ESTIMADO));
+
+	            // Obtener los ejercicios relacionados con el WorkOut
+	            w.setEjercicios(new Ejercicio().mObtenerEjercicios(COLLECTION_NAME, w.getNombre()));
+	        } else {
+	            System.out.println("No existe un WorkOut con el ID proporcionado.");
+	        }
+
+	        co.close();
+
+	    } catch (InterruptedException | ExecutionException e) {
+	        e.printStackTrace();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return w;
+	}
+
+	
 	public ArrayList<WorkOut> mObtenerWorkouts() {
 		ArrayList<WorkOut> listaWorkOuts = new ArrayList<WorkOut>();
 		if (principal.getInternet()) {

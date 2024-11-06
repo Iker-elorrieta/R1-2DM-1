@@ -41,14 +41,17 @@ public class Usuario implements Serializable {
 
 	private principal.Principal principal = new Principal();
 
+	
+
 	// Email sera el campo de inicio de sesion
 	private String nombre;
 	private String apellidos;
-	private String email; // Campo Unico al ser unico podria ser el ID
+	private String email; // Campo Unico
 	private String pass;
 	private Date fechaNacimiento;
 	private double nivel; // Inicialmente 0
 	private enumTipoUsuario tipoUsuario;
+	private ArrayList<Historial> historicoUsuairo;
 	// ArrayList<WorkOuts> workoutsRealizados ;
 
 	private static final String USUARIOSFILEROUTE = "backups/usuarios.dat";
@@ -77,7 +80,7 @@ public class Usuario implements Serializable {
 
 	}
 
-	public Usuario(String nombre, String apellidos, String email, String pass, Date fechaNacimiento, double nivel) {
+	public Usuario(String nombre, String apellidos, String email, String pass, Date fechaNacimiento, double nivel, ArrayList<Historial> historicoUsuairo) {
 
 		this.nombre = nombre;
 		this.apellidos = apellidos;
@@ -85,6 +88,17 @@ public class Usuario implements Serializable {
 		this.pass = pass;
 		this.fechaNacimiento = fechaNacimiento;
 		this.nivel = nivel;
+		this.historicoUsuairo = historicoUsuairo;
+	}
+	
+	
+
+	public ArrayList<Historial> getHistoricoUsuairo() {
+		return historicoUsuairo;
+	}
+
+	public void setHistoricoUsuairo(ArrayList<Historial> historicoUsuairo) {
+		this.historicoUsuairo = historicoUsuairo;
 	}
 
 	public String getNombre() {
@@ -142,8 +156,16 @@ public class Usuario implements Serializable {
 	public void setTipoUsuario(enumTipoUsuario tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
+	 //Para que no se cambie el valor de la variable
+	public String getCollectionName() {
+		return COLLECTION_NAME;
+	}
 
+	public void insertarNuevoItemHistorial(Historial historial) {
+		historicoUsuairo.add(historial);
+	}
 	// *** M�todos CRUD ***
+
 	public Usuario mObtenerUsuario(String idIntroducido, String passIntroducida) {
 		if (principal.getInternet()) {
 			Firestore co = null;
@@ -160,7 +182,7 @@ public class Usuario implements Serializable {
 						setPass(dsUsuario.getString(FIELD_PASS));
 						setFechaNacimiento(obtenerFechaDate(dsUsuario, FIELD_FECHA_NACIMIENTO));
 						setNivel(dsUsuario.getDouble(FIELD_NIVEL));
-
+						setHistoricoUsuairo(new Historial().mObtenerHistorico(COLLECTION_NAME, email));
 						return this;
 
 					} else {
@@ -177,21 +199,37 @@ public class Usuario implements Serializable {
 				e.printStackTrace();
 			}
 		} else {
-			try {
-				FileInputStream fic = new FileInputStream(USUARIOSFILEROUTE);
-				ObjectInputStream ois = new ObjectInputStream(fic);
-				while (fic.getChannel().position() < fic.getChannel().size()) {
-					Usuario usuario = (Usuario) ois.readObject();
-
-					if (usuario.getEmail().equals(idIntroducido) && usuario.getPass().equals(passIntroducida)) {
-						ois.close();
-						return usuario;
-					}
+//			private static void leerWorkoutsDesdeArchivo() {
+//				ArrayList<WorkOut> wkee = new ArrayList<>();
+//				ArrayList<Ejercicio> ejerrs = new ArrayList<>();
+//				ArrayList<Serie> series = new ArrayList<>();
+//				try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(WORKOUTSFILEROUTE))) {
+//					wkee = (ArrayList<WorkOut>) ois.readObject();
+//					for (WorkOut wk : wkee) {
+//						System.out.println(wk.getNombre());
+//						ejerrs = wk.getEjercicios();
+//						for (Ejercicio ejer : ejerrs) {
+//							System.out.println("	" + ejer.getNombre());
+//							series = ejer.getSeries();
+//							for (Serie serie : series) {
+//								System.out.println("		-" + serie.getNombre());
+//							}
+//						}
+//						System.out.println("\n");
+//					}
+//				} catch (FileNotFoundException e) {
+//					System.out.println("Archivo no encontrado, se creará uno nuevo.");
+//				} catch (IOException | ClassNotFoundException e) {
+//					e.printStackTrace();
+//				}
+//			}
+			ArrayList<Usuario> usuarios = new ArrayList<>();
+			try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(USUARIOSFILEROUTE))) {
+				usuarios = (ArrayList<Usuario>) ois.readObject();
+				for (Usuario nuevoUsuario : usuarios) {
+					System.out.println(nuevoUsuario.getEmail());
 				}
-				ois.close();
-				JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "ERROR",
-						JOptionPane.ERROR_MESSAGE);
-			} catch (ClassNotFoundException | IOException e) {
+			} catch (IOException | ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 		}

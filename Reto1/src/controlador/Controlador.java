@@ -205,7 +205,7 @@ public class Controlador implements ActionListener, ListSelectionListener {
 				cSerie = new CronometroRegresivo(pEjercicio.getConjuntoDeCronometros().get(0),  workoutSelect.getEjercicios().get(0).getSeries().get(0).getTiempoSerie());
 				cDescanso = new CronometroRegresivo(pEjercicio.getLblCDescanso(), workoutSelect.getEjercicios().get(0).getTiempoDescanso());
 				
-				gC = new GestionCronometros(pEjercicio, workoutSelect, cPrincipal, cDescanso, cEjercicio, cSerie);
+				gC = new GestionCronometros(pEjercicio,usuarioLogeado, workoutSelect, cPrincipal, cDescanso, cEjercicio, cSerie);
 
 				this.vistaPrincipal.mVisualizarPaneles(accion);
 

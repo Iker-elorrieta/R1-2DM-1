@@ -1,9 +1,13 @@
 package Pruebas;
+import java.util.Date;
+
 import javax.swing.JOptionPane;
 
 //Preguntar a iker
 //Crear una ventana intermedia para el proceso de de descanso tarda mas no se por que 
 import modelo.Ejercicio;
+import modelo.Historial;
+import modelo.Usuario;
 import modelo.WorkOut;
 import vista.PanelEjercicio;
 
@@ -18,11 +22,13 @@ public class GestionCronometros extends Thread {
 	private int contadorSerie = 0;
 	boolean siguientePulsado = false;
 	boolean finalizar = false;
+	private Usuario usuarioLogeado;
 
-	public GestionCronometros(PanelEjercicio panelEjercicio, WorkOut workoutSelect,
+	public GestionCronometros(PanelEjercicio panelEjercicio, Usuario usarioLogeado, WorkOut workoutSelect,
 			Cronometro cPrincipal, CronometroRegresivo cDescanso,
 			Cronometro cEjercicio, CronometroRegresivo cSerie) {
 		this.pEjercicio = panelEjercicio;
+		this.usuarioLogeado = usarioLogeado;
 		this.workoutSelect = workoutSelect;
 		this.cPrincipal = cPrincipal;
 		this.cDescanso = cDescanso;
@@ -108,8 +114,16 @@ public class GestionCronometros extends Thread {
 		for(int i =0; i<contadorEjercicio;i++ ) {
 			nombreEjercicio = workoutSelect.getEjercicios().get(i).getNombre() + "\n";
 		}
-		String texto = String.format("Tiempo total del ejercicio %s ejercicio realizado %s Porcentaje %d bien hecho", pEjercicio.getLblCWorkout().getText().toString(), 
-				nombreEjercicio,(100 * contadorEjercicio) / workoutSelect.getEjercicios().size());
+		String tiempoRealizacion = pEjercicio.getLblCWorkout().getText().toString();
+		String porcentajeRealizacion = String.valueOf((100 * contadorEjercicio) / workoutSelect.getEjercicios().size());
+		System.out.println(tiempoRealizacion);
+		String texto = String.format("Tiempo total del ejercicio %s ejercicio realizado %s Porcentaje %s  bien hecho", tiempoRealizacion, 
+				nombreEjercicio, porcentajeRealizacion);
+		
+
+		Historial historial = new Historial(workoutSelect, new Date() , porcentajeRealizacion, tiempoRealizacion );
+		historial.mIngresarHistorico(usuarioLogeado.getEmail(), workoutSelect);
+		usuarioLogeado.insertarNuevoItemHistorial(historial);
 		if(cPrincipal!= null) {
 			cPrincipal.TerminarProceso();
 			cDescanso.TerminarProceso();

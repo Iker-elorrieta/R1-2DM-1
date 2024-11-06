@@ -42,7 +42,6 @@ public class CronometroRegresivo extends Thread {
 
 			}
 		}
-		System.out.println("finaliza");
 
 		finalizado = true;
 	}
