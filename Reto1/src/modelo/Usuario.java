@@ -144,7 +144,6 @@ public class Usuario implements Serializable {
 	}
 
 	// *** M�todos CRUD ***
-
 	public Usuario mObtenerUsuario(String idIntroducido, String passIntroducida) {
 		if (principal.getInternet()) {
 			Firestore co = null;
@@ -178,37 +177,21 @@ public class Usuario implements Serializable {
 				e.printStackTrace();
 			}
 		} else {
-//			private static void leerWorkoutsDesdeArchivo() {
-//				ArrayList<WorkOut> wkee = new ArrayList<>();
-//				ArrayList<Ejercicio> ejerrs = new ArrayList<>();
-//				ArrayList<Serie> series = new ArrayList<>();
-//				try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(WORKOUTSFILEROUTE))) {
-//					wkee = (ArrayList<WorkOut>) ois.readObject();
-//					for (WorkOut wk : wkee) {
-//						System.out.println(wk.getNombre());
-//						ejerrs = wk.getEjercicios();
-//						for (Ejercicio ejer : ejerrs) {
-//							System.out.println("	" + ejer.getNombre());
-//							series = ejer.getSeries();
-//							for (Serie serie : series) {
-//								System.out.println("		-" + serie.getNombre());
-//							}
-//						}
-//						System.out.println("\n");
-//					}
-//				} catch (FileNotFoundException e) {
-//					System.out.println("Archivo no encontrado, se creará uno nuevo.");
-//				} catch (IOException | ClassNotFoundException e) {
-//					e.printStackTrace();
-//				}
-//			}
-			ArrayList<Usuario> usuarios = new ArrayList<>();
-			try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(USUARIOSFILEROUTE))) {
-				usuarios = (ArrayList<Usuario>) ois.readObject();
-				for (Usuario nuevoUsuario : usuarios) {
-					System.out.println(nuevoUsuario.getEmail());
+			try {
+				FileInputStream fic = new FileInputStream(USUARIOSFILEROUTE);
+				ObjectInputStream ois = new ObjectInputStream(fic);
+				while (fic.getChannel().position() < fic.getChannel().size()) {
+					Usuario usuario = (Usuario) ois.readObject();
+
+					if (usuario.getEmail().equals(idIntroducido) && usuario.getPass().equals(passIntroducida)) {
+						ois.close();
+						return usuario;
+					}
 				}
-			} catch (IOException | ClassNotFoundException e) {
+				ois.close();
+				JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "ERROR",
+						JOptionPane.ERROR_MESSAGE);
+			} catch (ClassNotFoundException | IOException e) {
 				e.printStackTrace();
 			}
 		}

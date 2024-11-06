@@ -1,6 +1,8 @@
 package modelo;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +17,7 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 
 import conexion.Conexion;
+import principal.Principal;
 
 public class WorkOut implements Serializable {
 
@@ -23,12 +26,17 @@ public class WorkOut implements Serializable {
 	/**
 	 * 
 	 */
+
+	private principal.Principal principal = new Principal();
+
 	private static final long serialVersionUID = 1L;
 	private String nombre;
 	private double nivel;
 	private String videoURL;
 	private ArrayList<Ejercicio> ejercicios = new ArrayList<Ejercicio>();
 	private double tiempoEstimado;
+
+	private static final String WORKOUTSFILEROUTE = "backups/workouts.dat";
 
 	private static final String COLLECTION_NAME = "workouts";
 	private static final String FIELD_NIVEL = "nivel";
@@ -154,39 +162,53 @@ public class WorkOut implements Serializable {
 	}
 
 	public ArrayList<WorkOut> mObtenerWorkouts() {
-		Firestore co = null;
 		ArrayList<WorkOut> listaWorkOuts = new ArrayList<WorkOut>();
-		try {
-			co = Conexion.conectar();
+		if (principal.getInternet()) {
+			Firestore co = null;
+			try {
+				co = Conexion.conectar();
 
-			ApiFuture<QuerySnapshot> query = co.collection(COLLECTION_NAME).get();
-			QuerySnapshot querySnapshot = query.get();
-			List<QueryDocumentSnapshot> workouts = querySnapshot.getDocuments();
+				ApiFuture<QuerySnapshot> query = co.collection(COLLECTION_NAME).get();
+				QuerySnapshot querySnapshot = query.get();
+				List<QueryDocumentSnapshot> workouts = querySnapshot.getDocuments();
 
-			for (QueryDocumentSnapshot workout : workouts) {
+				for (QueryDocumentSnapshot workout : workouts) {
 
-				WorkOut w = new WorkOut();
+					WorkOut w = new WorkOut();
 
-				w.setNombre(workout.getId());
-				w.setNivel(workout.getDouble(FIELD_NIVEL));
-				w.setVideoURL(workout.getString(FIELD_VIDEO_URL));
-				w.setTiempoEstimado(workout.getDouble(FIELD_TIEMPO_ESTIMADO));
-				w.setEjercicios(new Ejercicio().mObtenerEjercicios(COLLECTION_NAME, w.getNombre()));
+					w.setNombre(workout.getId());
+					w.setNivel(workout.getDouble(FIELD_NIVEL));
+					w.setVideoURL(workout.getString(FIELD_VIDEO_URL));
+					w.setTiempoEstimado(workout.getDouble(FIELD_TIEMPO_ESTIMADO));
+					w.setEjercicios(new Ejercicio().mObtenerEjercicios(COLLECTION_NAME, w.getNombre()));
 
-				listaWorkOuts.add(w);
+					listaWorkOuts.add(w);
+				}
+				co.close();
+
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			co.close();
 
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return listaWorkOuts;
+		} else {
+			try {
+				FileInputStream fic = new FileInputStream(WORKOUTSFILEROUTE);
+				ObjectInputStream ois = new ObjectInputStream(fic);
+				while (fic.getChannel().position() < fic.getChannel().size()) {
+					WorkOut workout = (WorkOut) ois.readObject();
+					listaWorkOuts.add(workout);
+				}
+				ois.close();
+				return listaWorkOuts;
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+			}
 		}
-
 		return listaWorkOuts;
 	}
 

@@ -186,10 +186,10 @@ public class Controlador implements ActionListener, ListSelectionListener {
 			if (workoutSelect != null) {
 				PanelEjercicio pEjercicio = this.vistaPrincipal.getPanelEjercicio();
 
-				//Actualizamos la ventana
+				// Actualizamos la ventana
 				pEjercicio.setWorkouSelect(workoutSelect);
 				pEjercicio.actualizarVentana(workoutSelect.getEjercicios().get(0));
-			
+
 				gC = new GestionCronometros(pEjercicio, workoutSelect, cPrincipal, cDescanso, cEjercicio, cSerie);
 				this.vistaPrincipal.mVisualizarPaneles(accion);
 
@@ -253,11 +253,13 @@ public class Controlador implements ActionListener, ListSelectionListener {
 			Usuario usuario = new Usuario();
 			usuarioLogeado = usuario.mObtenerUsuario(usuarioIntroducido, passIntroducida);
 			if (usuarioLogeado != null) {
-				try {
-					ProcessBuilder builder = new ProcessBuilder("java", "-jar", "GenerarBackups.jar");
-					builder.start();
-				} catch (Exception e1) {
-					e1.printStackTrace();
+				if (hayInternet()) {
+					try {
+						ProcessBuilder builder = new ProcessBuilder("java", "-jar", "GenerarBackups.jar");
+						builder.start();
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				}
 				mCargarVentanas(Principal.enumAcciones.CARGAR_PANEL_WORKOUT);
 			}
@@ -267,31 +269,35 @@ public class Controlador implements ActionListener, ListSelectionListener {
 	}
 
 	private void mRegistrarUsuario() {
-		PanelRegistro panelRegistro = this.vistaPrincipal.getPanelRegistro();
+		if (hayInternet()) {
+			PanelRegistro panelRegistro = this.vistaPrincipal.getPanelRegistro();
 
-		String nombre = panelRegistro.getTfNombre().getText();
-		String apellidos = panelRegistro.getTfNombre().getText();
-		String email = panelRegistro.getTfEmail().getText();
+			String nombre = panelRegistro.getTfNombre().getText();
+			String apellidos = panelRegistro.getTfNombre().getText();
+			String email = panelRegistro.getTfEmail().getText();
 
-		String contrasena = new String(panelRegistro.getPfContrasena().getPassword()).trim();
+			String contrasena = new String(panelRegistro.getPfContrasena().getPassword()).trim();
 
-		Date fechaNacimiento = panelRegistro.getFechaNacimientoCalendar().getDate();
+			Date fechaNacimiento = panelRegistro.getFechaNacimientoCalendar().getDate();
 
-		if (!nombre.isEmpty() && !apellidos.isEmpty() && !email.isEmpty() && !contrasena.isEmpty()
-				&& validarEmail(email)) {
-			Usuario usuario = new Usuario(nombre, apellidos, email, contrasena, fechaNacimiento);
-			usuario.mRegistrarUsuario();
+			if (!nombre.isEmpty() && !apellidos.isEmpty() && !email.isEmpty() && !contrasena.isEmpty()
+					&& validarEmail(email)) {
+				Usuario usuario = new Usuario(nombre, apellidos, email, contrasena, fechaNacimiento);
+				usuario.mRegistrarUsuario();
 
-			panelRegistro.getTfNombre().setText("");
-			panelRegistro.getTfApellidos().setText("");
-			panelRegistro.getTfEmail().setText("");
-			panelRegistro.getPfContrasena().setText("");
-			panelRegistro.getFechaNacimientoCalendar().setDate(new Date());
-		} else if (!validarEmail(email)) {
-			JOptionPane.showMessageDialog(null, "El email no es válido.", "Error", JOptionPane.ERROR_MESSAGE);
-		} else {
-			JOptionPane.showMessageDialog(null, "Algún campo está vacío", "Error", JOptionPane.ERROR_MESSAGE);
-		}
+				panelRegistro.getTfNombre().setText("");
+				panelRegistro.getTfApellidos().setText("");
+				panelRegistro.getTfEmail().setText("");
+				panelRegistro.getPfContrasena().setText("");
+				panelRegistro.getFechaNacimientoCalendar().setDate(new Date());
+			} else if (!validarEmail(email)) {
+				JOptionPane.showMessageDialog(null, "El email no es válido.", "Error", JOptionPane.ERROR_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(null, "Algún campo está vacío", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		} else
+			JOptionPane.showMessageDialog(null, "Registro no disponible sin conexión a internet", "Error",
+					JOptionPane.ERROR_MESSAGE);
 	}
 
 	private boolean validarEmail(String email) {
@@ -302,13 +308,17 @@ public class Controlador implements ActionListener, ListSelectionListener {
 	}
 
 	private void editarPerfil() {
-		PanelPerfil panelPerfil = this.vistaPrincipal.getPanelPerfil();
-		panelPerfil.getTfNombre().setEditable(true);
-		panelPerfil.getTfApellidos().setEditable(true);
-		panelPerfil.getFechaNacimientoCalendar().setEnabled(true);
-		panelPerfil.getBtnAceptar().setEnabled(true);
-		panelPerfil.getBtnEditar().setEnabled(false);
-		panelPerfil.getBtnIconoVerContrasena().setEnabled(true);
+		if (hayInternet()) {
+			PanelPerfil panelPerfil = this.vistaPrincipal.getPanelPerfil();
+			panelPerfil.getTfNombre().setEditable(true);
+			panelPerfil.getTfApellidos().setEditable(true);
+			panelPerfil.getFechaNacimientoCalendar().setEnabled(true);
+			panelPerfil.getBtnAceptar().setEnabled(true);
+			panelPerfil.getBtnEditar().setEnabled(false);
+			panelPerfil.getBtnIconoVerContrasena().setEnabled(true);
+		} else
+			JOptionPane.showMessageDialog(null, "Edición de perfil no disponible sin conexión", "Error",
+					JOptionPane.ERROR_MESSAGE);
 	}
 
 	// Listeners para la selección en la lista
