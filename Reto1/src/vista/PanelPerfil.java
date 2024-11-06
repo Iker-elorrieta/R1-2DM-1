@@ -143,7 +143,7 @@ public class PanelPerfil extends JPanel {
 	add(btnIconoVerContrasena);
 
 	btnVolver = new JButton("Volver");
-	btnVolver.setBounds(150, 480, 100, 40);
+	btnVolver.setBounds(59, 82, 100, 40);
 	btnVolver.setFont(new Font("Arial", Font.BOLD, 14));
 	btnVolver.setBackground(new Color(100, 149, 237));
 	btnVolver.setForeground(Color.WHITE);
