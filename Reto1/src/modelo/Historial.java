@@ -86,6 +86,8 @@ public class Historial implements Serializable {
 		this.porcentajeCompletado = porcentajeCompletado;
 	}
 
+
+
 	public void mIngresarHistorico(String emailUsuario, WorkOut workout) {
 		Firestore co = null;
 		try {
@@ -111,7 +113,6 @@ public class Historial implements Serializable {
 			workoutCol.document().set(workOut);
 
 
-			System.out.println("Ingresado con éxito");
 			co.close();
 		} catch (IOException | InterruptedException | ExecutionException e) {
 			e.printStackTrace();
@@ -131,7 +132,7 @@ public class Historial implements Serializable {
 			DocumentReference usuarioDoc = co.collection(coleccionUsuario).document(emailUsuario);
 			CollectionReference coleccionHistorico = usuarioDoc.collection(COLLECTION_NAME);
 			List<QueryDocumentSnapshot> documentosHistorico = coleccionHistorico.get().get().getDocuments();
-		
+
 			for (QueryDocumentSnapshot doc : documentosHistorico) {
 				Historial historial = new Historial();
 				historial.setTiempoRealizacion(doc.getString(FIELD_TIEMPO_REALIZACION));
@@ -141,18 +142,14 @@ public class Historial implements Serializable {
 
 				CollectionReference workoutCol = doc.getReference().collection(FIELD_WORKOUT);
 				QueryDocumentSnapshot workoutDoc = workoutCol.get().get().getDocuments().get(0);
-
-				// Crear lista de WorkOuts para almacenar los ejercicios
-				WorkOut listaWorkouts = new WorkOut();
+				// Crear listla de WorkOuts para almacenar los ejercicios
 
 				WorkOut workout = new WorkOut();
 				workout.setNombre(workoutDoc.getString(FIELD_NOMBRE));
 				workout.setNivel(workoutDoc.getDouble(FIELD_NIVEL));
 				workout.setTiempoEstimado(workoutDoc.getDouble(FIELD_TIEMPO_ESTIMADO));
-
-
-				// Asignar la lista de workouts al historial
-				historial.setWorkout(listaWorkouts);
+				
+				historial.setWorkout(workout);
 				listaHistorial.add(historial); 
 
 			}

@@ -256,4 +256,10 @@ public class WorkOut implements Serializable {
 		return listaWorkOuts;
 	}
 
+	@Override
+	public String toString() {
+		return "WorkOut [principal=" + principal + ", nombre=" + nombre + ", nivel=" + nivel + ", videoURL=" + videoURL
+				+ ", ejercicios=" + ejercicios + ", tiempoEstimado=" + tiempoEstimado + "]";
+	}
+
 }

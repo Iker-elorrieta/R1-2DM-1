@@ -1,5 +1,7 @@
 package vista;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -9,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
@@ -29,46 +33,71 @@ public class PanelRegistro extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelRegistro() {
-		Calendar ahoraMismo = Calendar.getInstance();
-		int ano = ahoraMismo.get(Calendar.YEAR);
-		int mes = ahoraMismo.get(Calendar.MONTH) + 1;
-		int dia = ahoraMismo.get(Calendar.DATE);
-		String maxString = ano + "-" + mes + "-" + dia;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
+		setBackground(new Color(230, 230, 250));
 		setBounds(288, 11, 784, 541);
 		setLayout(null);
 
-		btnRegistrarse = new JButton("Registrarse");
-		btnRegistrarse.setBounds(294, 354, 106, 23);
-		add(btnRegistrarse);
 
-		btnVolverLogin = new JButton("Volver");
-		btnVolverLogin.setBounds(175, 354, 89, 23);
-		add(btnVolverLogin);
+		JLabel lblTitulo = new JLabel("REGISTRO");
+		lblTitulo.setFont(new Font("Arial", Font.BOLD, 28));
+		lblTitulo.setBounds(290, 30, 200, 50);
+		add(lblTitulo);
+
+		
+		JLabel lblNombre = new JLabel("Nombre:");
+		lblNombre.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNombre.setBounds(150, 200, 130, 20);
+		add(lblNombre);
 
 		tfNombre = new JTextField();
-		tfNombre.setBounds(294, 182, 200, 20);
+		tfNombre.setBounds(300, 200, 220, 30);
+		tfNombre.setBorder(new EmptyBorder(5, 5, 5, 5));
 		add(tfNombre);
-		tfNombre.setColumns(10);
+
+		JLabel lblApellidos = new JLabel("Apellidos:");
+		lblApellidos.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblApellidos.setBounds(150, 240, 130, 20);
+		add(lblApellidos);
 
 		tfApellidos = new JTextField();
-		tfApellidos.setBounds(294, 213, 200, 20);
+		tfApellidos.setBounds(300, 240, 220, 30);
+		tfApellidos.setBorder(new EmptyBorder(5, 5, 5, 5));
 		add(tfApellidos);
-		tfApellidos.setColumns(10);
+
+		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblEmail.setBounds(150, 280, 130, 20);
+		add(lblEmail);
 
 		tfEmail = new JTextField();
-		tfEmail.setBounds(294, 244, 200, 20);
+		tfEmail.setBounds(300, 280, 220, 30);
+		tfEmail.setBorder(new EmptyBorder(5, 5, 5, 5));
 		add(tfEmail);
-		tfEmail.setColumns(10);
+
+		JLabel lblContrasena = new JLabel("Contraseña:");
+		lblContrasena.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblContrasena.setBounds(150, 320, 130, 20);
+		add(lblContrasena);
+
+		pfContrasena = new JPasswordField();
+		pfContrasena.setBounds(300, 320, 220, 30);
+		pfContrasena.setBorder(new EmptyBorder(5, 5, 5, 5));
+		add(pfContrasena);
+
+		JLabel lblFechaNacimiento = new JLabel("Fecha de nacimiento:");
+		lblFechaNacimiento.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblFechaNacimiento.setBounds(150, 360, 180, 20);
+		add(lblFechaNacimiento);
 
 		fechaNacimientoCalendar = new JDateChooser();
-		fechaNacimientoCalendar.setBounds(294, 306, 200, 20);
-		add(fechaNacimientoCalendar);
-
+		fechaNacimientoCalendar.setBounds(300, 360, 220, 30);
 		JTextFieldDateEditor editor = (JTextFieldDateEditor) fechaNacimientoCalendar.getDateEditor();
 		editor.setEditable(false);
+		add(fechaNacimientoCalendar);
 
+		Calendar ahoraMismo = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String maxString = ahoraMismo.get(Calendar.YEAR) + "-" + (ahoraMismo.get(Calendar.MONTH) + 1) + "-" + ahoraMismo.get(Calendar.DATE);
 		try {
 			fechaNacimientoCalendar.setMaxSelectableDate(dateFormat.parse(maxString));
 			fechaNacimientoCalendar.setDate(dateFormat.parse(maxString));
@@ -76,29 +105,23 @@ public class PanelRegistro extends JPanel {
 			e.printStackTrace();
 		}
 
-		pfContrasena = new JPasswordField();
-		pfContrasena.setBounds(294, 275, 200, 20);
-		add(pfContrasena);
+		btnRegistrarse = new JButton("Registrarse");
+		btnRegistrarse.setBounds(320, 420, 140, 40);
+		btnRegistrarse.setFont(new Font("Arial", Font.BOLD, 14));
+		btnRegistrarse.setBackground(new Color(255, 105, 180));
+		btnRegistrarse.setForeground(Color.WHITE);
+		btnRegistrarse.setBorderPainted(false);
+		btnRegistrarse.setFocusPainted(false);
+		add(btnRegistrarse);
 
-		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setBounds(129, 188, 155, 14);
-		add(lblNombre);
-
-		JLabel lblApellidos = new JLabel("Apellidos:");
-		lblApellidos.setBounds(129, 219, 155, 14);
-		add(lblApellidos);
-
-		JLabel lblEmail = new JLabel("Email:");
-		lblEmail.setBounds(129, 250, 155, 14);
-		add(lblEmail);
-
-		JLabel lblContrasena = new JLabel("Contraseña:");
-		lblContrasena.setBounds(129, 281, 155, 14);
-		add(lblContrasena);
-
-		JLabel lblFechaNacimiento = new JLabel("Fecha de nacimiento:");
-		lblFechaNacimiento.setBounds(129, 312, 155, 14);
-		add(lblFechaNacimiento);
+		btnVolverLogin = new JButton("Volver");
+		btnVolverLogin.setBounds(180, 420, 100, 40);
+		btnVolverLogin.setFont(new Font("Arial", Font.BOLD, 14));
+		btnVolverLogin.setBackground(new Color(100, 149, 237));
+		btnVolverLogin.setForeground(Color.WHITE);
+		btnVolverLogin.setBorderPainted(false);
+		btnVolverLogin.setFocusPainted(false);
+		add(btnVolverLogin);
 
 	}
 

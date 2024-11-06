@@ -2,6 +2,7 @@ package vista;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -11,11 +12,14 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
+import modelo.Historial;
+
 public class PanelHistorico extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTable tabla;
 	private JButton btnAtras;
 	DefaultTableModel defaultTableModel;
+	private ArrayList<Historial> historicosDelUsurio;
 	public PanelHistorico() {
 
 		setBackground(new Color(230, 230, 250));
@@ -44,11 +48,10 @@ public class PanelHistorico extends JPanel {
 		JScrollPane jScrollPanel;
 		jScrollPanel = new JScrollPane();
 		jScrollPanel.setBounds(40, 150, 620, 325);
-		add(jScrollPanel);
+		panelCentral.add(jScrollPanel);
+		String columnas[] = { "NombreWorkout", "Nivel", "Timepo Estimado", "Tiempo de realizacion","Fecha ", "% Ejercicios Completados" };
 
-		String columnas[] = { "NombreWorkout", "Nivel", "Timepo Total", "Tiempo de realizacion","Fecha ", "% Ejercicios Completados" };
-
-		 defaultTableModel = new DefaultTableModel(columnas, 0);
+		defaultTableModel = new DefaultTableModel(columnas, 0);
 
 		tabla = new JTable(defaultTableModel);
 		tabla.setFillsViewportHeight(true);
@@ -64,6 +67,31 @@ public class PanelHistorico extends JPanel {
 		jScrollPanel.setViewportView(tabla);
 	}
 
+	
+	public void actualizarVentana() {
+		defaultTableModel.setRowCount(0);
+
+	    if (historicosDelUsurio != null) {
+	        for (Historial historial : historicosDelUsurio) {
+	    		System.out.print(historial.getWorkout().toString());
+
+	        	String[] fila = {
+	                historial.getWorkout().getNombre(),
+	                
+	                String.valueOf(historial.getWorkout().getNivel()),
+	                String.valueOf(historial.getWorkout().getTiempoEstimado()),
+	                historial.getTiempoRealizacion(),
+	                historial.getFecha().toString(),
+	                "%" + historial.getPorcentajeCompletado()
+	            };
+	            defaultTableModel.addRow(fila);
+	            
+	        }
+	    }
+	}
+
+	
+	
 	public JButton getBtnAtras() {
 		return btnAtras;
 	}
@@ -71,4 +99,10 @@ public class PanelHistorico extends JPanel {
 	public void setBtnAtras(JButton btnAtras) {
 		this.btnAtras = btnAtras;
 	}
+
+	public void setHistoricosDelUsurio(ArrayList<Historial> historicosDelUsurio) {
+		this.historicosDelUsurio = historicosDelUsurio;
+	}
+	
+
 }

@@ -179,7 +179,13 @@ public class Controlador implements ActionListener, ListSelectionListener {
 			this.editarPerfil();
 			break;
 		case CARGAR_PANEL_HISTORICO:
+			if(usuarioLogeado.getHistoricoUsuairo().size()>0) {
+			this.vistaPrincipal.getPanelHistorico().setHistoricosDelUsurio(usuarioLogeado.getHistoricoUsuairo());
+			this.vistaPrincipal.getPanelHistorico().actualizarVentana();
 			this.vistaPrincipal.mVisualizarPaneles(accion);
+			}else {
+				JOptionPane.showMessageDialog(null, "No hay historico");
+			}
 			break;
 		case APLICAR_CAMBIOS_PERFIL:
 			this.aplicarCambiosPerfil();

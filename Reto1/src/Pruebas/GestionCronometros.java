@@ -116,7 +116,6 @@ public class GestionCronometros extends Thread {
 		}
 		String tiempoRealizacion = pEjercicio.getLblCWorkout().getText().toString();
 		String porcentajeRealizacion = String.valueOf((100 * contadorEjercicio) / workoutSelect.getEjercicios().size());
-		System.out.println(tiempoRealizacion);
 		String texto = String.format("Tiempo total del ejercicio %s ejercicio realizado %s Porcentaje %s  bien hecho", tiempoRealizacion, 
 				nombreEjercicio, porcentajeRealizacion);
 		
