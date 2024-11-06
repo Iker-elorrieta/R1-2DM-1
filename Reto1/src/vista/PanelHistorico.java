@@ -15,7 +15,7 @@ public class PanelHistorico extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTable tabla;
 	private JButton btnAtras;
-
+	DefaultTableModel defaultTableModel;
 	public PanelHistorico() {
 
 		setBackground(new Color(230, 230, 250));
@@ -46,17 +46,20 @@ public class PanelHistorico extends JPanel {
 		jScrollPanel.setBounds(40, 150, 620, 325);
 		add(jScrollPanel);
 
-		String columnas[] = { "Id", "Nombre", "Teléfono", "E-mail" };
+		String columnas[] = { "NombreWorkout", "Nivel", "Timepo Total", "Tiempo de realizacion","Fecha ", "% Ejercicios Completados" };
 
-		DefaultTableModel defaultTableModel = new DefaultTableModel(columnas, 0);
+		 defaultTableModel = new DefaultTableModel(columnas, 0);
 
 		tabla = new JTable(defaultTableModel);
+		tabla.setFillsViewportHeight(true);
 		tabla.setAutoCreateRowSorter(true);
 		tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tabla.setRowSelectionAllowed(false);
 		tabla.setCellSelectionEnabled(false);
 
 		tabla.setDefaultEditor(Object.class, null);
+
+		
 
 		jScrollPanel.setViewportView(tabla);
 	}

@@ -42,6 +42,8 @@ public class CronometroRegresivo extends Thread {
 
 			}
 		}
+		System.out.println("finaliza");
+
 		finalizado = true;
 	}
 
@@ -70,8 +72,8 @@ public class CronometroRegresivo extends Thread {
 		return enFuncionamiento;
 	}
 
-	public boolean iniciadoR() {
-		return iniciado;
+	public void TerminarProceso() {
+		 iniciado =false;
 	}
 
 }

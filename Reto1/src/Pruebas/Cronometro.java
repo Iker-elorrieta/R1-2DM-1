@@ -39,6 +39,7 @@ public class Cronometro extends Thread {
 
 			}
 		}
+		System.out.println("finaliza");
 		finalizado = true;
 	}
 
@@ -50,6 +51,10 @@ public class Cronometro extends Thread {
 		}
 	}
 
+	public void resetear () {
+		valorMinutos=0;
+		valorSegundos=0;
+	}
 	public void detener() {
 		enFuncionamiento = false; 
 	}
@@ -66,7 +71,7 @@ public class Cronometro extends Thread {
 		return enFuncionamiento;
 	}
 
-	public boolean iniciadoR() {
-		return iniciado;
+	public void TerminarProceso() {
+		 iniciado =false;
 	}
 }

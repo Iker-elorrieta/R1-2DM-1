@@ -121,6 +121,14 @@ public class Controlador implements ActionListener, ListSelectionListener {
 		this.vistaPrincipal.getPanelEjercicio().getBtnPausar().addActionListener(this);
 		this.vistaPrincipal.getPanelEjercicio().getBtnPausar()
 				.setActionCommand(Principal.enumAcciones.PAUSAR.toString());
+		
+		this.vistaPrincipal.getPanelEjercicio().getBtnSiguiente().addActionListener(this);
+		this.vistaPrincipal.getPanelEjercicio().getBtnSiguiente()
+				.setActionCommand(Principal.enumAcciones.SIGUIENTE_EJERCICIO.toString());
+		
+		this.vistaPrincipal.getPanelEjercicio().getBtnSalir().addActionListener(this);
+		this.vistaPrincipal.getPanelEjercicio().getBtnSalir()
+				.setActionCommand(Principal.enumAcciones.SALIR.toString());
 
 		// VENTANA HISTORICO
 		this.vistaPrincipal.getPanelHistorico().getBtnAtras().addActionListener(this);
@@ -187,10 +195,18 @@ public class Controlador implements ActionListener, ListSelectionListener {
 				PanelEjercicio pEjercicio = this.vistaPrincipal.getPanelEjercicio();
 
 				// Actualizamos la ventana
+
 				pEjercicio.setWorkouSelect(workoutSelect);
 				pEjercicio.actualizarVentana(workoutSelect.getEjercicios().get(0));
 
+
+				cPrincipal = new Cronometro(pEjercicio.getLblCWorkout());
+				cEjercicio = new Cronometro(pEjercicio.getLblCTiempoE());
+				cSerie = new CronometroRegresivo(pEjercicio.getConjuntoDeCronometros().get(0),  workoutSelect.getEjercicios().get(0).getSeries().get(0).getTiempoSerie());
+				cDescanso = new CronometroRegresivo(pEjercicio.getLblCDescanso(), workoutSelect.getEjercicios().get(0).getTiempoDescanso());
+				
 				gC = new GestionCronometros(pEjercicio, workoutSelect, cPrincipal, cDescanso, cEjercicio, cSerie);
+
 				this.vistaPrincipal.mVisualizarPaneles(accion);
 
 			} else {
@@ -205,6 +221,14 @@ public class Controlador implements ActionListener, ListSelectionListener {
 			break;
 		case PAUSAR:
 			gC.pausar();
+			break;
+		case SIGUIENTE_EJERCICIO:
+			gC.Siguiente();
+			break;
+		
+		case SALIR:
+			gC.finalizarProceso();
+			mCargarVentanas(enumAcciones.CARGAR_PANEL_WORKOUT);
 
 			break;
 
@@ -229,8 +253,9 @@ public class Controlador implements ActionListener, ListSelectionListener {
 		switch (accion) {
 
 		case CARGAR_PANEL_WORKOUT:
-
+			if(listaWorkouts==null) {
 			listaWorkouts = new WorkOut().mObtenerWorkouts();
+			}
 			this.vistaPrincipal.getPanelWorkout().setWorkouts(listaWorkouts);
 			this.vistaPrincipal.getPanelWorkout().setUser(usuarioLogeado);
 			this.vistaPrincipal.getPanelWorkout().getFiltroNivel()
