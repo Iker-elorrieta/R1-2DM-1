@@ -32,6 +32,8 @@ public class PanelEjercicio extends JPanel {
 	private JLabel lblImgSerie;
 	private JLabel lblCSerie;
 
+	JLabel lblCProximaSerie;
+	JLabel lblLaProximaSerie;
 
 	private JButton btnIniciar;
 	private JButton btnPausar;
@@ -112,7 +114,7 @@ public class PanelEjercicio extends JPanel {
 		lblCDescanso.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		panelCronometroW_1_1.add(lblCDescanso);
 
-		 btnSalir = new JButton("Salir");
+		btnSalir = new JButton("Salir");
 		btnSalir.setBounds(522, 406, 156, 40);
 		panelCentral.add(btnSalir);
 		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -174,18 +176,31 @@ public class PanelEjercicio extends JPanel {
 		lblCSerie.setBounds(344, 55, 97, 14);
 		panelMenu.add(lblCSerie);
 
+		lblLaProximaSerie = new JLabel("La Proxima serie se iniciara en");
+		lblLaProximaSerie.setBounds(192, 67, 168, 35);
+		panelCentral.add(lblLaProximaSerie);
+
+
+		lblCProximaSerie = new JLabel("00:05");
+		lblCProximaSerie.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCProximaSerie.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblCProximaSerie.setBounds(386, 71, 42, 21);
+		panelCentral.add(lblCProximaSerie);
+
 	}
 
 	public void actualizarVentana(Ejercicio ejercicio) {
 		btnIniciar.setVisible(true);
 		btnPausar.setVisible(false);
 		btnSiguiente.setVisible(false);
-
+		lblLaProximaSerie.setVisible(false);
+		lblCProximaSerie.setVisible(false);
 		int labelAltura = 24;
 		int margenEntrePanelSeires = 15;
 		conjuntoDeCronometros = new ArrayList<JLabel>();
 		lblCWorkout.setText("00:00");
 		lblCTiempoE.setText("00:00");
+		lblCProximaSerie.setText("00:05");
 
 		panelMenu.removeAll();
 		lblDescripcionE.setText(ejercicio.getNombre() + "- Descripción");
@@ -265,6 +280,4 @@ public class PanelEjercicio extends JPanel {
 	public JButton getBtnSalir() {
 		return btnSalir;
 	}
-
-
 }

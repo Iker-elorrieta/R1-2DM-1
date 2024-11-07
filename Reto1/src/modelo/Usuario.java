@@ -176,6 +176,9 @@ public class Usuario implements Serializable {
 				if (co.collection(COLLECTION_NAME).document(idIntroducido).get().get().exists()) {
 					DocumentSnapshot dsUsuario = co.collection(COLLECTION_NAME).document(idIntroducido).get().get();
 					if (dsUsuario.getString(FIELD_PASS).equals(passIntroducida)) {
+						
+						
+						
 						setEmail(dsUsuario.getId());
 						setNombre(dsUsuario.getString(FIELD_NOMBRE));
 						setApellidos(dsUsuario.getString(FIELD_APELLIDOS));
@@ -185,6 +188,8 @@ public class Usuario implements Serializable {
 						setHistoricoUsuairo(new Historial().mObtenerHistorico(COLLECTION_NAME, email));
 						return this;
 
+		
+				
 					} else {
 						JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "ERROR",
 								JOptionPane.ERROR_MESSAGE);

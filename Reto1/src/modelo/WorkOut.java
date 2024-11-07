@@ -164,33 +164,16 @@ public class WorkOut implements Serializable {
 	}
 
 	
-	public WorkOut mObtenerWorkoutByID(String id) {
+	public String mObtenerWorkoutByID(String id) {
 	    Firestore co = null;
-	    WorkOut w = null;
+	    String  ruta = "";
 	    try {
 	        co = Conexion.conectar();
 
 	        // Obtener el documento con el ID especificado
-	        DocumentReference workoutDocRef = co.collection(COLLECTION_NAME).document(id);
-	        ApiFuture<DocumentSnapshot> future = workoutDocRef.get();
-	        DocumentSnapshot workout = future.get();
-
-	        // Verificar si el documento existe
-	        if (workout.exists()) {
-	            w = new WorkOut();
-
-	            // Asignar valores del documento al objeto WorkOut
-	            w.setNombre(workout.getId());
-	            w.setNivel(workout.getDouble(FIELD_NIVEL));
-	            w.setVideoURL(workout.getString(FIELD_VIDEO_URL));
-	            w.setTiempoEstimado(workout.getDouble(FIELD_TIEMPO_ESTIMADO));
-
-	            // Obtener los ejercicios relacionados con el WorkOut
-	            w.setEjercicios(new Ejercicio().mObtenerEjercicios(COLLECTION_NAME, w.getNombre()));
-	        } else {
-	            System.out.println("No existe un WorkOut con el ID proporcionado.");
-	        }
-
+	          ruta = co.collection(COLLECTION_NAME).document(id).getPath();
+	          System.out.println(ruta);
+	     
 	        co.close();
 
 	    } catch (InterruptedException | ExecutionException e) {
@@ -201,7 +184,7 @@ public class WorkOut implements Serializable {
 	        e.printStackTrace();
 	    }
 
-	    return w;
+	    return ruta;
 	}
 
 	

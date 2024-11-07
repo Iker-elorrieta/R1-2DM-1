@@ -3,8 +3,7 @@ import java.util.Date;
 
 import javax.swing.JOptionPane;
 
-//Preguntar a iker
-//Crear una ventana intermedia para el proceso de de descanso tarda mas no se por que 
+import controlador.Controlador;
 import modelo.Ejercicio;
 import modelo.Historial;
 import modelo.Usuario;
@@ -23,10 +22,11 @@ public class GestionCronometros extends Thread {
 	boolean siguientePulsado = false;
 	boolean finalizar = false;
 	private Usuario usuarioLogeado;
-
-	public GestionCronometros(PanelEjercicio panelEjercicio, Usuario usarioLogeado, WorkOut workoutSelect,
+	private Controlador controlador;
+	public GestionCronometros(Controlador controlador,PanelEjercicio panelEjercicio, Usuario usarioLogeado, WorkOut workoutSelect,
 			Cronometro cPrincipal, CronometroRegresivo cDescanso,
 			Cronometro cEjercicio, CronometroRegresivo cSerie) {
+		this.controlador = controlador;
 		this.pEjercicio = panelEjercicio;
 		this.usuarioLogeado = usarioLogeado;
 		this.workoutSelect = workoutSelect;
@@ -79,31 +79,37 @@ public class GestionCronometros extends Thread {
 					}
 				}
 			}
-			//No se por que pero la ultima serie no se ejecuta el descanso como deberia 
-			iniciarDescanso(); 
-			// Reiniciar variables para el siguiente ejercicio
-			contadorSerie = -1; // por algun motivo al salir del bucle y vuelve a entrar automaticametnte accede a la linea 54 y accede per
-			contadorEjercicio++;
-			pEjercicio.getBtnIniciar().setVisible(false);
-			pEjercicio.getBtnPausar().setVisible(false);
+			if(!finalizar) {
+				//No se por que pero la ultima serie no se ejecuta el descanso como deberia 
+				iniciarDescanso(); 
+				// Reiniciar variables para el siguiente ejercicio
+				contadorSerie = -1; // por algun motivo al salir del bucle y vuelve a entrar automaticametnte accede a la linea 54 y accede per
+				contadorEjercicio++;
+				pEjercicio.getBtnIniciar().setVisible(false);
+				pEjercicio.getBtnPausar().setVisible(false);
 
 
-			if (contadorEjercicio < workoutSelect.getEjercicios().size() && !finalizar) {
-				pEjercicio.getBtnSiguiente().setVisible(true);
+				if (contadorEjercicio < workoutSelect.getEjercicios().size() && !finalizar) {
+					pEjercicio.getBtnSiguiente().setVisible(true);
 
-				while(!siguientePulsado) {
-					// No hara nada hasta que pulse siguiente
-					try {
-						Thread.sleep(500);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+					while(!siguientePulsado) {
+						// No hara nada hasta que pulse siguiente
+						try {
+							Thread.sleep(500);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 					}
-				}
 
-				Siguiente();
-				//tras finalizar reseteamos para la ronda siguietne
-				siguientePulsado=false;
+					Siguiente();
+					//tras finalizar reseteamos para la ronda siguietne
+					siguientePulsado=false;
+				}
 			}
+		}
+		if(!finalizar) {
+		finalizarProceso();
+		controlador.cambiarAVentanaWorkout();
 		}
 	}
 
@@ -112,13 +118,13 @@ public class GestionCronometros extends Thread {
 		finalizar = true;
 		String nombreEjercicio ="";
 		for(int i =0; i<contadorEjercicio;i++ ) {
-			nombreEjercicio = workoutSelect.getEjercicios().get(i).getNombre() + "\n";
+			nombreEjercicio += workoutSelect.getEjercicios().get(i).getNombre() + "\n";
 		}
-		String tiempoRealizacion = pEjercicio.getLblCWorkout().getText().toString();
-		String porcentajeRealizacion = String.valueOf((100 * contadorEjercicio) / workoutSelect.getEjercicios().size());
+		String tiempoRealizacion = pEjercicio.getLblCWorkout().getText().toString();		
+		double porcentajeRealizacion =(100 * contadorEjercicio) / workoutSelect.getEjercicios().size();
 		String texto = String.format("Tiempo total del ejercicio %s ejercicio realizado %s Porcentaje %s  bien hecho", tiempoRealizacion, 
 				nombreEjercicio, porcentajeRealizacion);
-		
+
 
 		Historial historial = new Historial(workoutSelect, new Date() , porcentajeRealizacion, tiempoRealizacion );
 		historial.mIngresarHistorico(usuarioLogeado.getEmail(), workoutSelect);
@@ -130,6 +136,7 @@ public class GestionCronometros extends Thread {
 			cSerie.TerminarProceso();
 		}
 		JOptionPane.showMessageDialog(null,texto );
+		//El cambio de ventana
 
 
 	}
@@ -137,7 +144,7 @@ public class GestionCronometros extends Thread {
 	public void pausar() {
 		cEjercicio.detener();
 		cSerie.detener();
-
+		cPrincipal.detener();
 		pEjercicio.getBtnIniciar().setVisible(true);
 		pEjercicio.getBtnPausar().setVisible(false);
 	}
@@ -151,6 +158,8 @@ public class GestionCronometros extends Thread {
 		if(cSerie != null) {
 			cSerie.activar();
 			cEjercicio.activar();
+			cPrincipal.activar();
+
 		}
 		pEjercicio.getBtnIniciar().setVisible(false);
 		pEjercicio.getBtnPausar().setVisible(true);

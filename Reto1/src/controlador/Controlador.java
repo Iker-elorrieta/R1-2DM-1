@@ -62,11 +62,11 @@ public class Controlador implements ActionListener, ListSelectionListener {
 
 		this.vistaPrincipal.getPanelRegistro().getBtnRegistrarse().addActionListener(this);
 		this.vistaPrincipal.getPanelRegistro().getBtnRegistrarse()
-				.setActionCommand(Principal.enumAcciones.REGISTRAR_USUARIO.toString());
+		.setActionCommand(Principal.enumAcciones.REGISTRAR_USUARIO.toString());
 
 		this.vistaPrincipal.getPanelRegistro().getBtnVolverLogin().addActionListener(this);
 		this.vistaPrincipal.getPanelRegistro().getBtnVolverLogin()
-				.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_LOGIN.toString());
+		.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_LOGIN.toString());
 
 		// VENTANA LOGIN
 		this.vistaPrincipal.getPanelLogin().getBtnLogin().addActionListener(this);
@@ -74,66 +74,66 @@ public class Controlador implements ActionListener, ListSelectionListener {
 
 		this.vistaPrincipal.getPanelLogin().getBtnRegistrarse().addActionListener(this);
 		this.vistaPrincipal.getPanelLogin().getBtnRegistrarse()
-				.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_REGISTRO.toString());
+		.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_REGISTRO.toString());
 
 		// VENTANA PERFIL
 		this.vistaPrincipal.getPanelPerfil().getBtnEditar().addActionListener(this);
 		this.vistaPrincipal.getPanelPerfil().getBtnEditar()
-				.setActionCommand(Principal.enumAcciones.EDITAR_PERFIL.toString());
+		.setActionCommand(Principal.enumAcciones.EDITAR_PERFIL.toString());
 
 		this.vistaPrincipal.getPanelPerfil().getBtnIconoVerContrasena().addActionListener(this);
 		this.vistaPrincipal.getPanelPerfil().getBtnIconoVerContrasena()
-				.setActionCommand(Principal.enumAcciones.VER_CONTRASENA.toString());
+		.setActionCommand(Principal.enumAcciones.VER_CONTRASENA.toString());
 
 		this.vistaPrincipal.getPanelPerfil().getBtnAceptar().addActionListener(this);
 		this.vistaPrincipal.getPanelPerfil().getBtnAceptar()
-				.setActionCommand(Principal.enumAcciones.APLICAR_CAMBIOS_PERFIL.toString());
+		.setActionCommand(Principal.enumAcciones.APLICAR_CAMBIOS_PERFIL.toString());
 
 		this.vistaPrincipal.getPanelPerfil().getBtnVolver().addActionListener(this);
 		this.vistaPrincipal.getPanelPerfil().getBtnVolver()
-				.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_WORKOUT.toString());
+		.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_WORKOUT.toString());
 
 		this.vistaPrincipal.getPanelPerfil().getBtnVerHistorico().addActionListener(this);
 		this.vistaPrincipal.getPanelPerfil().getBtnVerHistorico()
-				.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_HISTORICO.toString());
+		.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_HISTORICO.toString());
 
 		// VENTANA WORKOUT
 		this.vistaPrincipal.getPanelWorkout().getBtnIrAVideo().addActionListener(this);
 		this.vistaPrincipal.getPanelWorkout().getBtnIrAVideo()
-				.setActionCommand(Principal.enumAcciones.ABRIR_NAVEGADOR.toString());
+		.setActionCommand(Principal.enumAcciones.ABRIR_NAVEGADOR.toString());
 
 		this.vistaPrincipal.getPanelWorkout().getBtnIniciar().addActionListener(this);
 		this.vistaPrincipal.getPanelWorkout().getBtnIniciar()
-				.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_EJERCICIO.toString());
+		.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_EJERCICIO.toString());
 
 		this.vistaPrincipal.getPanelWorkout().getWorkoutsList().addListSelectionListener(this);
 		this.vistaPrincipal.getPanelWorkout().getWorkoutsList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		this.vistaPrincipal.getPanelWorkout().getBtnPerfil().addActionListener(this);
 		this.vistaPrincipal.getPanelWorkout().getBtnPerfil()
-				.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_PERFIL.toString());
+		.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_PERFIL.toString());
 
 		// VENTANA PANEL EJERCICIO
 		this.vistaPrincipal.getPanelEjercicio().getBtnIniciar().addActionListener(this);
 		this.vistaPrincipal.getPanelEjercicio().getBtnIniciar()
-				.setActionCommand(Principal.enumAcciones.PLAY_PAUSE.toString());
+		.setActionCommand(Principal.enumAcciones.PLAY_PAUSE.toString());
 
 		this.vistaPrincipal.getPanelEjercicio().getBtnPausar().addActionListener(this);
 		this.vistaPrincipal.getPanelEjercicio().getBtnPausar()
-				.setActionCommand(Principal.enumAcciones.PAUSAR.toString());
-		
+		.setActionCommand(Principal.enumAcciones.PAUSAR.toString());
+
 		this.vistaPrincipal.getPanelEjercicio().getBtnSiguiente().addActionListener(this);
 		this.vistaPrincipal.getPanelEjercicio().getBtnSiguiente()
-				.setActionCommand(Principal.enumAcciones.SIGUIENTE_EJERCICIO.toString());
-		
+		.setActionCommand(Principal.enumAcciones.SIGUIENTE_EJERCICIO.toString());
+
 		this.vistaPrincipal.getPanelEjercicio().getBtnSalir().addActionListener(this);
 		this.vistaPrincipal.getPanelEjercicio().getBtnSalir()
-				.setActionCommand(Principal.enumAcciones.SALIR.toString());
+		.setActionCommand(Principal.enumAcciones.SALIR.toString());
 
 		// VENTANA HISTORICO
 		this.vistaPrincipal.getPanelHistorico().getBtnAtras().addActionListener(this);
 		this.vistaPrincipal.getPanelHistorico().getBtnAtras()
-				.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_PERFIL.toString());
+		.setActionCommand(Principal.enumAcciones.CARGAR_PANEL_PERFIL.toString());
 
 	}
 
@@ -174,9 +174,9 @@ public class Controlador implements ActionListener, ListSelectionListener {
 			break;
 		case CARGAR_PANEL_HISTORICO:
 			if(usuarioLogeado.getHistoricoUsuairo().size()>0) {
-			this.vistaPrincipal.getPanelHistorico().setHistoricosDelUsurio(usuarioLogeado.getHistoricoUsuairo());
-			this.vistaPrincipal.getPanelHistorico().actualizarVentana();
-			this.vistaPrincipal.mVisualizarPaneles(accion);
+				this.vistaPrincipal.getPanelHistorico().setHistoricosDelUsurio(usuarioLogeado.getHistoricoUsuairo());
+				this.vistaPrincipal.getPanelHistorico().actualizarVentana();
+				this.vistaPrincipal.mVisualizarPaneles(accion);
 			}else {
 				JOptionPane.showMessageDialog(null, "No hay historico");
 			}
@@ -204,8 +204,8 @@ public class Controlador implements ActionListener, ListSelectionListener {
 				cEjercicio = new Cronometro(pEjercicio.getLblCTiempoE());
 				cSerie = new CronometroRegresivo(pEjercicio.getConjuntoDeCronometros().get(0),  workoutSelect.getEjercicios().get(0).getSeries().get(0).getTiempoSerie());
 				cDescanso = new CronometroRegresivo(pEjercicio.getLblCDescanso(), workoutSelect.getEjercicios().get(0).getTiempoDescanso());
-				
-				gC = new GestionCronometros(pEjercicio,usuarioLogeado, workoutSelect, cPrincipal, cDescanso, cEjercicio, cSerie);
+
+				gC = new GestionCronometros(this,pEjercicio,usuarioLogeado, workoutSelect, cPrincipal, cDescanso, cEjercicio, cSerie);
 
 				this.vistaPrincipal.mVisualizarPaneles(accion);
 
@@ -225,10 +225,10 @@ public class Controlador implements ActionListener, ListSelectionListener {
 		case SIGUIENTE_EJERCICIO:
 			gC.Siguiente();
 			break;
-		
+
 		case SALIR:
 			gC.finalizarProceso();
-			mCargarVentanas(enumAcciones.CARGAR_PANEL_WORKOUT);
+			mCargarVentanas(enumAcciones.CARGAR_PANEL_WORKOUT);	
 
 			break;
 
@@ -236,6 +236,12 @@ public class Controlador implements ActionListener, ListSelectionListener {
 			break;
 
 		}
+	}
+	//para poder acceder al metodo desde la propiedad GestionCronometro
+	public void cambiarAVentanaWorkout() {
+		mCargarVentanas(enumAcciones.CARGAR_PANEL_WORKOUT);	
+
+
 	}
 
 	private void verContrasena() {
@@ -256,12 +262,12 @@ public class Controlador implements ActionListener, ListSelectionListener {
 
 		case CARGAR_PANEL_WORKOUT:
 			if(listaWorkouts==null) {
-			listaWorkouts = new WorkOut().mObtenerWorkouts();
+				listaWorkouts = new WorkOut().mObtenerWorkouts();
 			}
 			this.vistaPrincipal.getPanelWorkout().setWorkouts(listaWorkouts);
 			this.vistaPrincipal.getPanelWorkout().setUser(usuarioLogeado);
 			this.vistaPrincipal.getPanelWorkout().getFiltroNivel()
-					.setSelectedIndex((int) usuarioLogeado.getNivel() + 1);
+			.setSelectedIndex((int) usuarioLogeado.getNivel() + 1);
 			this.vistaPrincipal.mVisualizarPaneles(Principal.enumAcciones.CARGAR_PANEL_WORKOUT);
 
 			break;
@@ -339,7 +345,7 @@ public class Controlador implements ActionListener, ListSelectionListener {
 			PanelPerfil panelPerfil = this.vistaPrincipal.getPanelPerfil();
 			panelPerfil.getTfNombre().setEditable(true);
 			panelPerfil.getTfApellidos().setEditable(true);
-			
+
 			panelPerfil.getFechaNacimientoCalendar().setEnabled(true);
 			panelPerfil.getBtnAceptar().setEnabled(true);
 			panelPerfil.getBtnEditar().setEnabled(false);

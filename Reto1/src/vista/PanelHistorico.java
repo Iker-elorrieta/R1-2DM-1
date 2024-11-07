@@ -62,36 +62,45 @@ public class PanelHistorico extends JPanel {
 
 		tabla.setDefaultEditor(Object.class, null);
 
-		
+
 
 		jScrollPanel.setViewportView(tabla);
 	}
 
-	
+
 	public void actualizarVentana() {
 		defaultTableModel.setRowCount(0);
 
-	    if (historicosDelUsurio != null) {
-	        for (Historial historial : historicosDelUsurio) {
-	    		System.out.print(historial.getWorkout().toString());
+		if (historicosDelUsurio != null) {
+			for (Historial historial : historicosDelUsurio) {
+				System.out.print(historial.getWorkout().toString());
 
-	        	String[] fila = {
-	                historial.getWorkout().getNombre(),
-	                
-	                String.valueOf(historial.getWorkout().getNivel()),
-	                String.valueOf(historial.getWorkout().getTiempoEstimado()),
-	                historial.getTiempoRealizacion(),
-	                historial.getFecha().toString(),
-	                "%" + historial.getPorcentajeCompletado()
-	            };
-	            defaultTableModel.addRow(fila);
-	            
-	        }
-	    }
+				String[] fila = {
+						historial.getWorkout().getNombre(),
+
+						String.valueOf(historial.getWorkout().getNivel()),
+						String.valueOf(  
+								String.format("%02d:%02d",
+										((int) historial.getWorkout().getTiempoEstimado() / 60), // min
+										((int) historial.getWorkout().getTiempoEstimado() % 60)))
+						,
+						String.valueOf(  
+								String.format("%02d:%02d",
+										((int) historial.getTiempoRealizacion() / 60), // min
+										((int) historial.getTiempoRealizacion() % 60)))
+						,
+	
+						historial.getFecha().toString(),
+						"%" + historial.getPorcentajeCompletado()
+				};
+				defaultTableModel.addRow(fila);
+
+			}
+		}
 	}
 
-	
-	
+
+
 	public JButton getBtnAtras() {
 		return btnAtras;
 	}
@@ -103,6 +112,6 @@ public class PanelHistorico extends JPanel {
 	public void setHistoricosDelUsurio(ArrayList<Historial> historicosDelUsurio) {
 		this.historicosDelUsurio = historicosDelUsurio;
 	}
-	
+
 
 }

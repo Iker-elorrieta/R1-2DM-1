@@ -22,12 +22,15 @@ public class Historial implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// Atributos
-	//nombre del historico sera el nombre del usuario
+	//nombre del historico sera el nombre del usuario, nivel y tiempo estimado
 	private WorkOut workout;
-	private String tiempoRealizacion; // no usamos para calcular hace falta que sea double?
+	private double tiempoRealizacion; // no usamos para calcular hace falta que sea double?
 	private Date fecha;
-	private String porcentajeCompletado;
+	private double porcentajeCompletado;
 
+	
+	
+	
 	// Nombres de campos en Firestore
 	private static final String COLLECTION_NAME = "historico";
 	private static final String FIELD_WORKOUT = "Workout";
@@ -44,16 +47,16 @@ public class Historial implements Serializable {
 	public Historial() {
 	}
 
-	public Historial(WorkOut workout, Date fecha, String porcentajeCompletado, String tiempoRealizacion) {
+	public Historial(WorkOut workout, Date fecha, double porcentajeCompletado, String tiempoRealizacion) {
 		this.workout = workout;
 		this.fecha = fecha;
 		this.porcentajeCompletado = porcentajeCompletado;
-		this.tiempoRealizacion = tiempoRealizacion;
+		this.tiempoRealizacion = Double.parseDouble(tiempoRealizacion.split(":")[0])*60 + Double.parseDouble(tiempoRealizacion.split(":")[1]) ;
 	}
 
 	// Métodos Getters y Setters
 
-	public String getTiempoRealizacion() {
+	public double getTiempoRealizacion() {
 		return tiempoRealizacion;
 	}
 
@@ -66,7 +69,7 @@ public class Historial implements Serializable {
 		this.workout = workout;
 	}
 
-	public void setTiempoRealizacion(String tiempoRealizacion) {
+	public void setTiempoRealizacion(double tiempoRealizacion) {
 		this.tiempoRealizacion = tiempoRealizacion;
 	}
 
@@ -78,11 +81,11 @@ public class Historial implements Serializable {
 		this.fecha = fecha;
 	}
 
-	public String getPorcentajeCompletado() {
+	public double getPorcentajeCompletado() {
 		return porcentajeCompletado;
 	}
 
-	public void setPorcentajeCompletado(String porcentajeCompletado) {
+	public void setPorcentajeCompletado(double porcentajeCompletado) {
 		this.porcentajeCompletado = porcentajeCompletado;
 	}
 
@@ -97,12 +100,15 @@ public class Historial implements Serializable {
 
 			Map<String, Object> h =  new HashMap<>();
 			h.put(FIELD_TIEMPO_REALIZACION, this.tiempoRealizacion);
-			//por que no se inserta
-			System.out.println(tiempoRealizacion);
 			h.put(FIELD_FECHA, this.fecha);
 			h.put(FIELD_PORCENTAJE_COMPLETADO, this.porcentajeCompletado);
-
-			DocumentReference workOutDoc = coleccionHistorico.add(h).get();
+			h.put (FIELD_WORKOUT, workout.mObtenerWorkoutByID(workout.getNombre()));
+			System.out.println(workout.mObtenerWorkoutByID(workout.getNombre()));
+			coleccionHistorico.document().set(h);
+			
+			//Esto puede servir en algun mometo
+			/*
+			 * 			DocumentReference workOutDoc = coleccionHistorico.add(h).get();
 
 			CollectionReference workoutCol = workOutDoc.collection(FIELD_WORKOUT);
 			Map<String, Object> workOut = new HashMap<>();
@@ -111,7 +117,7 @@ public class Historial implements Serializable {
 			workOut.put(FIELD_TIEMPO_ESTIMADO, workout.getTiempoEstimado());
 
 			workoutCol.document().set(workOut);
-
+*/
 
 			co.close();
 		} catch (IOException | InterruptedException | ExecutionException e) {
@@ -135,11 +141,12 @@ public class Historial implements Serializable {
 
 			for (QueryDocumentSnapshot doc : documentosHistorico) {
 				Historial historial = new Historial();
-				historial.setTiempoRealizacion(doc.getString(FIELD_TIEMPO_REALIZACION));
+				historial.setTiempoRealizacion(doc.getDouble(FIELD_TIEMPO_REALIZACION));
 				historial.setFecha(obtenerFechaDate(doc, FIELD_FECHA)); // Convertir Timestamp a Date
-				historial.setPorcentajeCompletado(doc.getString(FIELD_PORCENTAJE_COMPLETADO));
-				historial.setTiempoRealizacion(doc.getString(FIELD_TIEMPO_REALIZACION));
+				historial.setPorcentajeCompletado(doc.getDouble(FIELD_PORCENTAJE_COMPLETADO));
 
+				
+				//Pte de finalizar
 				CollectionReference workoutCol = doc.getReference().collection(FIELD_WORKOUT);
 				QueryDocumentSnapshot workoutDoc = workoutCol.get().get().getDocuments().get(0);
 				// Crear listla de WorkOuts para almacenar los ejercicios
