@@ -164,14 +164,14 @@ public class WorkOut implements Serializable {
 	}
 
 	
-	public String mObtenerWorkoutByID(String id) {
+	public DocumentReference mObtenerWorkoutByID(String id) {
 	    Firestore co = null;
-	    String  ruta = "";
+	    DocumentReference  ruta = null;
 	    try {
 	        co = Conexion.conectar();
 
 	        // Obtener el documento con el ID especificado
-	          ruta = co.collection(COLLECTION_NAME).document(id).getPath();
+	          ruta = co.collection(COLLECTION_NAME).document(id);
 	          System.out.println(ruta);
 	     
 	        co.close();

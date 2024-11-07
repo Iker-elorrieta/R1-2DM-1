@@ -22,15 +22,12 @@ public class Historial implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	// Atributos
-	//nombre del historico sera el nombre del usuario, nivel y tiempo estimado
+	// nombre del historico sera el nombre del usuario, nivel y tiempo estimado
 	private WorkOut workout;
 	private double tiempoRealizacion; // no usamos para calcular hace falta que sea double?
 	private Date fecha;
 	private double porcentajeCompletado;
 
-	
-	
-	
 	// Nombres de campos en Firestore
 	private static final String COLLECTION_NAME = "historico";
 	private static final String FIELD_WORKOUT = "Workout";
@@ -51,7 +48,8 @@ public class Historial implements Serializable {
 		this.workout = workout;
 		this.fecha = fecha;
 		this.porcentajeCompletado = porcentajeCompletado;
-		this.tiempoRealizacion = Double.parseDouble(tiempoRealizacion.split(":")[0])*60 + Double.parseDouble(tiempoRealizacion.split(":")[1]) ;
+		this.tiempoRealizacion = Double.parseDouble(tiempoRealizacion.split(":")[0]) * 60
+				+ Double.parseDouble(tiempoRealizacion.split(":")[1]);
 	}
 
 	// Métodos Getters y Setters
@@ -59,7 +57,6 @@ public class Historial implements Serializable {
 	public double getTiempoRealizacion() {
 		return tiempoRealizacion;
 	}
-
 
 	public WorkOut getWorkout() {
 		return workout;
@@ -89,8 +86,6 @@ public class Historial implements Serializable {
 		this.porcentajeCompletado = porcentajeCompletado;
 	}
 
-
-
 	public void mIngresarHistorico(String emailUsuario, WorkOut workout) {
 		Firestore co = null;
 		try {
@@ -98,26 +93,25 @@ public class Historial implements Serializable {
 			DocumentReference historialCo = co.collection(new Usuario().getCollectionName()).document(emailUsuario);
 			CollectionReference coleccionHistorico = historialCo.collection(COLLECTION_NAME);
 
-			Map<String, Object> h =  new HashMap<>();
+			Map<String, Object> h = new HashMap<>();
 			h.put(FIELD_TIEMPO_REALIZACION, this.tiempoRealizacion);
 			h.put(FIELD_FECHA, this.fecha);
 			h.put(FIELD_PORCENTAJE_COMPLETADO, this.porcentajeCompletado);
-			h.put (FIELD_WORKOUT, workout.mObtenerWorkoutByID(workout.getNombre()));
+			h.put(FIELD_WORKOUT, workout.mObtenerWorkoutByID(workout.getNombre()));
 			System.out.println(workout.mObtenerWorkoutByID(workout.getNombre()));
 			coleccionHistorico.document().set(h);
-			
-			//Esto puede servir en algun mometo
+
+			// Esto puede servir en algun mometo
 			/*
-			 * 			DocumentReference workOutDoc = coleccionHistorico.add(h).get();
-
-			CollectionReference workoutCol = workOutDoc.collection(FIELD_WORKOUT);
-			Map<String, Object> workOut = new HashMap<>();
-			workOut.put(FIELD_NOMBRE, workout.getNombre());
-			workOut.put(FIELD_NIVEL, workout.getNivel());
-			workOut.put(FIELD_TIEMPO_ESTIMADO, workout.getTiempoEstimado());
-
-			workoutCol.document().set(workOut);
-*/
+			 * DocumentReference workOutDoc = coleccionHistorico.add(h).get();
+			 * 
+			 * CollectionReference workoutCol = workOutDoc.collection(FIELD_WORKOUT);
+			 * Map<String, Object> workOut = new HashMap<>(); workOut.put(FIELD_NOMBRE,
+			 * workout.getNombre()); workOut.put(FIELD_NIVEL, workout.getNivel());
+			 * workOut.put(FIELD_TIEMPO_ESTIMADO, workout.getTiempoEstimado());
+			 * 
+			 * workoutCol.document().set(workOut);
+			 */
 
 			co.close();
 		} catch (IOException | InterruptedException | ExecutionException e) {
@@ -126,8 +120,6 @@ public class Historial implements Serializable {
 			e.printStackTrace();
 		}
 	}
-
-
 
 	// CRUD: obtenerHistorico
 	public ArrayList<Historial> mObtenerHistorico(String coleccionUsuario, String emailUsuario) {
@@ -145,19 +137,16 @@ public class Historial implements Serializable {
 				historial.setFecha(obtenerFechaDate(doc, FIELD_FECHA)); // Convertir Timestamp a Date
 				historial.setPorcentajeCompletado(doc.getDouble(FIELD_PORCENTAJE_COMPLETADO));
 
-				
-				//Pte de finalizar
-				CollectionReference workoutCol = doc.getReference().collection(FIELD_WORKOUT);
-				QueryDocumentSnapshot workoutDoc = workoutCol.get().get().getDocuments().get(0);
-				// Crear listla de WorkOuts para almacenar los ejercicios
+				DocumentReference dirRef = (DocumentReference) doc.getData().get(FIELD_WORKOUT);
+				if (dirRef != null) {
+					WorkOut workout = new WorkOut();
+					workout.setNombre(dirRef.get().get().getId());
+					workout.setNivel(dirRef.get().get().getDouble(FIELD_NIVEL));
+					workout.setTiempoEstimado(dirRef.get().get().getDouble(FIELD_TIEMPO_ESTIMADO));
+					historial.setWorkout(workout);
+				}
 
-				WorkOut workout = new WorkOut();
-				workout.setNombre(workoutDoc.getString(FIELD_NOMBRE));
-				workout.setNivel(workoutDoc.getDouble(FIELD_NIVEL));
-				workout.setTiempoEstimado(workoutDoc.getDouble(FIELD_TIEMPO_ESTIMADO));
-				
-				historial.setWorkout(workout);
-				listaHistorial.add(historial); 
+				listaHistorial.add(historial);
 
 			}
 			co.close();
