@@ -42,7 +42,7 @@ public class PanelPerfil extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelPerfil() {setBackground(new Color(230, 230, 250));
-	setBounds(288, 11, 784, 541);
+	setBounds(288, 11, 710, 541);
 	setLayout(null);
 
 	JLabel lblTitulo = new JLabel("PERFIL");
@@ -58,7 +58,6 @@ public class PanelPerfil extends JPanel {
 	tfNombre = new JTextField();
 	tfNombre.setBounds(300, 200, 220, 30);
 	tfNombre.setBorder(new EmptyBorder(5, 5, 5, 5));
-	tfNombre.setEditable(false);
 	add(tfNombre);
 
 	JLabel lblApellidos = new JLabel("Apellidos:");
@@ -69,7 +68,6 @@ public class PanelPerfil extends JPanel {
 	tfApellidos = new JTextField();
 	tfApellidos.setBounds(300, 240, 220, 30);
 	tfApellidos.setBorder(new EmptyBorder(5, 5, 5, 5));
-	tfApellidos.setEditable(false);
 	add(tfApellidos);
 
 	JLabel lblEmail = new JLabel("Email:");
@@ -83,6 +81,13 @@ public class PanelPerfil extends JPanel {
 	tfEmail.setEditable(false);
 	add(tfEmail);
 
+	tfContrasenaVer = new JTextField();
+	tfContrasenaVer.setBounds(300, 320, 220, 30);
+	tfContrasenaVer.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+
+	add(tfContrasenaVer);
+	
 	JLabel lblContrasena = new JLabel("Contraseña:");
 	lblContrasena.setFont(new Font("Arial", Font.PLAIN, 16));
 	lblContrasena.setBounds(150, 320, 130, 20);
@@ -91,7 +96,6 @@ public class PanelPerfil extends JPanel {
 	pfContrasena = new JPasswordField();
 	pfContrasena.setBounds(300, 320, 220, 30);
 	pfContrasena.setBorder(new EmptyBorder(5, 5, 5, 5));
-	pfContrasena.setEditable(false);
 	add(pfContrasena);
 
 	JLabel lblFechaNacimiento = new JLabel("Fecha de nacimiento:");
@@ -143,16 +147,45 @@ public class PanelPerfil extends JPanel {
 	add(btnIconoVerContrasena);
 
 	btnVolver = new JButton("Volver");
-	btnVolver.setBounds(59, 82, 100, 40);
+	btnVolver.setBounds(0, 0, 100, 40);
 	btnVolver.setFont(new Font("Arial", Font.BOLD, 14));
 	btnVolver.setBackground(new Color(100, 149, 237));
 	btnVolver.setForeground(Color.WHITE);
 	btnVolver.setBorderPainted(false);
 	btnVolver.setFocusPainted(false);
 	add(btnVolver);
+	
+	btnVerHistorico = new JButton("Ver historico");
+	btnVerHistorico.setForeground(Color.WHITE);
+	btnVerHistorico.setFont(new Font("Arial", Font.BOLD, 14));
+	btnVerHistorico.setFocusPainted(false);
+	btnVerHistorico.setBorderPainted(false);
+	btnVerHistorico.setBackground(new Color(100, 149, 237));
+	btnVerHistorico.setBounds(500, 0, 180, 40);
+	add(btnVerHistorico);
 
 	}
 
+	
+	public void actualizarPanelPerfil() {
+		tfNombre.setEditable(false);
+		tfApellidos.setEditable(false);
+		pfContrasena.setEditable(false);
+		pfContrasena.setVisible(true);
+		fechaNacimientoCalendar.setEnabled(false);
+		tfContrasenaVer.setEditable(false);
+		tfContrasenaVer.setVisible(false);
+		
+		tfApellidos.setText(usuarioLogeado.getApellidos());
+		tfEmail.setText(usuarioLogeado.getEmail());
+		pfContrasena.setText(usuarioLogeado.getPass());
+		tfContrasenaVer.setText(usuarioLogeado.getPass());
+		fechaNacimientoCalendar.setDate(usuarioLogeado.getFechaNacimiento());
+		
+	}
+	
+	
+	
 	public void setUsuarioLogeado(Usuario usuarioLogeado) {
 		this.usuarioLogeado = usuarioLogeado;
 	}

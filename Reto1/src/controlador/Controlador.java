@@ -163,13 +163,7 @@ public class Controlador implements ActionListener, ListSelectionListener {
 			break;
 		case CARGAR_PANEL_PERFIL:
 			this.vistaPrincipal.getPanelPerfil().setUsuarioLogeado(usuarioLogeado);
-			this.vistaPrincipal.getPanelPerfil().getTfNombre().setText(usuarioLogeado.getNombre());
-			this.vistaPrincipal.getPanelPerfil().getTfApellidos().setText(usuarioLogeado.getApellidos());
-			this.vistaPrincipal.getPanelPerfil().getTfEmail().setText(usuarioLogeado.getEmail());
-			this.vistaPrincipal.getPanelPerfil().getPfContrasena().setText(usuarioLogeado.getPass());
-			this.vistaPrincipal.getPanelPerfil().getTfContrasenaVer().setText(usuarioLogeado.getPass());
-			this.vistaPrincipal.getPanelPerfil().getFechaNacimientoCalendar()
-					.setDate(usuarioLogeado.getFechaNacimiento());
+			this.vistaPrincipal.getPanelPerfil().actualizarPanelPerfil();
 			this.vistaPrincipal.mVisualizarPaneles(accion);
 			break;
 		case REGISTRAR_USUARIO:
@@ -248,6 +242,8 @@ public class Controlador implements ActionListener, ListSelectionListener {
 		if (this.vistaPrincipal.getPanelPerfil().getPfContrasena().isVisible()) {
 			this.vistaPrincipal.getPanelPerfil().getPfContrasena().setVisible(false);
 			this.vistaPrincipal.getPanelPerfil().getTfContrasenaVer().setVisible(true);
+			this.vistaPrincipal.getPanelPerfil().getTfContrasenaVer().setEditable(true);
+
 		} else {
 			this.vistaPrincipal.getPanelPerfil().getPfContrasena().setVisible(true);
 			this.vistaPrincipal.getPanelPerfil().getTfContrasenaVer().setVisible(false);
@@ -343,6 +339,7 @@ public class Controlador implements ActionListener, ListSelectionListener {
 			PanelPerfil panelPerfil = this.vistaPrincipal.getPanelPerfil();
 			panelPerfil.getTfNombre().setEditable(true);
 			panelPerfil.getTfApellidos().setEditable(true);
+			
 			panelPerfil.getFechaNacimientoCalendar().setEnabled(true);
 			panelPerfil.getBtnAceptar().setEnabled(true);
 			panelPerfil.getBtnEditar().setEnabled(false);
