@@ -37,13 +37,11 @@ public class PanelRegistro extends JPanel {
 		setBounds(288, 11, 784, 541);
 		setLayout(null);
 
-
 		JLabel lblTitulo = new JLabel("REGISTRO");
 		lblTitulo.setFont(new Font("Arial", Font.BOLD, 28));
 		lblTitulo.setBounds(290, 30, 200, 50);
 		add(lblTitulo);
 
-		
 		JLabel lblNombre = new JLabel("Nombre:");
 		lblNombre.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNombre.setBounds(150, 200, 130, 20);
@@ -97,7 +95,8 @@ public class PanelRegistro extends JPanel {
 
 		Calendar ahoraMismo = Calendar.getInstance();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String maxString = ahoraMismo.get(Calendar.YEAR) + "-" + (ahoraMismo.get(Calendar.MONTH) + 1) + "-" + ahoraMismo.get(Calendar.DATE);
+		String maxString = ahoraMismo.get(Calendar.YEAR) + "-" + (ahoraMismo.get(Calendar.MONTH) + 1) + "-"
+				+ ahoraMismo.get(Calendar.DATE);
 		try {
 			fechaNacimientoCalendar.setMaxSelectableDate(dateFormat.parse(maxString));
 			fechaNacimientoCalendar.setDate(dateFormat.parse(maxString));

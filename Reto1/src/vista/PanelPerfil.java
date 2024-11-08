@@ -41,132 +41,132 @@ public class PanelPerfil extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public PanelPerfil() {setBackground(new Color(230, 230, 250));
-	setBounds(288, 11, 710, 541);
-	setLayout(null);
+	public PanelPerfil() {
+		setBackground(new Color(230, 230, 250));
+		setBounds(288, 11, 710, 541);
+		setLayout(null);
 
-	JLabel lblTitulo = new JLabel("PERFIL");
-	lblTitulo.setFont(new Font("Arial", Font.BOLD, 28));
-	lblTitulo.setBounds(290, 30, 200, 50);
-	add(lblTitulo);
+		JLabel lblTitulo = new JLabel("PERFIL");
+		lblTitulo.setFont(new Font("Arial", Font.BOLD, 28));
+		lblTitulo.setBounds(290, 30, 200, 50);
+		add(lblTitulo);
 
-	JLabel lblNombre = new JLabel("Nombre:");
-	lblNombre.setFont(new Font("Arial", Font.PLAIN, 16));
-	lblNombre.setBounds(150, 200, 130, 20);
-	add(lblNombre);
+		JLabel lblNombre = new JLabel("Nombre:");
+		lblNombre.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNombre.setBounds(150, 200, 130, 20);
+		add(lblNombre);
 
-	tfNombre = new JTextField();
-	tfNombre.setBounds(300, 200, 220, 30);
-	tfNombre.setBorder(new EmptyBorder(5, 5, 5, 5));
-	add(tfNombre);
+		tfNombre = new JTextField();
+		tfNombre.setBounds(300, 200, 220, 30);
+		tfNombre.setBorder(new EmptyBorder(5, 5, 5, 5));
+		add(tfNombre);
 
-	JLabel lblApellidos = new JLabel("Apellidos:");
-	lblApellidos.setFont(new Font("Arial", Font.PLAIN, 16));
-	lblApellidos.setBounds(150, 240, 130, 20);
-	add(lblApellidos);
+		JLabel lblApellidos = new JLabel("Apellidos:");
+		lblApellidos.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblApellidos.setBounds(150, 240, 130, 20);
+		add(lblApellidos);
 
-	tfApellidos = new JTextField();
-	tfApellidos.setBounds(300, 240, 220, 30);
-	tfApellidos.setBorder(new EmptyBorder(5, 5, 5, 5));
-	add(tfApellidos);
+		tfApellidos = new JTextField();
+		tfApellidos.setBounds(300, 240, 220, 30);
+		tfApellidos.setBorder(new EmptyBorder(5, 5, 5, 5));
+		add(tfApellidos);
 
-	JLabel lblEmail = new JLabel("Email:");
-	lblEmail.setFont(new Font("Arial", Font.PLAIN, 16));
-	lblEmail.setBounds(150, 280, 130, 20);
-	add(lblEmail);
+		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblEmail.setBounds(150, 280, 130, 20);
+		add(lblEmail);
 
-	tfEmail = new JTextField();
-	tfEmail.setBounds(300, 280, 220, 30);
-	tfEmail.setBorder(new EmptyBorder(5, 5, 5, 5));
-	tfEmail.setEditable(false);
-	add(tfEmail);
+		tfEmail = new JTextField();
+		tfEmail.setBounds(300, 280, 220, 30);
+		tfEmail.setBorder(new EmptyBorder(5, 5, 5, 5));
+		tfEmail.setEditable(false);
+		add(tfEmail);
 
-	tfContrasenaVer = new JTextField();
-	tfContrasenaVer.setBounds(300, 320, 220, 30);
-	tfContrasenaVer.setBorder(new EmptyBorder(5, 5, 5, 5));
+		tfContrasenaVer = new JTextField();
+		tfContrasenaVer.setBounds(300, 320, 220, 30);
+		tfContrasenaVer.setBorder(new EmptyBorder(5, 5, 5, 5));
 
+		add(tfContrasenaVer);
 
-	add(tfContrasenaVer);
-	
-	JLabel lblContrasena = new JLabel("Contraseña:");
-	lblContrasena.setFont(new Font("Arial", Font.PLAIN, 16));
-	lblContrasena.setBounds(150, 320, 130, 20);
-	add(lblContrasena);
+		JLabel lblContrasena = new JLabel("Contraseña:");
+		lblContrasena.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblContrasena.setBounds(150, 320, 130, 20);
+		add(lblContrasena);
 
-	pfContrasena = new JPasswordField();
-	pfContrasena.setBounds(300, 320, 220, 30);
-	pfContrasena.setBorder(new EmptyBorder(5, 5, 5, 5));
-	add(pfContrasena);
+		pfContrasena = new JPasswordField();
+		pfContrasena.setBounds(300, 320, 220, 30);
+		pfContrasena.setBorder(new EmptyBorder(5, 5, 5, 5));
+		add(pfContrasena);
 
-	JLabel lblFechaNacimiento = new JLabel("Fecha de nacimiento:");
-	lblFechaNacimiento.setFont(new Font("Arial", Font.PLAIN, 16));
-	lblFechaNacimiento.setBounds(150, 360, 180, 20);
-	add(lblFechaNacimiento);
+		JLabel lblFechaNacimiento = new JLabel("Fecha de nacimiento:");
+		lblFechaNacimiento.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblFechaNacimiento.setBounds(150, 360, 180, 20);
+		add(lblFechaNacimiento);
 
-	fechaNacimientoCalendar = new JDateChooser();
-	fechaNacimientoCalendar.setBounds(300, 360, 220, 30);
-	JTextFieldDateEditor editor = (JTextFieldDateEditor) fechaNacimientoCalendar.getDateEditor();
-	editor.setEditable(false);
-	fechaNacimientoCalendar.setEnabled(false);
-	add(fechaNacimientoCalendar);
+		fechaNacimientoCalendar = new JDateChooser();
+		fechaNacimientoCalendar.setBounds(300, 360, 220, 30);
+		JTextFieldDateEditor editor = (JTextFieldDateEditor) fechaNacimientoCalendar.getDateEditor();
+		editor.setEditable(false);
+		fechaNacimientoCalendar.setEnabled(false);
+		add(fechaNacimientoCalendar);
 
-	Calendar ahoraMismo = Calendar.getInstance();
-	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	String maxString = ahoraMismo.get(Calendar.YEAR) + "-" + (ahoraMismo.get(Calendar.MONTH) + 1) + "-" + ahoraMismo.get(Calendar.DATE);
-	try {
-		fechaNacimientoCalendar.setMaxSelectableDate(dateFormat.parse(maxString));
-		fechaNacimientoCalendar.setDate(dateFormat.parse(maxString));
-	} catch (ParseException e) {
-		e.printStackTrace();
+		Calendar ahoraMismo = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String maxString = ahoraMismo.get(Calendar.YEAR) + "-" + (ahoraMismo.get(Calendar.MONTH) + 1) + "-"
+				+ ahoraMismo.get(Calendar.DATE);
+		try {
+			fechaNacimientoCalendar.setMaxSelectableDate(dateFormat.parse(maxString));
+			fechaNacimientoCalendar.setDate(dateFormat.parse(maxString));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		btnAceptar = new JButton("Aceptar");
+		btnAceptar.setBounds(320, 420, 140, 40);
+		btnAceptar.setFont(new Font("Arial", Font.BOLD, 14));
+		btnAceptar.setBackground(new Color(255, 105, 180));
+		btnAceptar.setForeground(Color.WHITE);
+		btnAceptar.setBorderPainted(false);
+		btnAceptar.setFocusPainted(false);
+		btnAceptar.setEnabled(false);
+		add(btnAceptar);
+
+		btnEditar = new JButton("Editar");
+		btnEditar.setBounds(180, 420, 100, 40);
+		btnEditar.setFont(new Font("Arial", Font.BOLD, 14));
+		btnEditar.setBackground(new Color(100, 149, 237));
+		btnEditar.setForeground(Color.WHITE);
+		btnEditar.setBorderPainted(false);
+		btnEditar.setFocusPainted(false);
+		add(btnEditar);
+
+		ImageIcon originalIcon = new ImageIcon("multimedia/Ojo.png");
+		Image scaledImage = originalIcon.getImage().getScaledInstance(26, 21, Image.SCALE_SMOOTH);
+		btnIconoVerContrasena = new JButton(new ImageIcon(scaledImage));
+		btnIconoVerContrasena.setBounds(540, 320, 26, 21);
+		btnIconoVerContrasena.setEnabled(false);
+		add(btnIconoVerContrasena);
+
+		btnVolver = new JButton("Volver");
+		btnVolver.setBounds(0, 0, 100, 40);
+		btnVolver.setFont(new Font("Arial", Font.BOLD, 14));
+		btnVolver.setBackground(new Color(100, 149, 237));
+		btnVolver.setForeground(Color.WHITE);
+		btnVolver.setBorderPainted(false);
+		btnVolver.setFocusPainted(false);
+		add(btnVolver);
+
+		btnVerHistorico = new JButton("Ver historico");
+		btnVerHistorico.setForeground(Color.WHITE);
+		btnVerHistorico.setFont(new Font("Arial", Font.BOLD, 14));
+		btnVerHistorico.setFocusPainted(false);
+		btnVerHistorico.setBorderPainted(false);
+		btnVerHistorico.setBackground(new Color(100, 149, 237));
+		btnVerHistorico.setBounds(500, 0, 180, 40);
+		add(btnVerHistorico);
+
 	}
 
-	btnAceptar = new JButton("Aceptar");
-	btnAceptar.setBounds(320, 420, 140, 40);
-	btnAceptar.setFont(new Font("Arial", Font.BOLD, 14));
-	btnAceptar.setBackground(new Color(255, 105, 180));
-	btnAceptar.setForeground(Color.WHITE);
-	btnAceptar.setBorderPainted(false);
-	btnAceptar.setFocusPainted(false);
-	btnAceptar.setEnabled(false);
-	add(btnAceptar);
-
-	btnEditar = new JButton("Editar");
-	btnEditar.setBounds(180, 420, 100, 40);
-	btnEditar.setFont(new Font("Arial", Font.BOLD, 14));
-	btnEditar.setBackground(new Color(100, 149, 237));
-	btnEditar.setForeground(Color.WHITE);
-	btnEditar.setBorderPainted(false);
-	btnEditar.setFocusPainted(false);
-	add(btnEditar);
-
-	ImageIcon originalIcon = new ImageIcon("multimedia/Ojo.png");
-	Image scaledImage = originalIcon.getImage().getScaledInstance(26, 21, Image.SCALE_SMOOTH);
-	btnIconoVerContrasena = new JButton(new ImageIcon(scaledImage));
-	btnIconoVerContrasena.setBounds(540, 320, 26, 21);
-	btnIconoVerContrasena.setEnabled(false);
-	add(btnIconoVerContrasena);
-
-	btnVolver = new JButton("Volver");
-	btnVolver.setBounds(0, 0, 100, 40);
-	btnVolver.setFont(new Font("Arial", Font.BOLD, 14));
-	btnVolver.setBackground(new Color(100, 149, 237));
-	btnVolver.setForeground(Color.WHITE);
-	btnVolver.setBorderPainted(false);
-	btnVolver.setFocusPainted(false);
-	add(btnVolver);
-	
-	btnVerHistorico = new JButton("Ver historico");
-	btnVerHistorico.setForeground(Color.WHITE);
-	btnVerHistorico.setFont(new Font("Arial", Font.BOLD, 14));
-	btnVerHistorico.setFocusPainted(false);
-	btnVerHistorico.setBorderPainted(false);
-	btnVerHistorico.setBackground(new Color(100, 149, 237));
-	btnVerHistorico.setBounds(500, 0, 180, 40);
-	add(btnVerHistorico);
-
-	}
-
-	
 	public void actualizarPanelPerfil() {
 		tfNombre.setEditable(false);
 		tfApellidos.setEditable(false);
@@ -175,17 +175,16 @@ public class PanelPerfil extends JPanel {
 		fechaNacimientoCalendar.setEnabled(false);
 		tfContrasenaVer.setEditable(false);
 		tfContrasenaVer.setVisible(false);
-		
+		btnEditar.setEnabled(true);
+
 		tfApellidos.setText(usuarioLogeado.getApellidos());
 		tfEmail.setText(usuarioLogeado.getEmail());
 		pfContrasena.setText(usuarioLogeado.getPass());
 		tfContrasenaVer.setText(usuarioLogeado.getPass());
 		fechaNacimientoCalendar.setDate(usuarioLogeado.getFechaNacimiento());
-		
+
 	}
-	
-	
-	
+
 	public void setUsuarioLogeado(Usuario usuarioLogeado) {
 		this.usuarioLogeado = usuarioLogeado;
 	}

@@ -23,7 +23,7 @@ public class Historial implements Serializable {
 
 	// Atributos
 	// nombre del historico sera el nombre del usuario, nivel y tiempo estimado
-	private WorkOut workout;
+	private Workout workout;
 	private double tiempoRealizacion; // no usamos para calcular hace falta que sea double?
 	private Date fecha;
 	private double porcentajeCompletado;
@@ -33,7 +33,6 @@ public class Historial implements Serializable {
 	private static final String FIELD_WORKOUT = "Workout";
 
 	private static final String FIELD_NIVEL = "nivel";
-	private static final String FIELD_NOMBRE = "nombre";
 	private static final String FIELD_TIEMPO_ESTIMADO = "tiempoEstimado";
 
 	private static final String FIELD_TIEMPO_REALIZACION = "tiempoRealizacion";
@@ -44,7 +43,7 @@ public class Historial implements Serializable {
 	public Historial() {
 	}
 
-	public Historial(WorkOut workout, Date fecha, double porcentajeCompletado, String tiempoRealizacion) {
+	public Historial(Workout workout, Date fecha, double porcentajeCompletado, String tiempoRealizacion) {
 		this.workout = workout;
 		this.fecha = fecha;
 		this.porcentajeCompletado = porcentajeCompletado;
@@ -58,11 +57,11 @@ public class Historial implements Serializable {
 		return tiempoRealizacion;
 	}
 
-	public WorkOut getWorkout() {
+	public Workout getWorkout() {
 		return workout;
 	}
 
-	public void setWorkout(WorkOut workout) {
+	public void setWorkout(Workout workout) {
 		this.workout = workout;
 	}
 
@@ -86,7 +85,7 @@ public class Historial implements Serializable {
 		this.porcentajeCompletado = porcentajeCompletado;
 	}
 
-	public void mIngresarHistorico(String emailUsuario, WorkOut workout) {
+	public void mIngresarHistorico(String emailUsuario, Workout workout) {
 		Firestore co = null;
 		try {
 			co = Conexion.conectar();
@@ -137,17 +136,15 @@ public class Historial implements Serializable {
 				historial.setFecha(obtenerFechaDate(doc, FIELD_FECHA)); // Convertir Timestamp a Date
 				historial.setPorcentajeCompletado(doc.getDouble(FIELD_PORCENTAJE_COMPLETADO));
 
-				DocumentReference dirRef = (DocumentReference) doc.getData().get(FIELD_WORKOUT);
-				if (dirRef != null) {
-					WorkOut workout = new WorkOut();
-					workout.setNombre(dirRef.get().get().getId());
-					workout.setNivel(dirRef.get().get().getDouble(FIELD_NIVEL));
-					workout.setTiempoEstimado(dirRef.get().get().getDouble(FIELD_TIEMPO_ESTIMADO));
+				DocumentReference workoutReference = (DocumentReference) doc.getData().get(FIELD_WORKOUT);
+				if (workoutReference != null) {
+					Workout workout = new Workout();
+					workout.setNombre(workoutReference.get().get().getId());
+					workout.setNivel(workoutReference.get().get().getDouble(FIELD_NIVEL));
+					workout.setTiempoEstimado(workoutReference.get().get().getDouble(FIELD_TIEMPO_ESTIMADO));
 					historial.setWorkout(workout);
 				}
-
 				listaHistorial.add(historial);
-
 			}
 			co.close();
 		} catch (IOException | InterruptedException | ExecutionException e) {

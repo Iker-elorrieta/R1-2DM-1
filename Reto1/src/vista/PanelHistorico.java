@@ -20,6 +20,7 @@ public class PanelHistorico extends JPanel {
 	private JButton btnAtras;
 	DefaultTableModel defaultTableModel;
 	private ArrayList<Historial> historicosDelUsurio;
+
 	public PanelHistorico() {
 
 		setBackground(new Color(230, 230, 250));
@@ -49,7 +50,8 @@ public class PanelHistorico extends JPanel {
 		jScrollPanel = new JScrollPane();
 		jScrollPanel.setBounds(40, 150, 620, 325);
 		panelCentral.add(jScrollPanel);
-		String columnas[] = { "NombreWorkout", "Nivel", "Timepo Estimado", "Tiempo de realizacion","Fecha ", "% Ejercicios Completados" };
+		String columnas[] = { "NombreWorkout", "Nivel", "Timepo Estimado", "Tiempo de realizacion", "Fecha ",
+				"% Ejercicios Completados" };
 
 		defaultTableModel = new DefaultTableModel(columnas, 0);
 
@@ -62,11 +64,8 @@ public class PanelHistorico extends JPanel {
 
 		tabla.setDefaultEditor(Object.class, null);
 
-
-
 		jScrollPanel.setViewportView(tabla);
 	}
-
 
 	public void actualizarVentana() {
 		defaultTableModel.setRowCount(0);
@@ -75,31 +74,21 @@ public class PanelHistorico extends JPanel {
 			for (Historial historial : historicosDelUsurio) {
 				System.out.print(historial.getWorkout().toString());
 
-				String[] fila = {
-						historial.getWorkout().getNombre(),
+				String[] fila = { historial.getWorkout().getNombre(),
 
 						String.valueOf(historial.getWorkout().getNivel()),
-						String.valueOf(  
-								String.format("%02d:%02d",
-										((int) historial.getWorkout().getTiempoEstimado() / 60), // min
-										((int) historial.getWorkout().getTiempoEstimado() % 60)))
-						,
-						String.valueOf(  
-								String.format("%02d:%02d",
-										((int) historial.getTiempoRealizacion() / 60), // min
-										((int) historial.getTiempoRealizacion() % 60)))
-						,
-	
-						historial.getFecha().toString(),
-						"%" + historial.getPorcentajeCompletado()
-				};
+						String.valueOf(
+								String.format("%02d:%02d", ((int) historial.getWorkout().getTiempoEstimado() / 60), // min
+										((int) historial.getWorkout().getTiempoEstimado() % 60))),
+						String.valueOf(String.format("%02d:%02d", ((int) historial.getTiempoRealizacion() / 60), // min
+								((int) historial.getTiempoRealizacion() % 60))),
+
+						historial.getFecha().toString(), "%" + historial.getPorcentajeCompletado() };
 				defaultTableModel.addRow(fila);
 
 			}
 		}
 	}
-
-
 
 	public JButton getBtnAtras() {
 		return btnAtras;
@@ -112,6 +101,5 @@ public class PanelHistorico extends JPanel {
 	public void setHistoricosDelUsurio(ArrayList<Historial> historicosDelUsurio) {
 		this.historicosDelUsurio = historicosDelUsurio;
 	}
-
 
 }

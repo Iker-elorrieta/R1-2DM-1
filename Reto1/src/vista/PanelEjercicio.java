@@ -16,11 +16,11 @@ import javax.swing.SwingConstants;
 
 import modelo.Ejercicio;
 import modelo.Serie;
-import modelo.WorkOut;
+import modelo.Workout;
 
 public class PanelEjercicio extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private WorkOut workouSelect;
+	private Workout workouSelect;
 	private JLabel lblDescripcionE;
 	private JLabel lblWorkout;
 	private JPanel panelMenu;
@@ -40,8 +40,10 @@ public class PanelEjercicio extends JPanel {
 	private JButton btnSiguiente;
 	private JButton btnSalir;
 
-	private ArrayList<JLabel> conjuntoDeCronometros ; // En esta variable alamaceraremos las etiquetas donde se visualizaran los cronometrs de la serie no se puede hacer get set de ellas directamente por que se crean de forma dinamica posteriormente
-
+	private ArrayList<JLabel> conjuntoDeCronometros; // En esta variable alamaceraremos las etiquetas donde se
+														// visualizaran los cronometrs de la serie no se puede hacer get
+														// set de ellas directamente por que se crean de forma dinamica
+														// posteriormente
 
 	public PanelEjercicio() {
 
@@ -107,8 +109,6 @@ public class PanelEjercicio extends JPanel {
 		panelCronometroW_1_1.setBounds(0, 51, 168, 51);
 		panelCentral.add(panelCronometroW_1_1);
 
-
-
 		lblCDescanso = new JLabel("00:45");
 		lblCDescanso.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCDescanso.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -149,8 +149,6 @@ public class PanelEjercicio extends JPanel {
 		btnPausar.setBounds(290, 406, 156, 40);
 		panelCentral.add(btnPausar);
 
-
-
 		btnSiguiente = new JButton("Siguiente Ejercicio");
 		btnSiguiente.setForeground(Color.WHITE);
 		btnSiguiente.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -160,7 +158,6 @@ public class PanelEjercicio extends JPanel {
 		btnSiguiente.setBounds(290, 406, 200, 40);
 
 		panelCentral.add(btnSiguiente);
-
 
 		lblNombreSerie = new JLabel("Default");
 		lblNombreSerie.setBounds(146, 55, 188, 14);
@@ -179,7 +176,6 @@ public class PanelEjercicio extends JPanel {
 		lblLaProximaSerie = new JLabel("La Proxima serie se iniciara en");
 		lblLaProximaSerie.setBounds(192, 67, 168, 35);
 		panelCentral.add(lblLaProximaSerie);
-
 
 		lblCProximaSerie = new JLabel("00:05");
 		lblCProximaSerie.setHorizontalAlignment(SwingConstants.CENTER);
@@ -206,11 +202,9 @@ public class PanelEjercicio extends JPanel {
 		lblDescripcionE.setText(ejercicio.getNombre() + "- Descripción");
 		lblWorkout.setText("Workout " + workouSelect.getNombre());
 
-
-		lblCDescanso.setText(String.format("%02d:%02d",
-				((int) workouSelect.getEjercicios().get(0).getTiempoDescanso() / 60), // min
-				((int) workouSelect.getEjercicios().get(0).getTiempoDescanso() % 60)));// seg
-
+		lblCDescanso.setText(
+				String.format("%02d:%02d", ((int) workouSelect.getEjercicios().get(0).getTiempoDescanso() / 60), // min
+						((int) workouSelect.getEjercicios().get(0).getTiempoDescanso() % 60)));// seg
 
 		// Generamos los iconos de forma dinamica
 		for (Serie serie : ejercicio.getSeries()) {
@@ -222,15 +216,13 @@ public class PanelEjercicio extends JPanel {
 			lblImgSerie = new JLabel(serie.getImagenURL());
 			lblImgSerie.setBounds(15, labelAltura, 124, 85);
 			panelMenu.add(lblImgSerie);
-			lblImgSerie.setIcon(new ImageIcon(new ImageIcon (serie.getImagenURL()).getImage().getScaledInstance(lblImgSerie.getWidth(), lblImgSerie.getHeight(), Image.SCALE_SMOOTH)));
-
-
-
+			lblImgSerie.setIcon(new ImageIcon(new ImageIcon(serie.getImagenURL()).getImage()
+					.getScaledInstance(lblImgSerie.getWidth(), lblImgSerie.getHeight(), Image.SCALE_SMOOTH)));
 
 			lblCSerie = new JLabel("Default");
 			lblCSerie.setBounds(334, labelAltura, 100, 14);
 			lblCSerie.setText((String.format("%02d:%02d", ((int) serie.getTiempoSerie() / 60), // min
-					((int) serie.getTiempoSerie() % 60))));//seg
+					((int) serie.getTiempoSerie() % 60))));// seg
 			panelMenu.add(lblCSerie);
 
 			conjuntoDeCronometros.add(lblCSerie);
@@ -244,7 +236,7 @@ public class PanelEjercicio extends JPanel {
 		}
 	}
 
-	public void setWorkouSelect(WorkOut workouSelect) {
+	public void setWorkouSelect(Workout workouSelect) {
 		this.workouSelect = workouSelect;
 	}
 
@@ -259,7 +251,6 @@ public class PanelEjercicio extends JPanel {
 	public JLabel getLblCDescanso() {
 		return lblCDescanso;
 	}
-
 
 	public JButton getBtnIniciar() {
 		return btnIniciar;

@@ -9,7 +9,7 @@ public class Principal {
 	public static void main(String[] args) {
 		try {
 			// Creamos el objeto vista.
-			vista.Principal ventanaPrincipal = new vista.Principal();
+			vista.PanelPrincipal ventanaPrincipal = new vista.PanelPrincipal();
 			ventanaPrincipal.setVisible(true);
 
 			// Creamos en controlador con acceso al modelo y la vista

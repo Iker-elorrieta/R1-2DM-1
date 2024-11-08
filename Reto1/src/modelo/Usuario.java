@@ -39,10 +39,6 @@ public class Usuario implements Serializable {
 
 	}
 
-	private principal.Principal principal = new Principal();
-
-	
-
 	// Email sera el campo de inicio de sesion
 	private String nombre;
 	private String apellidos;
@@ -51,7 +47,7 @@ public class Usuario implements Serializable {
 	private Date fechaNacimiento;
 	private double nivel; // Inicialmente 0
 	private enumTipoUsuario tipoUsuario;
-	private ArrayList<Historial> historicoUsuairo;
+	private ArrayList<Historial> historicoUsuario;
 	// ArrayList<WorkOuts> workoutsRealizados ;
 
 	private static final String USUARIOSFILEROUTE = "backups/usuarios.dat";
@@ -76,11 +72,11 @@ public class Usuario implements Serializable {
 		this.email = email;
 		this.pass = pass;
 		this.fechaNacimiento = fechaNacimiento;
-		this.nivel = 0; // Inicializamos
-
+		this.nivel = 0;
+		this.tipoUsuario = enumTipoUsuario.CLIENTE;
 	}
 
-	public Usuario(String nombre, String apellidos, String email, String pass, Date fechaNacimiento, double nivel, ArrayList<Historial> historicoUsuairo) {
+	public Usuario(String nombre, String apellidos, String email, String pass, Date fechaNacimiento, double nivel) {
 
 		this.nombre = nombre;
 		this.apellidos = apellidos;
@@ -88,17 +84,14 @@ public class Usuario implements Serializable {
 		this.pass = pass;
 		this.fechaNacimiento = fechaNacimiento;
 		this.nivel = nivel;
-		this.historicoUsuairo = historicoUsuairo;
-	}
-	
-	
-
-	public ArrayList<Historial> getHistoricoUsuairo() {
-		return historicoUsuairo;
 	}
 
-	public void setHistoricoUsuairo(ArrayList<Historial> historicoUsuairo) {
-		this.historicoUsuairo = historicoUsuairo;
+	public ArrayList<Historial> getHistoricoUsuario() {
+		return historicoUsuario;
+	}
+
+	public void setHistoricoUsuario(ArrayList<Historial> historicoUsuario) {
+		this.historicoUsuario = historicoUsuario;
 	}
 
 	public String getNombre() {
@@ -156,17 +149,19 @@ public class Usuario implements Serializable {
 	public void setTipoUsuario(enumTipoUsuario tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
-	 //Para que no se cambie el valor de la variable
+
+	// Para que no se cambie el valor de la variable
 	public String getCollectionName() {
 		return COLLECTION_NAME;
 	}
 
 	public void insertarNuevoItemHistorial(Historial historial) {
-		historicoUsuairo.add(historial);
+		historicoUsuario.add(historial);
 	}
 	// *** M�todos CRUD ***
 
 	public Usuario mObtenerUsuario(String idIntroducido, String passIntroducida) {
+		Principal principal = new Principal();
 		if (principal.getInternet()) {
 			Firestore co = null;
 
@@ -176,20 +171,16 @@ public class Usuario implements Serializable {
 				if (co.collection(COLLECTION_NAME).document(idIntroducido).get().get().exists()) {
 					DocumentSnapshot dsUsuario = co.collection(COLLECTION_NAME).document(idIntroducido).get().get();
 					if (dsUsuario.getString(FIELD_PASS).equals(passIntroducida)) {
-						
-						
-						
+
 						setEmail(dsUsuario.getId());
 						setNombre(dsUsuario.getString(FIELD_NOMBRE));
 						setApellidos(dsUsuario.getString(FIELD_APELLIDOS));
 						setPass(dsUsuario.getString(FIELD_PASS));
 						setFechaNacimiento(obtenerFechaDate(dsUsuario, FIELD_FECHA_NACIMIENTO));
 						setNivel(dsUsuario.getDouble(FIELD_NIVEL));
-						setHistoricoUsuairo(new Historial().mObtenerHistorico(COLLECTION_NAME, email));
+						setHistoricoUsuario(new Historial().mObtenerHistorico(COLLECTION_NAME, email));
 						return this;
 
-		
-				
 					} else {
 						JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "ERROR",
 								JOptionPane.ERROR_MESSAGE);
@@ -204,38 +195,21 @@ public class Usuario implements Serializable {
 				e.printStackTrace();
 			}
 		} else {
-//			private static void leerWorkoutsDesdeArchivo() {
-//				ArrayList<WorkOut> wkee = new ArrayList<>();
-//				ArrayList<Ejercicio> ejerrs = new ArrayList<>();
-//				ArrayList<Serie> series = new ArrayList<>();
-//				try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(WORKOUTSFILEROUTE))) {
-//					wkee = (ArrayList<WorkOut>) ois.readObject();
-//					for (WorkOut wk : wkee) {
-//						System.out.println(wk.getNombre());
-//						ejerrs = wk.getEjercicios();
-//						for (Ejercicio ejer : ejerrs) {
-//							System.out.println("	" + ejer.getNombre());
-//							series = ejer.getSeries();
-//							for (Serie serie : series) {
-//								System.out.println("		-" + serie.getNombre());
-//							}
-//						}
-//						System.out.println("\n");
-//					}
-//				} catch (FileNotFoundException e) {
-//					System.out.println("Archivo no encontrado, se creará uno nuevo.");
-//				} catch (IOException | ClassNotFoundException e) {
-//					e.printStackTrace();
-//				}
-//			}
-			ArrayList<Usuario> usuarios = new ArrayList<>();
-			try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(USUARIOSFILEROUTE))) {
-				usuarios = (ArrayList<Usuario>) ois.readObject();
-				for (Usuario nuevoUsuario : usuarios) {
-					System.out.println(nuevoUsuario.getEmail());
+			try {
+				FileInputStream fic = new FileInputStream(USUARIOSFILEROUTE);
+				ObjectInputStream ois = new ObjectInputStream(fic);
+				while (fic.getChannel().position() < fic.getChannel().size()) {
+					Usuario usuario = (Usuario) ois.readObject();
+
+					if (usuario.getEmail().equals(idIntroducido) && usuario.getPass().equals(passIntroducida)) {
+						ois.close();
+						return usuario;
+					}
+					ois.close();
 				}
 			} catch (IOException | ClassNotFoundException e) {
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "ERROR",
+						JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		return null;
@@ -324,7 +298,8 @@ public class Usuario implements Serializable {
 
 				Usuario usuario = new Usuario(usuarioFireBase.getString(FIELD_NOMBRE),
 						usuarioFireBase.getString(FIELD_APELLIDOS), usuarioFireBase.getId(),
-						usuarioFireBase.getString(FIELD_PASS), usuarioFireBase.getDate(FIELD_FECHA_NACIMIENTO));
+						usuarioFireBase.getString(FIELD_PASS), usuarioFireBase.getDate(FIELD_FECHA_NACIMIENTO),
+						usuarioFireBase.getDouble(FIELD_NIVEL));
 
 				listaUsuarios.add(usuario);
 			}
