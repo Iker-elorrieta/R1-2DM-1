@@ -201,7 +201,7 @@ public class Usuario implements Serializable {
 				ObjectInputStream ois = new ObjectInputStream(fic);
 				while (fic.getChannel().position() < fic.getChannel().size()) {
 					Usuario usuario = (Usuario) ois.readObject();
-
+					System.out.println(usuario.email);
 					if (usuario.getEmail().equals(idIntroducido) && usuario.getPass().equals(passIntroducida)) {
 						ois.close();
 						return usuario;
