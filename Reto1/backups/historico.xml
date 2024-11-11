@@ -1,1 +1,35 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><historial><usuario email="1"/><usuario email="2"/><usuario email="3"/><usuario email="a"><registro><nombre>Fuerza Principiante</nombre><tiempoEstimado>360.0</tiempoEstimado><nivel>0.0</nivel><fecha>Thu Nov 07 10:42:40 CET 2024</fecha><porcentajeCompletado>0.0</porcentajeCompletado><tiempoRealizacion>5.0</tiempoRealizacion></registro></usuario><usuario email="a@a.com"><registro><nombre>Fuerza Principiante</nombre><tiempoEstimado>360.0</tiempoEstimado><nivel>0.0</nivel><fecha>Fri Nov 08 08:52:28 CET 2024</fecha><porcentajeCompletado>100.0</porcentajeCompletado><tiempoRealizacion>63.0</tiempoRealizacion></registro></usuario></historial>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<historial>
+	<usuario email="1" />
+	<usuario email="2" />
+	<usuario email="3" />
+	<usuario email="a">
+		<registro>
+			<nombre>Cardio Principiante</nombre>
+			<tiempoEstimado>360.0</tiempoEstimado>
+			<nivel>0.0</nivel>
+			<fecha>Mon Nov 11 11:48:16 CET 2024</fecha>
+			<porcentajeCompletado>0.0</porcentajeCompletado>
+			<tiempoRealizacion>126.0</tiempoRealizacion>
+		</registro>
+		<registro>
+			<nombre>Fuerza Principiante</nombre>
+			<tiempoEstimado>360.0</tiempoEstimado>
+			<nivel>0.0</nivel>
+			<fecha>Thu Nov 07 10:42:40 CET 2024</fecha>
+			<porcentajeCompletado>0.0</porcentajeCompletado>
+			<tiempoRealizacion>5.0</tiempoRealizacion>
+		</registro>
+	</usuario>
+	<usuario email="a@a.com">
+		<registro>
+			<nombre>Fuerza Principiante</nombre>
+			<tiempoEstimado>360.0</tiempoEstimado>
+			<nivel>0.0</nivel>
+			<fecha>Fri Nov 08 08:52:28 CET 2024</fecha>
+			<porcentajeCompletado>100.0</porcentajeCompletado>
+			<tiempoRealizacion>63.0</tiempoRealizacion>
+		</registro>
+	</usuario>
+	<usuario email="hg@sagd.vom" />
+</historial>

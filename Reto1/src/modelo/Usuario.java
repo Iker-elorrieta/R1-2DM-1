@@ -58,6 +58,7 @@ public class Usuario implements Serializable {
 	private static final String FIELD_PASS = "pass";
 	private static final String FIELD_FECHA_NACIMIENTO = "fechaNacimiento";
 	private static final String FIELD_NIVEL = "nivel";
+	private static final String TIPO_USUARIO = "tipoUsuario";
 
 	// *** Constructores ***
 
@@ -235,6 +236,7 @@ public class Usuario implements Serializable {
 				nuevoUsuario.put(FIELD_PASS, this.pass);
 				nuevoUsuario.put(FIELD_FECHA_NACIMIENTO, this.fechaNacimiento);
 				nuevoUsuario.put(FIELD_NIVEL, this.nivel);
+				nuevoUsuario.put(TIPO_USUARIO, this.tipoUsuario);
 				DocumentReference newCont = root.document(this.email);
 				newCont.set(nuevoUsuario);
 				JOptionPane.showMessageDialog(null, "Usuario creado con éxito");

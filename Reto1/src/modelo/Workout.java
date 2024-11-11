@@ -186,46 +186,57 @@ public class Workout implements Serializable {
 		Principal principal = new Principal();
 		ArrayList<Workout> listaWorkouts = new ArrayList<Workout>();
 
-		// if (principal.getInternet()) {
-		Firestore co = null;
-		try {
-			co = Conexion.conectar();
+		if (principal.getInternet()) {
+			Firestore co = null;
+			try {
+				co = Conexion.conectar();
 
-			ApiFuture<QuerySnapshot> query = co.collection(COLLECTION_NAME).get();
-			QuerySnapshot querySnapshot = query.get();
-			List<QueryDocumentSnapshot> workouts = querySnapshot.getDocuments();
+				ApiFuture<QuerySnapshot> query = co.collection(COLLECTION_NAME).get();
+				QuerySnapshot querySnapshot = query.get();
+				List<QueryDocumentSnapshot> workouts = querySnapshot.getDocuments();
 
-			for (QueryDocumentSnapshot workout : workouts) {
+				for (QueryDocumentSnapshot workout : workouts) {
 
-				Workout w = new Workout();
+					Workout w = new Workout();
 
-				w.setNombre(workout.getId());
-				w.setNivel(workout.getDouble(FIELD_NIVEL));
-				w.setVideoURL(workout.getString(FIELD_VIDEO_URL));
-				w.setTiempoEstimado(workout.getDouble(FIELD_TIEMPO_ESTIMADO));
-				w.setEjercicios(new Ejercicio().mObtenerEjercicios(COLLECTION_NAME, w.getNombre()));
+					w.setNombre(workout.getId());
+					w.setNivel(workout.getDouble(FIELD_NIVEL));
+					w.setVideoURL(workout.getString(FIELD_VIDEO_URL));
+					w.setTiempoEstimado(workout.getDouble(FIELD_TIEMPO_ESTIMADO));
+					w.setEjercicios(new Ejercicio().mObtenerEjercicios(COLLECTION_NAME, w.getNombre()));
 
-				listaWorkouts.add(w);
+					listaWorkouts.add(w);
+				}
+				co.close();
+
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			co.close();
 
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
+			return listaWorkouts;
+
+		} else
+
+		{
+			try {
+				FileInputStream fic = new FileInputStream(WORKOUTSFILEROUTE);
+				ObjectInputStream ois = new ObjectInputStream(fic);
+				while (fic.getChannel().position() < fic.getChannel().size()) {
+					Workout workout = (Workout) ois.readObject();
+					listaWorkouts.add(workout);
+				}
+				ois.close();
+				return listaWorkouts;
+			} catch (ClassNotFoundException | IOException e) {
+				e.printStackTrace();
+			}
 		}
-
 		return listaWorkouts;
-		/*
-		 * } else { try { FileInputStream fic = new FileInputStream(WORKOUTSFILEROUTE);
-		 * ObjectInputStream ois = new ObjectInputStream(fic); while
-		 * (fic.getChannel().position() < fic.getChannel().size()) { Workout workout =
-		 * (Workout) ois.readObject(); listaWorkouts.add(workout); } ois.close(); return
-		 * listaWorkouts; } catch (ClassNotFoundException | IOException e) {
-		 * e.printStackTrace(); } } return listaWorkouts;
-		 */
+
 	}
 
 	@Override

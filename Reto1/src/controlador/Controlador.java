@@ -21,7 +21,6 @@ import javax.swing.event.ListSelectionListener;
 import modelo.Cronometro;
 import modelo.CronometroRegresivo;
 import modelo.GestionCronometros;
-import modelo.Historial;
 import modelo.Usuario;
 import modelo.Workout;
 import vista.PanelEjercicio;
