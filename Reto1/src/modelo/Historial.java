@@ -137,9 +137,10 @@ public class Historial implements Serializable {
 	// CRUD: obtenerHistorico
 	public ArrayList<Historial> mObtenerHistorico(String coleccionUsuario, String emailUsuario) {
 		Principal principal = new Principal();
+		ArrayList<Historial> listaHistorial = new ArrayList<>();
+
 		if (principal.getInternet()) {
 			Firestore co = null;
-			ArrayList<Historial> listaHistorial = new ArrayList<>();
 			try {
 				co = Conexion.conectar();
 				DocumentReference usuarioDoc = co.collection(coleccionUsuario).document(emailUsuario);
@@ -230,12 +231,12 @@ public class Historial implements Serializable {
 						}
 					}
 				}
+				return listaHistorial;
 			} catch (ParserConfigurationException | SAXException | IOException e) {
 				e.printStackTrace();
 			}
 		}
 		return null;
-
 	}
 
 	public static Date obtenerFechaDate(DocumentSnapshot documentSnapshot, String fieldName) {

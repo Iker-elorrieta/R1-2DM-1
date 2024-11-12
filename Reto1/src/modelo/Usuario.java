@@ -199,15 +199,17 @@ public class Usuario implements Serializable {
 			try {
 				FileInputStream fic = new FileInputStream(USUARIOSFILEROUTE);
 				ObjectInputStream ois = new ObjectInputStream(fic);
+
 				while (fic.getChannel().position() < fic.getChannel().size()) {
 					Usuario usuario = (Usuario) ois.readObject();
-					System.out.println(usuario.email);
+
 					if (usuario.getEmail().equals(idIntroducido) && usuario.getPass().equals(passIntroducida)) {
+						setHistoricoUsuario(new Historial().mObtenerHistorico(COLLECTION_NAME, email));
 						ois.close();
 						return usuario;
 					}
-					ois.close();
 				}
+				ois.close();
 			} catch (IOException | ClassNotFoundException e) {
 				JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "ERROR",
 						JOptionPane.ERROR_MESSAGE);
