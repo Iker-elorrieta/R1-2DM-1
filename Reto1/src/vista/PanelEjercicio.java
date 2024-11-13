@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import modelo.Ejercicio;
@@ -39,7 +40,9 @@ public class PanelEjercicio extends JPanel {
 	private JButton btnPausar;
 	private JButton btnSiguiente;
 	private JButton btnSalir;
-
+	private JScrollPane scrollPane_2;
+	private JTextArea textAreaDescripcion;
+	JLabel lblTiempoDescansoTexto;
 	private ArrayList<JLabel> conjuntoDeCronometros; // En esta variable alamaceraremos las etiquetas donde se
 														// visualizaran los cronometrs de la serie no se puede hacer get
 														// set de ellas directamente por que se crean de forma dinamica
@@ -104,9 +107,8 @@ public class PanelEjercicio extends JPanel {
 		panelCronometroW_1.add(lblCTiempoE);
 
 		JPanel panelCronometroW_1_1 = new JPanel();
-		panelCronometroW_1_1.setBorder(BorderFactory.createTitledBorder("Descanso 1 min"));
 		panelCronometroW_1_1.setBackground(new Color(245, 245, 245));
-		panelCronometroW_1_1.setBounds(0, 51, 168, 51);
+		panelCronometroW_1_1.setBounds(0, 73, 168, 40);
 		panelCentral.add(panelCronometroW_1_1);
 
 		lblCDescanso = new JLabel("00:45");
@@ -131,7 +133,8 @@ public class PanelEjercicio extends JPanel {
 		btnIniciar.setBackground(new Color(102, 153, 255));
 		btnIniciar.setBounds(290, 406, 156, 40);
 		panelCentral.add(btnIniciar);
-
+		
+		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(128, 113, 453, 270);
 		panelCentral.add(scrollPane);
@@ -160,7 +163,7 @@ public class PanelEjercicio extends JPanel {
 		panelCentral.add(btnSiguiente);
 
 		lblNombreSerie = new JLabel("Default");
-		lblNombreSerie.setBounds(146, 55, 188, 14);
+		lblNombreSerie.setBounds(146, 55, 217, 14);
 		panelMenu.add(lblNombreSerie);
 
 		lblImgSerie = new JLabel("Default");
@@ -170,11 +173,11 @@ public class PanelEjercicio extends JPanel {
 		lblImgSerie.setFont(new Font("Tahoma", Font.PLAIN, 17));
 
 		lblCSerie = new JLabel("Default");
-		lblCSerie.setBounds(344, 55, 97, 14);
+		lblCSerie.setBounds(364, 55, 97, 14);
 		panelMenu.add(lblCSerie);
 
 		lblLaProximaSerie = new JLabel("La Proxima serie se iniciara en");
-		lblLaProximaSerie.setBounds(192, 67, 168, 35);
+		lblLaProximaSerie.setBounds(178, 67, 182, 35);
 		panelCentral.add(lblLaProximaSerie);
 
 		lblCProximaSerie = new JLabel("00:05");
@@ -182,6 +185,20 @@ public class PanelEjercicio extends JPanel {
 		lblCProximaSerie.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblCProximaSerie.setBounds(386, 71, 42, 21);
 		panelCentral.add(lblCProximaSerie);
+		
+				scrollPane_2 = new JScrollPane();
+				scrollPane_2.setBounds(453, 0, 225, 82);
+				panelCentral.add(scrollPane_2);
+				scrollPane_2.setBorder(BorderFactory.createTitledBorder("Descripcion"));
+				
+				textAreaDescripcion = new JTextArea();
+				textAreaDescripcion.setEnabled(false);
+				textAreaDescripcion.setEditable(false);
+				scrollPane_2.setViewportView(textAreaDescripcion);
+				
+				lblTiempoDescansoTexto = new JLabel("Tiempo de descanso");
+				lblTiempoDescansoTexto.setBounds(10, 47, 200, 21);
+				panelCentral.add(lblTiempoDescansoTexto);
 
 	}
 
@@ -189,15 +206,17 @@ public class PanelEjercicio extends JPanel {
 		btnIniciar.setVisible(true);
 		btnPausar.setVisible(false);
 		btnSiguiente.setVisible(false);
-		lblLaProximaSerie.setVisible(false);
-		lblCProximaSerie.setVisible(false);
+		lblLaProximaSerie.setVisible(true);
+		lblCProximaSerie.setVisible(true);
 		int labelAltura = 24;
 		int margenEntrePanelSeires = 15;
 		conjuntoDeCronometros = new ArrayList<JLabel>();
 		lblCWorkout.setText("00:00");
 		lblCTiempoE.setText("00:00");
 		lblCProximaSerie.setText("00:05");
-
+		textAreaDescripcion.setText(workouSelect.getDescripcion());
+		
+		 lblTiempoDescansoTexto.setText("Tiempo de descanso " +  ejercicio.getTiempoDescanso() + " seg" );
 		panelMenu.removeAll();
 		lblDescripcionE.setText(ejercicio.getNombre() + "- Descripción");
 		lblWorkout.setText("Workout " + workouSelect.getNombre());
@@ -234,6 +253,22 @@ public class PanelEjercicio extends JPanel {
 			panelMenu.revalidate();
 			panelMenu.repaint();
 		}
+	}
+
+	public JLabel getLblLaProximaSerie() {
+		return lblLaProximaSerie;
+	}
+
+	public void setLblLaProximaSerie(JLabel lblLaProximaSerie) {
+		this.lblLaProximaSerie = lblLaProximaSerie;
+	}
+
+	public JLabel getLblCProximaSerie() {
+		return lblCProximaSerie;
+	}
+
+	public void setLblCProximaSerie(JLabel lblCProximaSerie) {
+		this.lblCProximaSerie = lblCProximaSerie;
 	}
 
 	public void setWorkouSelect(Workout workouSelect) {

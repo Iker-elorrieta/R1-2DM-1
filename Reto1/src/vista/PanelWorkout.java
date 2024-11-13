@@ -33,6 +33,8 @@ public class PanelWorkout extends JPanel {
 	private JTextArea textArea;
 	private JLabel lblNEjer;
 	private JButton btnPerfil;
+	private JScrollPane scrollPane_2;
+	private JTextArea textAreaDescripcion;
 
 	public PanelWorkout() {
 
@@ -85,7 +87,7 @@ public class PanelWorkout extends JPanel {
 
 		add(centerPanel);
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(438, 229, 167, 128);
+		scrollPane_1.setBounds(438, 333, 225, 82);
 		scrollPane_1.setBorder(BorderFactory.createTitledBorder("Ejercicios"));
 
 		centerPanel.add(scrollPane_1);
@@ -94,6 +96,16 @@ public class PanelWorkout extends JPanel {
 		textArea.setEnabled(false);
 		textArea.setEditable(false);
 		scrollPane_1.setViewportView(textArea);
+		
+		scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBorder(BorderFactory.createTitledBorder("Descripcion"));
+		scrollPane_2.setBounds(438, 229, 225, 82);
+		centerPanel.add(scrollPane_2);
+		
+		textAreaDescripcion = new JTextArea();
+		textAreaDescripcion.setEnabled(false);
+		textAreaDescripcion.setEditable(false);
+		scrollPane_2.setViewportView(textAreaDescripcion);
 
 		btnIniciar = new JButton("Iniciar Workout");
 		btnIniciar.setBounds(0, 501, 688, 40);
@@ -197,6 +209,14 @@ public class PanelWorkout extends JPanel {
 
 	public void setBtnPerfil(JButton btnPerfil) {
 		this.btnPerfil = btnPerfil;
+	}
+
+	public JTextArea getTextAreaDescripcion() {
+		return textAreaDescripcion;
+	}
+
+	public void setTextAreaDescripcion(JTextArea textAreaDescripcion) {
+		this.textAreaDescripcion = textAreaDescripcion;
 	}
 
 }

@@ -376,8 +376,8 @@ public class Controlador implements ActionListener, ListSelectionListener {
 			if (workoutSelect != null) {
 				panelWorkout.getLblNEjer().setText("Nº Ejercicios: " + workoutSelect.getNumEjercicios());
 				panelWorkout.getLblUrl().setText("Video: " + workoutSelect.getVideoURL());
-
 				panelWorkout.getTextArea().setText(workoutSelect.getListaEjercicios());
+				panelWorkout.getTextAreaDescripcion().setText(workoutSelect.getDescripcion());
 			}
 
 		}
