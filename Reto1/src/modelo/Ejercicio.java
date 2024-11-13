@@ -91,35 +91,6 @@ public class Ejercicio implements Serializable {
 		this.imagenURL = imagenURL;
 	}
 
-	// *** Métodos CRUD ***
-
-	// Método para agregar un nuevo ejercicio
-	public void mIngresarEjercicio(String coleccionRoot, String nombreWorkout) {
-		Firestore co = null;
-		try {
-			co = Conexion.conectar();
-			DocumentReference workoutDoc = co.collection(coleccionRoot).document(nombreWorkout);
-			CollectionReference ejerciciosCollection = workoutDoc.collection(COLLECTION_NAME);
-
-			if (!ejerciciosCollection.document(nombre).get().get().exists()) {
-				Map<String, Object> nuevoEjercicio = new HashMap<>();
-				nuevoEjercicio.put(FIELD_DESCRIPCION, this.descripcion);
-				nuevoEjercicio.put(FIELD_VIDEO_URL, this.imagenURL);
-				nuevoEjercicio.put(FIELD_TIEMPO_DESCANSO, this.tiempoDescanso);
-				for (Serie serie : series) {
-					serie.mIngresarSerie(coleccionRoot, COLLECTION_NAME, nombre, nombreWorkout);
-				}
-				ejerciciosCollection.document(this.nombre).set(nuevoEjercicio);
-
-			}
-			co.close();
-		} catch (IOException | InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	// Método para obtener todos los ejercicios
 	public ArrayList<Ejercicio> mObtenerEjercicios(String coleccionRoot, String nombreWorkout) {
 		Firestore co = null;
@@ -147,7 +118,6 @@ public class Ejercicio implements Serializable {
 		} catch (InterruptedException | ExecutionException | IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

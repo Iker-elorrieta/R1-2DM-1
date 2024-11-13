@@ -34,7 +34,7 @@ public class Historial implements Serializable {
 	// Atributos
 	// nombre del historico sera el nombre del usuario, nivel y tiempo estimado
 	private Workout workout;
-	private double tiempoRealizacion; // no usamos para calcular hace falta que sea double?
+	private double tiempoRealizacion;
 	private Date fecha;
 	private double porcentajeCompletado;
 
@@ -111,18 +111,6 @@ public class Historial implements Serializable {
 			h.put(FIELD_WORKOUT, workout.mObtenerWorkoutByID(workout.getNombre()));
 
 			coleccionHistorico.document().set(h);
-
-			// Esto puede servir en algun mometo
-			/*
-			 * DocumentReference workOutDoc = coleccionHistorico.add(h).get();
-			 * 
-			 * CollectionReference workoutCol = workOutDoc.collection(FIELD_WORKOUT);
-			 * Map<String, Object> workOut = new HashMap<>(); workOut.put(FIELD_NOMBRE,
-			 * workout.getNombre()); workOut.put(FIELD_NIVEL, workout.getNivel());
-			 * workOut.put(FIELD_TIEMPO_ESTIMADO, workout.getTiempoEstimado());
-			 * 
-			 * workoutCol.document().set(workOut);
-			 */
 
 			co.close();
 		} catch (IOException | InterruptedException | ExecutionException e) {

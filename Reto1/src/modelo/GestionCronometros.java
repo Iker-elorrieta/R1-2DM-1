@@ -133,12 +133,13 @@ cSerie.detener();
 		finalizar = true;
 		String nombreEjercicio = "";
 		for (int i = 0; i < contadorEjercicio; i++) {
-			nombreEjercicio += workoutSelect.getEjercicios().get(i).getNombre() + "\n";
+			nombreEjercicio += "\n - " + workoutSelect.getEjercicios().get(i).getNombre();
 		}
 		String tiempoRealizacion = pEjercicio.getLblCWorkout().getText().toString();
 		double porcentajeRealizacion = (100 * contadorEjercicio) / workoutSelect.getEjercicios().size();
-		String texto = String.format("Tiempo total del ejercicio %s ejercicio realizado %s Porcentaje %s  bien hecho",
-				tiempoRealizacion, nombreEjercicio, porcentajeRealizacion);
+		String texto = String.format(
+				"Tiempo total del ejercicio: %s \r\nPorcentaje de ejercicios realizados %s \r\nEjercicios: %s\r\n¡Bien hecho!",
+				tiempoRealizacion, porcentajeRealizacion, nombreEjercicio);
 
 		if (principal.getInternet()) {
 			Historial historial = new Historial(workoutSelect, new Date(), porcentajeRealizacion, tiempoRealizacion);
@@ -152,8 +153,6 @@ cSerie.detener();
 			}
 		}
 		JOptionPane.showMessageDialog(null, texto);
-		// El cambio de ventana
-
 	}
 
 	public void pausar() {

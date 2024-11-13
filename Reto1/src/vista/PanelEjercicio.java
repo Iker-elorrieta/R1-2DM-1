@@ -44,7 +44,7 @@ public class PanelEjercicio extends JPanel {
 	private JTextArea textAreaDescripcion;
 	JLabel lblTiempoDescansoTexto;
 	private ArrayList<JLabel> conjuntoDeCronometros; // En esta variable alamaceraremos las etiquetas donde se
-														// visualizaran los cronometrs de la serie no se puede hacer get
+														// visualizaran los cronometros de la serie no se puede hacer get
 														// set de ellas directamente por que se crean de forma dinamica
 														// posteriormente
 
@@ -107,6 +107,7 @@ public class PanelEjercicio extends JPanel {
 		panelCronometroW_1.add(lblCTiempoE);
 
 		JPanel panelCronometroW_1_1 = new JPanel();
+		panelCronometroW_1_1.setBorder(BorderFactory.createTitledBorder("Descanso"));
 		panelCronometroW_1_1.setBackground(new Color(245, 245, 245));
 		panelCronometroW_1_1.setBounds(0, 73, 168, 40);
 		panelCentral.add(panelCronometroW_1_1);

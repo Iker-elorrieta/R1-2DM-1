@@ -57,7 +57,7 @@ public class PanelPerfil extends JPanel {
 		add(lblNombre);
 
 		tfNombre = new JTextField();
-		tfNombre.setBounds(300, 200, 220, 30);
+		tfNombre.setBounds(310, 200, 220, 30);
 		tfNombre.setBorder(new EmptyBorder(5, 5, 5, 5));
 		add(tfNombre);
 
@@ -67,7 +67,7 @@ public class PanelPerfil extends JPanel {
 		add(lblApellidos);
 
 		tfApellidos = new JTextField();
-		tfApellidos.setBounds(300, 240, 220, 30);
+		tfApellidos.setBounds(310, 240, 220, 30);
 		tfApellidos.setBorder(new EmptyBorder(5, 5, 5, 5));
 		add(tfApellidos);
 
@@ -77,13 +77,13 @@ public class PanelPerfil extends JPanel {
 		add(lblEmail);
 
 		tfEmail = new JTextField();
-		tfEmail.setBounds(300, 280, 220, 30);
+		tfEmail.setBounds(310, 280, 220, 30);
 		tfEmail.setBorder(new EmptyBorder(5, 5, 5, 5));
 		tfEmail.setEditable(false);
 		add(tfEmail);
 
 		tfContrasenaVer = new JTextField();
-		tfContrasenaVer.setBounds(300, 320, 220, 30);
+		tfContrasenaVer.setBounds(310, 318, 220, 30);
 		tfContrasenaVer.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		add(tfContrasenaVer);
@@ -94,7 +94,7 @@ public class PanelPerfil extends JPanel {
 		add(lblContrasena);
 
 		pfContrasena = new JPasswordField();
-		pfContrasena.setBounds(300, 320, 220, 30);
+		pfContrasena.setBounds(310, 318, 220, 30);
 		pfContrasena.setBorder(new EmptyBorder(5, 5, 5, 5));
 		add(pfContrasena);
 
@@ -104,7 +104,7 @@ public class PanelPerfil extends JPanel {
 		add(lblFechaNacimiento);
 
 		fechaNacimientoCalendar = new JDateChooser();
-		fechaNacimientoCalendar.setBounds(300, 360, 220, 30);
+		fechaNacimientoCalendar.setBounds(310, 360, 220, 30);
 		JTextFieldDateEditor editor = (JTextFieldDateEditor) fechaNacimientoCalendar.getDateEditor();
 		editor.setEditable(false);
 		fechaNacimientoCalendar.setEnabled(false);
@@ -143,7 +143,7 @@ public class PanelPerfil extends JPanel {
 		ImageIcon originalIcon = new ImageIcon("multimedia/Ojo.png");
 		Image scaledImage = originalIcon.getImage().getScaledInstance(26, 21, Image.SCALE_SMOOTH);
 		btnIconoVerContrasena = new JButton(new ImageIcon(scaledImage));
-		btnIconoVerContrasena.setBounds(540, 320, 26, 21);
+		btnIconoVerContrasena.setBounds(538, 320, 33, 30);
 		btnIconoVerContrasena.setEnabled(false);
 		add(btnIconoVerContrasena);
 
@@ -176,13 +176,15 @@ public class PanelPerfil extends JPanel {
 		tfContrasenaVer.setEditable(false);
 		tfContrasenaVer.setVisible(false);
 		btnEditar.setEnabled(true);
+		btnAceptar.setEnabled(false);
+		btnIconoVerContrasena.setEnabled(false);
 
+		tfNombre.setText(usuarioLogeado.getNombre());
 		tfApellidos.setText(usuarioLogeado.getApellidos());
 		tfEmail.setText(usuarioLogeado.getEmail());
 		pfContrasena.setText(usuarioLogeado.getPass());
 		tfContrasenaVer.setText(usuarioLogeado.getPass());
 		fechaNacimientoCalendar.setDate(usuarioLogeado.getFechaNacimiento());
-
 	}
 
 	public void setUsuarioLogeado(Usuario usuarioLogeado) {

@@ -131,45 +131,6 @@ public class Workout implements Serializable {
 		return texto;
 	}
 
-	// *** Métodos CRUD ***
-
-	// Método para agregar un nuevo workout
-	public void mIngresarWorkout() {
-		Firestore co = null;
-		try {
-			co = Conexion.conectar();
-			CollectionReference root = co.collection(COLLECTION_NAME);
-
-			if (!root.document(nombre).get().get().exists()) {
-				Map<String, Object> nuevoWorkout = new HashMap<>();
-				nuevoWorkout.put(FIELD_NIVEL, this.nivel);
-				nuevoWorkout.put(FIELD_VIDEO_URL, this.videoURL);
-				nuevoWorkout.put(FIELD_TIEMPO_ESTIMADO, this.tiempoEstimado);
-				nuevoWorkout.put(FIELD_DESCRIPCION, this.descripcion);
-
-				for (Ejercicio ejercicio : ejercicios) {
-					ejercicio.mIngresarEjercicio(COLLECTION_NAME, nombre);
-
-				}
-
-				root.document(this.nombre).set(nuevoWorkout);
-
-			}
-			co.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	public DocumentReference mObtenerWorkoutByID(String id) {
 		Firestore co = null;
 		DocumentReference ruta = null;
@@ -177,7 +138,6 @@ public class Workout implements Serializable {
 			co = Conexion.conectar();
 			// Obtener el documento con el ID especificado
 			ruta = co.collection(COLLECTION_NAME).document(id);
-			System.out.println(ruta);
 
 			co.close();
 

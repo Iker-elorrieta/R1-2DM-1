@@ -48,7 +48,7 @@ public class PanelRegistro extends JPanel {
 		add(lblNombre);
 
 		tfNombre = new JTextField();
-		tfNombre.setBounds(300, 200, 220, 30);
+		tfNombre.setBounds(315, 190, 220, 30);
 		tfNombre.setBorder(new EmptyBorder(5, 5, 5, 5));
 		add(tfNombre);
 
@@ -58,7 +58,7 @@ public class PanelRegistro extends JPanel {
 		add(lblApellidos);
 
 		tfApellidos = new JTextField();
-		tfApellidos.setBounds(300, 240, 220, 30);
+		tfApellidos.setBounds(315, 230, 220, 30);
 		tfApellidos.setBorder(new EmptyBorder(5, 5, 5, 5));
 		add(tfApellidos);
 
@@ -68,7 +68,7 @@ public class PanelRegistro extends JPanel {
 		add(lblEmail);
 
 		tfEmail = new JTextField();
-		tfEmail.setBounds(300, 280, 220, 30);
+		tfEmail.setBounds(315, 270, 220, 30);
 		tfEmail.setBorder(new EmptyBorder(5, 5, 5, 5));
 		add(tfEmail);
 
@@ -78,7 +78,7 @@ public class PanelRegistro extends JPanel {
 		add(lblContrasena);
 
 		pfContrasena = new JPasswordField();
-		pfContrasena.setBounds(300, 320, 220, 30);
+		pfContrasena.setBounds(315, 310, 220, 30);
 		pfContrasena.setBorder(new EmptyBorder(5, 5, 5, 5));
 		add(pfContrasena);
 
@@ -88,7 +88,7 @@ public class PanelRegistro extends JPanel {
 		add(lblFechaNacimiento);
 
 		fechaNacimientoCalendar = new JDateChooser();
-		fechaNacimientoCalendar.setBounds(300, 360, 220, 30);
+		fechaNacimientoCalendar.setBounds(315, 350, 220, 30);
 		JTextFieldDateEditor editor = (JTextFieldDateEditor) fechaNacimientoCalendar.getDateEditor();
 		editor.setEditable(false);
 		add(fechaNacimientoCalendar);

@@ -229,13 +229,10 @@ public class Controlador implements ActionListener, ListSelectionListener {
 		case SIGUIENTE_EJERCICIO:
 			gC.Siguiente();
 			break;
-
 		case SALIR:
 			gC.finalizarProceso();
 			mCargarVentanas(enumAcciones.CARGAR_PANEL_WORKOUT);
-
 			break;
-
 		default:
 			break;
 
@@ -376,8 +373,8 @@ public class Controlador implements ActionListener, ListSelectionListener {
 			if (workoutSelect != null) {
 				panelWorkout.getLblNEjer().setText("Nº Ejercicios: " + workoutSelect.getNumEjercicios());
 				panelWorkout.getLblUrl().setText("Video: " + workoutSelect.getVideoURL());
-				panelWorkout.getTextArea().setText(workoutSelect.getListaEjercicios());
 				panelWorkout.getTextAreaDescripcion().setText(workoutSelect.getDescripcion());
+				panelWorkout.getTextArea().setText(workoutSelect.getListaEjercicios());
 			}
 
 		}

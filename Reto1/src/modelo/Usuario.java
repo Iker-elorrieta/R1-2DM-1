@@ -159,7 +159,8 @@ public class Usuario implements Serializable {
 	public void insertarNuevoItemHistorial(Historial historial) {
 		historicoUsuario.add(historial);
 	}
-	// *** M�todos CRUD ***
+	
+	// *** Métodos CRUD ***
 
 	public Usuario mObtenerUsuario(String idIntroducido, String passIntroducida) {
 		Principal principal = new Principal();
@@ -205,7 +206,6 @@ public class Usuario implements Serializable {
 
 					if (usuario.getEmail().equals(idIntroducido) && usuario.getPass().equals(passIntroducida)) {
 						usuario.setHistoricoUsuario(new Historial().mObtenerHistorico(COLLECTION_NAME, idIntroducido));
-						System.out.println(usuario.getHistoricoUsuario().size());
 						ois.close();
 						return usuario;
 					}
@@ -309,7 +309,6 @@ public class Usuario implements Serializable {
 				listaUsuarios.add(usuario);
 			}
 		} catch (InterruptedException | ExecutionException e) {
-			System.out.println("Error: Clase Contacto, metodo mObtenerContactos");
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
