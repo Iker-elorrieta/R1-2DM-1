@@ -48,7 +48,7 @@ public class PanelHistorico extends JPanel {
 
 		JScrollPane jScrollPanel;
 		jScrollPanel = new JScrollPane();
-		jScrollPanel.setBounds(40, 150, 620, 325);
+		jScrollPanel.setBounds(10, 150, 668, 325);
 		panelCentral.add(jScrollPanel);
 		String columnas[] = { "NombreWorkout", "Nivel", "Timepo Estimado", "Tiempo de realizacion", "Fecha ",
 				"% Ejercicios Completados" };
@@ -56,6 +56,7 @@ public class PanelHistorico extends JPanel {
 		defaultTableModel = new DefaultTableModel(columnas, 0);
 
 		tabla = new JTable(defaultTableModel);
+		tabla.setFont(new Font("Tahoma", Font.PLAIN, 5));
 		tabla.setFillsViewportHeight(true);
 		tabla.setAutoCreateRowSorter(true);
 		tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

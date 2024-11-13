@@ -2,21 +2,31 @@ package modelo;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 
 import conexion.Conexion;
+import principal.Principal;
 
 public class Historial implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -39,7 +49,7 @@ public class Historial implements Serializable {
 	private static final String FIELD_FECHA = "fecha";
 	private static final String FIELD_PORCENTAJE_COMPLETADO = "porcentajeCompletado";
 
-	//private static final String HISTORICOFILEROUTE = "backups/historico.xml";
+	private static final String HISTORICOFILEROUTE = "backups/historico.xml";
 
 	// Constructores
 	public Historial() {
@@ -124,10 +134,10 @@ public class Historial implements Serializable {
 
 	// CRUD: obtenerHistorico
 	public ArrayList<Historial> mObtenerHistorico(String coleccionUsuario, String emailUsuario) {
-		//Principal principal = new Principal();
+		Principal principal = new Principal();
 		ArrayList<Historial> listaHistorial = new ArrayList<>();
 
-		//if (principal.getInternet()) {
+		if (principal.getInternet()) {
 			Firestore co = null;
 			try {
 				co = Conexion.conectar();
@@ -138,8 +148,7 @@ public class Historial implements Serializable {
 				for (QueryDocumentSnapshot doc : documentosHistorico) {
 					Historial historial = new Historial();
 					historial.setTiempoRealizacion(doc.getDouble(FIELD_TIEMPO_REALIZACION));
-					historial.setFecha(doc.getDate(FIELD_FECHA));
-							//obtenerFechaDate(doc, FIELD_FECHA));
+					historial.setFecha(obtenerFechaDate(doc, FIELD_FECHA));
 					historial.setPorcentajeCompletado(doc.getDouble(FIELD_PORCENTAJE_COMPLETADO));
 
 					DocumentReference workoutReference = (DocumentReference) doc.getData().get(FIELD_WORKOUT);
@@ -157,7 +166,7 @@ public class Historial implements Serializable {
 				e.printStackTrace();
 			}
 			return listaHistorial;
-		/*} else {
+		} else {
 			try {
 				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder builder = factory.newDocumentBuilder();
@@ -169,27 +178,23 @@ public class Historial implements Serializable {
 
 				for (int i = 0; i < usuariosNodes.getLength(); i++) {
 					Node usuarioNode = usuariosNodes.item(i);
-					System.out.println("jelou for");
 
 					if (usuarioNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element usuarioElement = (Element) usuarioNode;
-						System.out.println("jelou if");
 
 						if (usuarioElement.getAttribute("email").toLowerCase().trim()
 								.equals(emailUsuario.toLowerCase().trim())) {
-							System.out.println("jelou if2");
 
 							NodeList registrosNodes = usuarioElement.getElementsByTagName("registro");
 
 							for (int j = 0; j < registrosNodes.getLength(); j++) {
 								Node registroNode = registrosNodes.item(j);
 
-								System.out.println("jelou for2");
-
 								if (registroNode.getNodeType() == Node.ELEMENT_NODE) {
 									Element registroElement = (Element) registroNode;
 
-									SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+									SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy",
+											Locale.ENGLISH);
 
 									Historial historial = new Historial();
 									historial.setTiempoRealizacion(Double.parseDouble(registroElement
@@ -210,10 +215,8 @@ public class Historial implements Serializable {
 									historial.setWorkout(workout);
 
 									listaHistorial.add(historial);
-									System.out.println(historial.toString());
 								}
 							}
-							System.out.println(listaHistorial.size());
 							return listaHistorial;
 						}
 					}
@@ -222,10 +225,10 @@ public class Historial implements Serializable {
 				e.printStackTrace();
 			}
 		}
-		return listaHistorial;*/
+		return listaHistorial;
 	}
 
-	public Date obtenerFechaDate(DocumentSnapshot documentSnapshot, String fieldName) {
+	public Date obtenerFechaDate(QueryDocumentSnapshot documentSnapshot, String fieldName) {
 		Timestamp timestamp = documentSnapshot.getTimestamp(fieldName);
 		return (timestamp != null) ? timestamp.toDate() : null;
 	}

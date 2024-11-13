@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -76,7 +74,6 @@ public class GenerarBackups {
 	private static void escribirHistoricoEnXML(String emailUsuario, String coleccion) {
 		Historial historia = new Historial();
 		ArrayList<Historial> historial = historia.mObtenerHistorico(coleccion, emailUsuario);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 		try {
 			File archivoXML = new File(HISTORICOFILEROUTE);
@@ -109,8 +106,7 @@ public class GenerarBackups {
 				registro.appendChild(nivel);
 
 				Element fecha = doc.createElement("fecha");
-				fecha.appendChild(
-						doc.createTextNode(dateFormat.parse(registroHistorial.getFecha().toString()).toString()));
+				fecha.appendChild(doc.createTextNode(registroHistorial.getFecha().toString()));
 				registro.appendChild(fecha);
 
 				Element porcentajeCompletado = doc.createElement("porcentajeCompletado");
@@ -130,8 +126,7 @@ public class GenerarBackups {
 			StreamResult result = new StreamResult(new File(HISTORICOFILEROUTE));
 			transformer.transform(source, result);
 
-		} catch (ParserConfigurationException | SAXException | IOException | TransformerException | DOMException
-				| ParseException e) {
+		} catch (ParserConfigurationException | SAXException | IOException | TransformerException | DOMException e) {
 			e.printStackTrace();
 		}
 	}

@@ -1,6 +1,8 @@
 package modelo;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +18,7 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 
 import conexion.Conexion;
+import principal.Principal;
 
 public class Workout implements Serializable {
 
@@ -33,7 +36,7 @@ public class Workout implements Serializable {
 	private ArrayList<Ejercicio> ejercicios = new ArrayList<Ejercicio>();
 	private double tiempoEstimado;
 
-	//private static final String WORKOUTSFILEROUTE = "backups/workouts.dat";
+	private static final String WORKOUTSFILEROUTE = "backups/workouts.dat";
 
 	private static final String COLLECTION_NAME = "workouts";
 	private static final String FIELD_NIVEL = "nivel";
@@ -190,10 +193,10 @@ public class Workout implements Serializable {
 	}
 
 	public ArrayList<Workout> mObtenerWorkouts() {
-		//Principal principal = new Principal();
+		Principal principal = new Principal();
 		ArrayList<Workout> listaWorkouts = new ArrayList<Workout>();
 
-		//if (principal.getInternet()) {
+		if (principal.getInternet()) {
 			Firestore co = null;
 			try {
 				co = Conexion.conectar();
@@ -227,7 +230,7 @@ public class Workout implements Serializable {
 
 			return listaWorkouts;
 
-		/*} else {
+		} else {
 			try {
 				FileInputStream fic = new FileInputStream(WORKOUTSFILEROUTE);
 				ObjectInputStream ois = new ObjectInputStream(fic);
@@ -241,7 +244,7 @@ public class Workout implements Serializable {
 				e.printStackTrace();
 			}
 		}
-		return listaWorkouts;*/
+		return listaWorkouts;
 
 	}
 
