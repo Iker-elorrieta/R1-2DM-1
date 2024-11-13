@@ -1,8 +1,5 @@
 package modelo;
 
-import com.google.cloud.Timestamp;
-
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,23 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
+import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
+
 import conexion.Conexion;
-import principal.Principal;
 
 public class Historial implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -51,7 +39,7 @@ public class Historial implements Serializable {
 	private static final String FIELD_FECHA = "fecha";
 	private static final String FIELD_PORCENTAJE_COMPLETADO = "porcentajeCompletado";
 
-	private static final String HISTORICOFILEROUTE = "backups/historico.xml";
+	//private static final String HISTORICOFILEROUTE = "backups/historico.xml";
 
 	// Constructores
 	public Historial() {
@@ -136,10 +124,10 @@ public class Historial implements Serializable {
 
 	// CRUD: obtenerHistorico
 	public ArrayList<Historial> mObtenerHistorico(String coleccionUsuario, String emailUsuario) {
-		Principal principal = new Principal();
+		//Principal principal = new Principal();
 		ArrayList<Historial> listaHistorial = new ArrayList<>();
 
-		if (principal.getInternet()) {
+		//if (principal.getInternet()) {
 			Firestore co = null;
 			try {
 				co = Conexion.conectar();
@@ -150,7 +138,8 @@ public class Historial implements Serializable {
 				for (QueryDocumentSnapshot doc : documentosHistorico) {
 					Historial historial = new Historial();
 					historial.setTiempoRealizacion(doc.getDouble(FIELD_TIEMPO_REALIZACION));
-					historial.setFecha(obtenerFechaDate(doc, FIELD_FECHA)); // Convertir Timestamp a Date
+					historial.setFecha(doc.getDate(FIELD_FECHA));
+							//obtenerFechaDate(doc, FIELD_FECHA));
 					historial.setPorcentajeCompletado(doc.getDouble(FIELD_PORCENTAJE_COMPLETADO));
 
 					DocumentReference workoutReference = (DocumentReference) doc.getData().get(FIELD_WORKOUT);
@@ -164,82 +153,79 @@ public class Historial implements Serializable {
 					listaHistorial.add(historial);
 				}
 				co.close();
-			} catch (IOException | InterruptedException | ExecutionException e) {
-				e.printStackTrace();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 			return listaHistorial;
-		} else {
+		/*} else {
 			try {
-				File archivo = new File(HISTORICOFILEROUTE);
-				DocumentBuilderFactory dbFactoria = DocumentBuilderFactory.newInstance();
-				DocumentBuilder dBuilder = dbFactoria.newDocumentBuilder();
+				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder builder = factory.newDocumentBuilder();
+				Document doc = builder.parse(HISTORICOFILEROUTE);
 
-				Document doc = dBuilder.parse(archivo);
 				doc.getDocumentElement().normalize();
 
-				// Obtener todos los elementos <usuario>
-				NodeList usuarios = doc.getElementsByTagName("usuario");
+				NodeList usuariosNodes = doc.getElementsByTagName("usuario");
 
-				// Iterar sobre cada usuario
-				for (int i = 0; i < usuarios.getLength(); i++) {
-					Node usuarioNode = usuarios.item(i);
+				for (int i = 0; i < usuariosNodes.getLength(); i++) {
+					Node usuarioNode = usuariosNodes.item(i);
+					System.out.println("jelou for");
 
 					if (usuarioNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element usuarioElement = (Element) usuarioNode;
+						System.out.println("jelou if");
 
-						// Verificar si el atributo email coincide
-						if (usuarioElement.getAttribute("email").equals("a")) {
-							System.out.println("Historial para el usuario con email: " + "a");
+						if (usuarioElement.getAttribute("email").toLowerCase().trim()
+								.equals(emailUsuario.toLowerCase().trim())) {
+							System.out.println("jelou if2");
 
-							// Obtener los registros de este usuario
-							NodeList registros = usuarioElement.getElementsByTagName("registro");
+							NodeList registrosNodes = usuarioElement.getElementsByTagName("registro");
 
-							// Iterar sobre cada registro
-							for (int j = 0; j < registros.getLength(); j++) {
-								Node registroNode = registros.item(j);
+							for (int j = 0; j < registrosNodes.getLength(); j++) {
+								Node registroNode = registrosNodes.item(j);
+
+								System.out.println("jelou for2");
 
 								if (registroNode.getNodeType() == Node.ELEMENT_NODE) {
 									Element registroElement = (Element) registroNode;
 
-									// Obtener y mostrar cada dato del registro
-									String nombre = registroElement.getElementsByTagName("nombre").item(0)
-											.getTextContent();
-									String tiempoEstimado = registroElement.getElementsByTagName("tiempoEstimado")
-											.item(0).getTextContent();
-									String nivel = registroElement.getElementsByTagName("nivel").item(0)
-											.getTextContent();
-									String fecha = registroElement.getElementsByTagName("fecha").item(0)
-											.getTextContent();
-									String porcentajeCompletado = registroElement
-											.getElementsByTagName("porcentajeCompletado").item(0).getTextContent();
-									String tiempoRealizacion = registroElement.getElementsByTagName("tiempoRealizacion")
-											.item(0).getTextContent();
+									SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-									// Imprimir el registro
-									System.out.println("  Registro:");
-									System.out.println("    Nombre: " + nombre);
-									System.out.println("    Tiempo Estimado: " + tiempoEstimado);
-									System.out.println("    Nivel: " + nivel);
-									System.out.println("    Fecha: " + fecha);
-									System.out.println("    Porcentaje Completado: " + porcentajeCompletado);
-									System.out.println("    Tiempo Realización: " + tiempoRealizacion);
+									Historial historial = new Historial();
+									historial.setTiempoRealizacion(Double.parseDouble(registroElement
+											.getElementsByTagName("tiempoRealizacion").item(0).getTextContent()));
+									historial.setFecha(dateFormat.parse(
+											registroElement.getElementsByTagName("fecha").item(0).getTextContent()));
+									historial.setPorcentajeCompletado(Double.parseDouble(registroElement
+											.getElementsByTagName("porcentajeCompletado").item(0).getTextContent()));
+
+									Workout workout = new Workout();
+									workout.setNombre(
+											registroElement.getElementsByTagName("nombre").item(0).getTextContent());
+									workout.setTiempoEstimado(Double.parseDouble(registroElement
+											.getElementsByTagName("tiempoEstimado").item(0).getTextContent()));
+									workout.setNivel(Double.parseDouble(
+											registroElement.getElementsByTagName("nivel").item(0).getTextContent()));
+
+									historial.setWorkout(workout);
+
+									listaHistorial.add(historial);
+									System.out.println(historial.toString());
 								}
 							}
+							System.out.println(listaHistorial.size());
+							return listaHistorial;
 						}
 					}
 				}
-				return listaHistorial;
-			} catch (ParserConfigurationException | SAXException | IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		return null;
+		return listaHistorial;*/
 	}
 
-	public static Date obtenerFechaDate(DocumentSnapshot documentSnapshot, String fieldName) {
+	public Date obtenerFechaDate(DocumentSnapshot documentSnapshot, String fieldName) {
 		Timestamp timestamp = documentSnapshot.getTimestamp(fieldName);
 		return (timestamp != null) ? timestamp.toDate() : null;
 	}

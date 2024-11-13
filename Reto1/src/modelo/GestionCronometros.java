@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 
 import controlador.Controlador;
+import principal.Principal;
 import vista.PanelEjercicio;
 
 public class GestionCronometros extends Thread {
@@ -114,6 +115,8 @@ public class GestionCronometros extends Thread {
 	}
 
 	public void finalizarProceso() {
+		Principal principal = new Principal();
+		
 		finalizar = true;
 		String nombreEjercicio = "";
 		for (int i = 0; i < contadorEjercicio; i++) {
@@ -124,14 +127,16 @@ public class GestionCronometros extends Thread {
 		String texto = String.format("Tiempo total del ejercicio %s ejercicio realizado %s Porcentaje %s  bien hecho",
 				tiempoRealizacion, nombreEjercicio, porcentajeRealizacion);
 
-		Historial historial = new Historial(workoutSelect, new Date(), porcentajeRealizacion, tiempoRealizacion);
-		historial.mIngresarHistorico(usuarioLogeado.getEmail(), workoutSelect);
-		usuarioLogeado.insertarNuevoItemHistorial(historial);
-		if (cPrincipal != null) {
-			cPrincipal.TerminarProceso();
-			cDescanso.TerminarProceso();
-			cEjercicio.TerminarProceso();
-			cSerie.TerminarProceso();
+		if (principal.getInternet()) {
+			Historial historial = new Historial(workoutSelect, new Date(), porcentajeRealizacion, tiempoRealizacion);
+			historial.mIngresarHistorico(usuarioLogeado.getEmail(), workoutSelect);
+			usuarioLogeado.insertarNuevoItemHistorial(historial);
+			if (cPrincipal != null) {
+				cPrincipal.TerminarProceso();
+				cDescanso.TerminarProceso();
+				cEjercicio.TerminarProceso();
+				cSerie.TerminarProceso();
+			}
 		}
 		JOptionPane.showMessageDialog(null, texto);
 		// El cambio de ventana

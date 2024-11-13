@@ -179,7 +179,7 @@ public class Usuario implements Serializable {
 						setPass(dsUsuario.getString(FIELD_PASS));
 						setFechaNacimiento(obtenerFechaDate(dsUsuario, FIELD_FECHA_NACIMIENTO));
 						setNivel(dsUsuario.getDouble(FIELD_NIVEL));
-						setHistoricoUsuario(new Historial().mObtenerHistorico(COLLECTION_NAME, email));
+						setHistoricoUsuario(new Historial().mObtenerHistorico(COLLECTION_NAME, idIntroducido));
 						return this;
 
 					} else {
@@ -204,7 +204,8 @@ public class Usuario implements Serializable {
 					Usuario usuario = (Usuario) ois.readObject();
 
 					if (usuario.getEmail().equals(idIntroducido) && usuario.getPass().equals(passIntroducida)) {
-						setHistoricoUsuario(new Historial().mObtenerHistorico(COLLECTION_NAME, email));
+						usuario.setHistoricoUsuario(new Historial().mObtenerHistorico(COLLECTION_NAME, idIntroducido));
+						System.out.println(usuario.getHistoricoUsuario().size());
 						ois.close();
 						return usuario;
 					}

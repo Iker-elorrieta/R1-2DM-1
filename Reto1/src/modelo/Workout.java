@@ -1,8 +1,6 @@
 package modelo;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +16,6 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 
 import conexion.Conexion;
-import principal.Principal;
 
 public class Workout implements Serializable {
 
@@ -32,14 +29,16 @@ public class Workout implements Serializable {
 	private String nombre;
 	private double nivel;
 	private String videoURL;
+	private String descripcion;
 	private ArrayList<Ejercicio> ejercicios = new ArrayList<Ejercicio>();
 	private double tiempoEstimado;
 
-	private static final String WORKOUTSFILEROUTE = "backups/workouts.dat";
+	//private static final String WORKOUTSFILEROUTE = "backups/workouts.dat";
 
 	private static final String COLLECTION_NAME = "workouts";
 	private static final String FIELD_NIVEL = "nivel";
 	private static final String FIELD_VIDEO_URL = "videoURL";
+	private static final String FIELD_DESCRIPCION = "descripcion";
 	private static final String FIELD_TIEMPO_ESTIMADO = "tiempoEstimado";
 
 	// *** Constructores ***
@@ -98,8 +97,15 @@ public class Workout implements Serializable {
 		return ejercicios.size();
 	}
 
-	// Calcular el tiempo total estimado sumando la duración de cada ejercicio
+	public String getDescripcion() {
+		return descripcion;
+	}
 
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	// Calcular el tiempo total estimado sumando la duración de cada ejercicio
 	public void setTiempoEstimado(double tiempoEstimado) {
 		this.tiempoEstimado = tiempoEstimado;
 	}
@@ -136,6 +142,7 @@ public class Workout implements Serializable {
 				nuevoWorkout.put(FIELD_NIVEL, this.nivel);
 				nuevoWorkout.put(FIELD_VIDEO_URL, this.videoURL);
 				nuevoWorkout.put(FIELD_TIEMPO_ESTIMADO, this.tiempoEstimado);
+				nuevoWorkout.put(FIELD_DESCRIPCION, this.descripcion);
 
 				for (Ejercicio ejercicio : ejercicios) {
 					ejercicio.mIngresarEjercicio(COLLECTION_NAME, nombre);
@@ -183,10 +190,10 @@ public class Workout implements Serializable {
 	}
 
 	public ArrayList<Workout> mObtenerWorkouts() {
-		Principal principal = new Principal();
+		//Principal principal = new Principal();
 		ArrayList<Workout> listaWorkouts = new ArrayList<Workout>();
 
-		if (principal.getInternet()) {
+		//if (principal.getInternet()) {
 			Firestore co = null;
 			try {
 				co = Conexion.conectar();
@@ -202,6 +209,7 @@ public class Workout implements Serializable {
 					w.setNombre(workout.getId());
 					w.setNivel(workout.getDouble(FIELD_NIVEL));
 					w.setVideoURL(workout.getString(FIELD_VIDEO_URL));
+					w.setDescripcion(workout.getString(FIELD_DESCRIPCION));
 					w.setTiempoEstimado(workout.getDouble(FIELD_TIEMPO_ESTIMADO));
 					w.setEjercicios(new Ejercicio().mObtenerEjercicios(COLLECTION_NAME, w.getNombre()));
 
@@ -219,9 +227,7 @@ public class Workout implements Serializable {
 
 			return listaWorkouts;
 
-		} else
-
-		{
+		/*} else {
 			try {
 				FileInputStream fic = new FileInputStream(WORKOUTSFILEROUTE);
 				ObjectInputStream ois = new ObjectInputStream(fic);
@@ -235,7 +241,7 @@ public class Workout implements Serializable {
 				e.printStackTrace();
 			}
 		}
-		return listaWorkouts;
+		return listaWorkouts;*/
 
 	}
 

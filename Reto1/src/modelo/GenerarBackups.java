@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -15,6 +17,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -73,6 +76,7 @@ public class GenerarBackups {
 	private static void escribirHistoricoEnXML(String emailUsuario, String coleccion) {
 		Historial historia = new Historial();
 		ArrayList<Historial> historial = historia.mObtenerHistorico(coleccion, emailUsuario);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 		try {
 			File archivoXML = new File(HISTORICOFILEROUTE);
@@ -105,7 +109,8 @@ public class GenerarBackups {
 				registro.appendChild(nivel);
 
 				Element fecha = doc.createElement("fecha");
-				fecha.appendChild(doc.createTextNode(registroHistorial.getFecha().toString()));
+				fecha.appendChild(
+						doc.createTextNode(dateFormat.parse(registroHistorial.getFecha().toString()).toString()));
 				registro.appendChild(fecha);
 
 				Element porcentajeCompletado = doc.createElement("porcentajeCompletado");
@@ -125,7 +130,8 @@ public class GenerarBackups {
 			StreamResult result = new StreamResult(new File(HISTORICOFILEROUTE));
 			transformer.transform(source, result);
 
-		} catch (ParserConfigurationException | SAXException | IOException | TransformerException e) {
+		} catch (ParserConfigurationException | SAXException | IOException | TransformerException | DOMException
+				| ParseException e) {
 			e.printStackTrace();
 		}
 	}
