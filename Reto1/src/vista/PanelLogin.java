@@ -29,14 +29,14 @@ public class PanelLogin extends JPanel {
 		setBounds(288, 11, 688, 541);
 		setLayout(null);
 
-		JLabel lblLogin = new JLabel("LOGIN");
+		JLabel lblLogin = new JLabel("Elorrieta");
 		lblLogin.setFont(new Font("Arial", Font.BOLD, 28));
-		lblLogin.setBounds(263, 50, 200, 50);
+		lblLogin.setBounds(217, 104, 126, 50);
 		add(lblLogin);
 
 		JLabel lblNewLabel = new JLabel("LOGO");
 		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblNewLabel.setBounds(300, 100, 144, 89);
+		lblNewLabel.setBounds(367, 89, 144, 85);
 		add(lblNewLabel);
 		lblNewLabel.setIcon(new ImageIcon(new ImageIcon("Multimedia/Logo.png").getImage()
 				.getScaledInstance(lblNewLabel.getWidth(), lblNewLabel.getHeight(), Image.SCALE_SMOOTH)));

@@ -87,34 +87,6 @@ public class Serie implements Serializable {
 		this.imagenURL = imagenURL;
 	}
 
-	// Método para agregar una nueva serie
-	public void mIngresarSerie(String coleccionWorkout, String colectionEjercicio, String nombreEjercicio,
-			String nombreWorkout) {
-		Firestore co = null;
-		try {
-			co = Conexion.conectar();
-			// Como hay un nivel anterior
-			DocumentReference workoutDoc = co.collection(coleccionWorkout).document(nombreWorkout);
-
-			DocumentReference ejercicioDoc = workoutDoc.collection(colectionEjercicio).document(nombreEjercicio);
-			CollectionReference seriesCollection = ejercicioDoc.collection(COLLECTION_NAME);
-
-			if (!seriesCollection.document(nombre).get().get().exists()) {
-				Map<String, Object> nuevaSerie = new HashMap<>();
-				nuevaSerie.put(FIELD_IMG_URL, this.imagenURL);
-				nuevaSerie.put(FIELD_REPETICIONES, this.repeticiones);
-				nuevaSerie.put(FIELD_TIEMPO_SERIE, this.tiempoSerie);
-
-				seriesCollection.document(this.nombre).set(nuevaSerie);
-
-			}
-			co.close();
-		} catch (IOException | InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	// Método para obtener todas las series de un ejercicio
 	public ArrayList<Serie> mObtenerSeries(String coleccionWorkout, String colectionEjercicio, String nombreEjercicio,

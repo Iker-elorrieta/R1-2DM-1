@@ -1,5 +1,7 @@
 package vista;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
@@ -38,52 +42,78 @@ public class PanelPerfil extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelPerfil() {
-		Calendar ahoraMismo = Calendar.getInstance();
-		int ano = ahoraMismo.get(Calendar.YEAR);
-		int mes = ahoraMismo.get(Calendar.MONTH) + 1;
-		int dia = ahoraMismo.get(Calendar.DATE);
-		String maxString = ano + "-" + mes + "-" + dia;
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-		ImageIcon originalIcon = new ImageIcon("multimedia/Ojo.png");
-
-		Image originalImage = originalIcon.getImage();
-		Image scaledImage = originalImage.getScaledInstance(26, 21, Image.SCALE_SMOOTH);
-		ImageIcon scaledIcon = new ImageIcon(scaledImage);
-
-		setBounds(288, 11, 668, 541);
+		setBackground(new Color(230, 230, 250));
+		setBounds(288, 11, 710, 541);
 		setLayout(null);
 
-		btnEditar = new JButton("Editar");
-		btnEditar.setBounds(216, 354, 89, 23);
-		add(btnEditar);
+		JLabel lblTitulo = new JLabel("PERFIL");
+		lblTitulo.setFont(new Font("Arial", Font.BOLD, 28));
+		lblTitulo.setBounds(290, 30, 200, 50);
+		add(lblTitulo);
+
+		JLabel lblNombre = new JLabel("Nombre:");
+		lblNombre.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNombre.setBounds(150, 200, 130, 20);
+		add(lblNombre);
 
 		tfNombre = new JTextField();
-		tfNombre.setEditable(false);
-		tfNombre.setBounds(294, 182, 200, 20);
+		tfNombre.setBounds(310, 200, 220, 30);
+		tfNombre.setBorder(new EmptyBorder(5, 5, 5, 5));
 		add(tfNombre);
-		tfNombre.setColumns(10);
+
+		JLabel lblApellidos = new JLabel("Apellidos:");
+		lblApellidos.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblApellidos.setBounds(150, 240, 130, 20);
+		add(lblApellidos);
 
 		tfApellidos = new JTextField();
-		tfApellidos.setEditable(false);
-		tfApellidos.setBounds(294, 213, 200, 20);
+		tfApellidos.setBounds(310, 240, 220, 30);
+		tfApellidos.setBorder(new EmptyBorder(5, 5, 5, 5));
 		add(tfApellidos);
-		tfApellidos.setColumns(10);
+
+		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblEmail.setBounds(150, 280, 130, 20);
+		add(lblEmail);
 
 		tfEmail = new JTextField();
+		tfEmail.setBounds(310, 280, 220, 30);
+		tfEmail.setBorder(new EmptyBorder(5, 5, 5, 5));
 		tfEmail.setEditable(false);
-		tfEmail.setBounds(294, 244, 200, 20);
 		add(tfEmail);
-		tfEmail.setColumns(10);
+
+		tfContrasenaVer = new JTextField();
+		tfContrasenaVer.setBounds(310, 318, 220, 30);
+		tfContrasenaVer.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		add(tfContrasenaVer);
+
+		JLabel lblContrasena = new JLabel("Contraseña:");
+		lblContrasena.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblContrasena.setBounds(150, 320, 130, 20);
+		add(lblContrasena);
+
+		pfContrasena = new JPasswordField();
+		pfContrasena.setBounds(310, 318, 220, 30);
+		pfContrasena.setBorder(new EmptyBorder(5, 5, 5, 5));
+		add(pfContrasena);
+
+		JLabel lblFechaNacimiento = new JLabel("Fecha de nacimiento:");
+		lblFechaNacimiento.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblFechaNacimiento.setBounds(150, 360, 180, 20);
+		add(lblFechaNacimiento);
 
 		fechaNacimientoCalendar = new JDateChooser();
-		fechaNacimientoCalendar.setBounds(294, 306, 200, 20);
+		fechaNacimientoCalendar.setBounds(310, 360, 220, 30);
+		JTextFieldDateEditor editor = (JTextFieldDateEditor) fechaNacimientoCalendar.getDateEditor();
+		editor.setEditable(false);
 		fechaNacimientoCalendar.setEnabled(false);
 		add(fechaNacimientoCalendar);
 
-		JTextFieldDateEditor editor = (JTextFieldDateEditor) fechaNacimientoCalendar.getDateEditor();
-		editor.setEditable(false);
-
+		Calendar ahoraMismo = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String maxString = ahoraMismo.get(Calendar.YEAR) + "-" + (ahoraMismo.get(Calendar.MONTH) + 1) + "-"
+				+ ahoraMismo.get(Calendar.DATE);
 		try {
 			fechaNacimientoCalendar.setMaxSelectableDate(dateFormat.parse(maxString));
 			fechaNacimientoCalendar.setDate(dateFormat.parse(maxString));
@@ -91,55 +121,70 @@ public class PanelPerfil extends JPanel {
 			e.printStackTrace();
 		}
 
-		pfContrasena = new JPasswordField();
-		pfContrasena.setEditable(false);
-		pfContrasena.setBounds(294, 275, 200, 20);
-		add(pfContrasena);
-
-		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setBounds(129, 188, 155, 14);
-		add(lblNombre);
-
-		JLabel lblApellidos = new JLabel("Apellidos:");
-		lblApellidos.setBounds(129, 219, 155, 14);
-		add(lblApellidos);
-
-		JLabel lblEmail = new JLabel("Email:");
-		lblEmail.setBounds(129, 250, 155, 14);
-		add(lblEmail);
-
-		JLabel lblContrasena = new JLabel("Contraseña:");
-		lblContrasena.setBounds(129, 281, 155, 14);
-		add(lblContrasena);
-
-		JLabel lblFechaNacimiento = new JLabel("Fecha de nacimiento:");
-		lblFechaNacimiento.setBounds(129, 312, 155, 14);
-		add(lblFechaNacimiento);
-
 		btnAceptar = new JButton("Aceptar");
+		btnAceptar.setBounds(320, 420, 140, 40);
+		btnAceptar.setFont(new Font("Arial", Font.BOLD, 14));
+		btnAceptar.setBackground(new Color(255, 105, 180));
+		btnAceptar.setForeground(Color.WHITE);
+		btnAceptar.setBorderPainted(false);
+		btnAceptar.setFocusPainted(false);
 		btnAceptar.setEnabled(false);
-		btnAceptar.setBounds(315, 354, 89, 23);
 		add(btnAceptar);
 
-		btnIconoVerContrasena = new JButton(new ImageIcon("Multimedia/Ojo.png"));
-		btnIconoVerContrasena.setBounds(504, 274, 26, 21);
-		add(btnIconoVerContrasena);
-		btnIconoVerContrasena.setIcon(scaledIcon);
-		btnIconoVerContrasena.setEnabled(false);
+		btnEditar = new JButton("Editar");
+		btnEditar.setBounds(180, 420, 100, 40);
+		btnEditar.setFont(new Font("Arial", Font.BOLD, 14));
+		btnEditar.setBackground(new Color(100, 149, 237));
+		btnEditar.setForeground(Color.WHITE);
+		btnEditar.setBorderPainted(false);
+		btnEditar.setFocusPainted(false);
+		add(btnEditar);
 
-		tfContrasenaVer = new JTextField();
-		tfContrasenaVer.setBounds(294, 275, 200, 20);
-		add(tfContrasenaVer);
-		tfContrasenaVer.setColumns(10);
+		ImageIcon originalIcon = new ImageIcon("multimedia/Ojo.png");
+		Image scaledImage = originalIcon.getImage().getScaledInstance(26, 21, Image.SCALE_SMOOTH);
+		btnIconoVerContrasena = new JButton(new ImageIcon(scaledImage));
+		btnIconoVerContrasena.setBounds(538, 320, 33, 30);
+		btnIconoVerContrasena.setEnabled(false);
+		add(btnIconoVerContrasena);
 
 		btnVolver = new JButton("Volver");
-		btnVolver.setBounds(516, 54, 89, 23);
+		btnVolver.setBounds(0, 0, 100, 40);
+		btnVolver.setFont(new Font("Arial", Font.BOLD, 14));
+		btnVolver.setBackground(new Color(100, 149, 237));
+		btnVolver.setForeground(Color.WHITE);
+		btnVolver.setBorderPainted(false);
+		btnVolver.setFocusPainted(false);
 		add(btnVolver);
 
-		btnVerHistorico = new JButton("Ver histórico de workouts");
-		btnVerHistorico.setBounds(250, 54, 244, 23);
+		btnVerHistorico = new JButton("Ver historico");
+		btnVerHistorico.setForeground(Color.WHITE);
+		btnVerHistorico.setFont(new Font("Arial", Font.BOLD, 14));
+		btnVerHistorico.setFocusPainted(false);
+		btnVerHistorico.setBorderPainted(false);
+		btnVerHistorico.setBackground(new Color(100, 149, 237));
+		btnVerHistorico.setBounds(500, 0, 180, 40);
 		add(btnVerHistorico);
+
+	}
+
+	public void actualizarPanelPerfil() {
+		tfNombre.setEditable(false);
+		tfApellidos.setEditable(false);
+		pfContrasena.setEditable(false);
+		pfContrasena.setVisible(true);
+		fechaNacimientoCalendar.setEnabled(false);
+		tfContrasenaVer.setEditable(false);
 		tfContrasenaVer.setVisible(false);
+		btnEditar.setEnabled(true);
+		btnAceptar.setEnabled(false);
+		btnIconoVerContrasena.setEnabled(false);
+
+		tfNombre.setText(usuarioLogeado.getNombre());
+		tfApellidos.setText(usuarioLogeado.getApellidos());
+		tfEmail.setText(usuarioLogeado.getEmail());
+		pfContrasena.setText(usuarioLogeado.getPass());
+		tfContrasenaVer.setText(usuarioLogeado.getPass());
+		fechaNacimientoCalendar.setDate(usuarioLogeado.getFechaNacimiento());
 	}
 
 	public void setUsuarioLogeado(Usuario usuarioLogeado) {
